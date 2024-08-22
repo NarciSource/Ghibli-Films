@@ -5,6 +5,7 @@ import { verifyAccessTokenFromReqHeaders } from '../utils/jwt-auth';
 import redis from '../redis/redis-client';
 import IContext from './IContext';
 import resolvers from '../resolvers';
+import createLoaders from '../dataloader/createLoader';
 
 export default async function createApolloServer(): Promise<ApolloServer> {
     return new ApolloServer({
@@ -17,7 +18,7 @@ export default async function createApolloServer(): Promise<ApolloServer> {
         context: ({ req, res }: IContext) => {
             // context에 인증값 추가
             const verified = verifyAccessTokenFromReqHeaders(req.headers);
-            return { req, res, verifiedUser: verified, redis };
+            return { req, res, verifiedUser: verified, redis, loaders: createLoaders() };
         },
     });
 }
