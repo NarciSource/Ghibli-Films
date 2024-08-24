@@ -2,11 +2,12 @@ import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
 import 'reflect-metadata';
-import { createDB } from './db/db-client';
-import createApolloServer from './apollo/createApolloServer';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
+
+import { createDB } from './db/db-client';
+import createApolloServer from './apollo/createApolloServer';
 
 async function main() {
     await createDB();
