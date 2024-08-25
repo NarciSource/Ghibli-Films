@@ -17,6 +17,10 @@ async function main() {
         next();
     }, cookieParser()); // cookie-parser 미들웨어 추가
 
+    app.get("/", (req, res) => {
+        res.status(200).send(); // for healthcheck
+    });
+
     const apolloServer = await createApolloServer();
     await apolloServer.start();
     apolloServer.applyMiddleware({
