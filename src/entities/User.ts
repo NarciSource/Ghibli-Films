@@ -29,6 +29,10 @@ export class User extends BaseEntity {
     @Column({ comment: '유저 비밀번호' })
     password: string;
 
+    @Column({ comment: '유저 프로필 사진 경로', nullable: true  })
+    @Field({ description: '유저 프로필 사진 경로', nullable: true })
+    profileImage: string;
+
     @Field(() => String, { description: '생성일자' })
     @CreateDateColumn({ comment: '생성일자' })
     createdAt: Date;
