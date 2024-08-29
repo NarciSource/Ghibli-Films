@@ -9,6 +9,8 @@ dotenv.config();
 
 import { createDB } from './db/db-client';
 import createApolloServer from './apollo/createApolloServer';
+import createSchema from './apollo/createSchema';
+import createSubscriptionServer from './apollo/createSubscriptionServer';
 
 async function main() {
     await createDB();
@@ -25,7 +27,11 @@ async function main() {
         res.status(200).send(); // for healthcheck
     });
 
-    const apolloServer = await createApolloServer();
+    const httpServer = http.createServer(app);
+    
+    const schema = await createSchema();
+    await createSubscriptionServer(schema, httpServer);
+    const apolloServer = await createApolloServer(schema);
     await apolloServer.start();
     apolloServer.applyMiddleware({
         app,
@@ -35,8 +41,7 @@ async function main() {
         },
     });
 
-    const httpServer = http.createServer(app);
-
+    
     httpServer.listen(process.env.PORT || 4000, () => {
         if (process.env.NODE_ENV !== 'production') {
             console.log(`
