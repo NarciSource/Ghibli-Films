@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { CutVote } from './CutVote';
 import { CutReview } from './CutReview';
+import { Notification } from './Notification';
 
 @ObjectType()
 @Entity()
@@ -46,4 +47,7 @@ export class User extends BaseEntity {
 
     @OneToMany(() => CutReview, (cutReview) => cutReview.user)
     cutReviews: CutReview[];
+
+  @OneToMany(() => Notification, (notifications) => notifications.user)
+  notifications: Notification[];
 }

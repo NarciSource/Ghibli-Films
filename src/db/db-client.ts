@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { User } from '../entities/User';
 import { CutVote } from '../entities/CutVote';
 import { CutReview } from '../entities/CutReview';
+import { Notification } from '../entities/Notification';
 
 export const createDB = async (): Promise<DataSource> =>
     new DataSource({
@@ -13,5 +14,5 @@ export const createDB = async (): Promise<DataSource> =>
         password: process.env.MYSQL_PASSWORD,
         logging: !(process.env.NODE_ENV === 'production'),
         synchronize: true,
-        entities: [User, CutVote, CutReview],
+        entities: [User, CutVote, CutReview, Notification],
     }).initialize();
