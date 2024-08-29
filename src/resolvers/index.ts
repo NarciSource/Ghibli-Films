@@ -14,6 +14,9 @@ import MeQueryResolver from './user/queries/Me';
 import ReviewFieldResolver from './cut/fields/Review';
 import DeleteReviewMutationResolver from './cut/mutations/DeleteReview';
 import CutReviewQueryResolver from './cut/queries/Review';
+import NotificationQueryResolver from './notification/NotificationQuery';
+import NotificationMutationResolver from './notification/NotificationMutation';
+import NotificationSubscriptionResolver from './notification/NotificationSubscription';
 
 export default [
     FilmQueryResolver,
@@ -33,6 +36,10 @@ export default [
     SignupMutationResolver,
     UploadProfileImageMutationResolver,
     RefreshAccessTokenMutationResolver,
+
+    NotificationQueryResolver,
+    NotificationMutationResolver,
+    NotificationSubscriptionResolver,
 
     // eslint-disable-next-line @typescript-eslint/ban-types
 ] as NonEmptyArray<Function>;
