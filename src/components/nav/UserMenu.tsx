@@ -5,6 +5,7 @@ import { MeQuery, useMeQuery } from "../../generated/graphql";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import LogoutItem from "./LogoutItem";
 import ProfileImageItem from "./ProfileImageItem";
+import Notification from "../notification/Notification";
 
 export default function UserMenu(): React.ReactElement {
     const accessToken = localStorage["access_token"];
@@ -16,6 +17,8 @@ export default function UserMenu(): React.ReactElement {
     return isLoggedIn ? (
         <Stack justify="flex-end" alignItems="center" direction="row" spacing={3}>
             <ColorModeSwitcher />
+
+            <Notification />
 
             <Menu>
                 <MenuButton>
