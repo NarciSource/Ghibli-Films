@@ -2,9 +2,12 @@ import { Text, Box, CircularProgress, IconButton, Menu, MenuButton, MenuList, Me
 import { FaBell } from "react-icons/fa";
 import { useNotificationsQuery } from "../../generated/graphql";
 import NotificationItem from "./NotificationItem";
+import useRealtimeAlarm from "./useRealtimeAlarm";
 
 export default function Notification(): React.ReactElement {
-    const { data, loading } = useNotificationsQuery();
+    const { data, loading, subscribeToMore } = useNotificationsQuery();
+
+    useRealtimeAlarm({ subscribeToMore });
 
     return (
         <Menu placement="bottom-end" closeOnSelect={false} isLazy>
