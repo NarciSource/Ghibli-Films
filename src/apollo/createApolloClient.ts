@@ -1,21 +1,25 @@
-import { ApolloClient, from, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, from, NormalizedCacheObject, split } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { createApolloCache } from './createApolloCache';
 import authLink from './middleware/authLink';
 import errorLink from './middleware/errorLink';
-import { createUploadLink } from 'apollo-upload-client';
+import httpUploadLink from './middleware/httpUploadLink';
+import wsLink from './middleware/webSocketLink';
 
-const httpUploadLink = createUploadLink({
-    uri: `${process.env.REACT_APP_API_HOST}/graphql`,
-    credentials: 'include', // 자격 증명 모드, 쿠키 전송
-    // - same-origin : 같은 출처간 요청에만 인증정보를 담을 수 있다.
-    // - include : 모든 요청에 인증정보를 담을 수 있다.
-    // - omit : 모든 요청에 인증 정보를 담지 않는다.
-});
+const splitLink = split(
+    ({ query }) => {
+        const definition = getMainDefinition(query);
+
+        // subscription 요청인 경우 wsLink를 사용하고, 그 외에는 httpUploadLink를 사용
+        return definition.kind === "OperationDefinition" && definition.operation === "subscription";
+    },
+    from([wsLink]),
+    from([authLink, errorLink, httpUploadLink])
+);
 
 export const createApolloClient = (): ApolloClient<NormalizedCacheObject> =>
     (apolloClient = new ApolloClient({
-        uri: `${process.env.REACT_APP_API_HOST}/graphql`,
-        link: from([authLink, errorLink, httpUploadLink]),
+        link: splitLink,
         cache: createApolloCache(),
     }));
 
