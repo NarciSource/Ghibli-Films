@@ -5,9 +5,10 @@ import NotificationItem from "./NotificationItem";
 import useRealtimeAlarm from "./useRealtimeAlarm";
 
 export default function Notification(): React.ReactElement {
-    const { data, loading, subscribeToMore } = useNotificationsQuery();
+    const { data, loading } = useNotificationsQuery();
 
-    useRealtimeAlarm({ subscribeToMore });
+    // 실시간 알림 구독 훅
+    useRealtimeAlarm();
 
     return (
         <Menu placement="bottom-end" closeOnSelect={false} isLazy>

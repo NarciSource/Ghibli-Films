@@ -1,54 +1,35 @@
-import { useEffect } from "react";
+import { useSubscription } from "@apollo/client";
 import { useToast } from "@chakra-ui/react";
-import { OperationVariables, SubscribeToMoreOptions } from "@apollo/client";
-import { Exact, NewNotificationDocument, NewNotificationSubscription, NotificationsQuery } from "../../generated/graphql";
+import { apolloClient } from "../../apollo/createApolloClient";
+import { NewNotificationDocument, NewNotificationSubscription } from "../../generated/graphql";
 
-type Props = {
-    subscribeToMore?: <
-        TSubscriptionData = NotificationsQuery,
-        TSubscriptionVariables extends OperationVariables = Exact<{
-            [key: string]: never;
-        }>
-    >(
-        options: SubscribeToMoreOptions<NotificationsQuery, TSubscriptionVariables, TSubscriptionData>
-    ) => () => void;
-};
-
-export default function useRealtimeAlarm({ subscribeToMore }: Props) {
+export default function useRealtimeAlarm() {
     const toast = useToast({
         position: "top-right",
         isClosable: true,
         status: "info",
     });
 
-    useEffect(() => {
-        if (!subscribeToMore) {
-            return;
-        }
-        const unsubscribe = subscribeToMore<NewNotificationSubscription>({
-            // gql tag로 감싸진 구독 문서
-            document: NewNotificationDocument,
-            // 구독 데이터가 도착했을 때 호출되는 함수
-            updateQuery: (prev: any, { subscriptionData: { data } }: any) => {
-                if (data) {
-                    const newNotification = data.newNotification;
+    // NewNotificationDocument: gql tag로 감싸진 구독 문서
+    useSubscription<NewNotificationSubscription>(NewNotificationDocument, {
+        onData: ({ data }) => {
+            if (!data?.data) return;
 
-                    toast({
-                        title: "새 알림이 도착했습니다.",
-                        description: newNotification.text,
-                    });
+            const newNotification = data.data.newNotification;
 
-                    return {
-                        __typename: "Query",
-                        notifications: [newNotification, ...prev.notifications],
-                    };
-                } else {
-                    return prev;
-                }
-            },
-        });
-        return () => unsubscribe();
+            toast({
+                title: "새 알림이 도착했습니다.",
+                description: newNotification.text,
+            });
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [subscribeToMore]);
+            // 캐시 수동 업데이트
+            apolloClient.cache.modify({
+                fields: {
+                    notifications(existing = []) {
+                        return [newNotification, ...existing];
+                    },
+                },
+            });
+        },
+    });
 }
