@@ -2,6 +2,7 @@ import { useServer } from "graphql-ws/use/ws";
 import { WebSocketServer } from "ws";
 import { GraphQLSchema, execute, subscribe } from "graphql";
 import http from "http";
+import { verifyAccessToken } from "../utils/jwt-auth";
 
 export default async function createSubscriptionServer(schema: GraphQLSchema, server: http.Server) {
     const wsServer = new WebSocketServer({
@@ -15,6 +16,14 @@ export default async function createSubscriptionServer(schema: GraphQLSchema, se
             schema,
             execute,
             subscribe,
+            context: async (ctx) => {
+                // connectionParams에서 인증 헤더 추출
+                const authorization = ctx.connectionParams.Authorization as string;
+                const token = authorization?.split(" ")?.[1];
+                const verifiedUser = token ? verifyAccessToken(token) : null;
+
+                return { verifiedUser };
+            },
             onConnect: async () => {
                 console.log("Client connected for subscriptions");
             },
