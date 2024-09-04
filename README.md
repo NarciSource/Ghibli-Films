@@ -23,3 +23,68 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 | ![films-day](https://github.com/user-attachments/assets/f51933fc-d577-45a7-9613-2838a6539aa7) | ![films-night](https://github.com/user-attachments/assets/b65b66e4-3c8d-4fa1-92eb-f4aac2a6ecf8) |
 | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | ![scene](https://github.com/user-attachments/assets/a9fb5fbd-fa36-4d2c-9f03-ccf79eed4b0b)     | ![login](https://github.com/user-attachments/assets/9ca0e3df-14f7-4aaf-af29-31d35aa24e3b)       |
+
+## 실행 방법
+
+### 서버
+
+#### 환경변수 설정 (/project/server/.env)
+
+```dotenv
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_DATABASE=ghibli_graphql
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=pswd
+MYSQL_ROOT_PASSWORD=pswd
+
+JWT_SECRET_KEY=secret-key
+JWT_REFRESH_SECRET_KEY=refresh-key
+
+DOMAIN=http://localhost:3000
+PORT=4000
+
+REDIS_HOST=localhost
+REDIS_PORT=6379
+```
+
+#### 컨테이너 및 로컬 서버 실행
+
+```sh
+$ cd project/server
+$ export $(cat .env | xargs)
+
+# mysql 실행
+$ docker run -d \
+  --name mysql-container \
+  --env-file ./.env \
+  -p ${MYSQL_PORT}:3306 \
+  mysql:latest
+
+# redis 실행
+$ docker run -d \
+  --name redis-container \
+  --env-file ./.env \
+  -p ${REDIS_PORT}:6379 \
+  redis:latest
+
+# 서버 실행
+$ npm run dev
+```
+
+### 클라이언트
+
+#### 환경변수 설정 (/project/web/.env)
+
+```dotenv
+REACT_APP_API_HOST=http://localhost:4000
+PORT=3000
+```
+
+#### 프론트엔드 개발 서버 실행
+
+```sh
+$ cd project/web
+
+$ npm run start
+```
