@@ -24,6 +24,82 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | ![scene](https://github.com/user-attachments/assets/a9fb5fbd-fa36-4d2c-9f03-ccf79eed4b0b)     | ![login](https://github.com/user-attachments/assets/9ca0e3df-14f7-4aaf-af29-31d35aa24e3b)       |
 
+## 다이어그램
+
+### Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    direction LR
+
+    FILM {
+        int id PK
+        int director_id FK
+        string title
+        string subtitle
+        string genre
+        int runningTime
+        string description
+        string posterImg
+        string release
+    }
+
+    CUT {
+        int id PK
+        int filmId FK
+        string src
+    }
+
+    CUT_REVIEW {
+        int id PK
+        int cutId FK
+        int userId FK
+        string contents
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    CUT_VOTE {
+        int userId PK, FK
+        int cutId PK, FK
+    }
+
+    USER {
+        int id PK
+        string username
+        string email
+        string password
+        string profileImage
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    DIRECTOR {
+        int id PK
+        string name
+    }
+
+    %% 관계 정의
+    DIRECTOR ||--o{ FILM : "directs"
+
+    FILM ||--o{ CUT : "has"
+
+    USER ||--o{ CUT_REVIEW : "writes"
+    USER ||--o{ CUT_VOTE : "votes"
+
+    CUT ||--o{ CUT_REVIEW : "has"
+    CUT ||--o{ CUT_VOTE : "has"
+```
+
+| 테이블         | 설명                                                               | 관계                            |
+| -------------- | ------------------------------------------------------------------ | ------------------------------- |
+| **FILM**       | 영화 정보 테이블 (제목, 감독, 장르, 상영시간, 포스터, 개봉년도 등) |
+| **CUT**        | 영화의 명장면 테이블 (영화ID, 사진URL)                             | FILM과 1:N 관계                 |
+| **CUT_REVIEW** | 명장면 감상평 테이블 (명장면ID, 사용자ID, 감상평)                  | CUT과 USER와 각각 N:1 관계      |
+| **CUT_VOTE**   | 명장면 투표 저장 테이블 (명장면ID, 사용자ID)                       | CUT과 USER의 다대다 관계 테이블 |
+| **USER**       | 사용자 정보 테이블 (유저이름, 비밀번호)                            |
+| **DIRECTOR**   | 감독 정보 테이블                                                   |
+
 ## 실행 방법
 
 ### 서버
