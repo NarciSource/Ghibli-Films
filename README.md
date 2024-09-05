@@ -26,6 +26,50 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 
 ## 다이어그램
 
+### Comparison Flowchart
+
+```mermaid
+flowchart LR
+    subgraph REST
+        rest_client[Client] -->|GET /film/:id| rest_api[REST API]
+        rest_client -->|GET /cut/:id/reviews| rest_api
+        rest_client -->|GET /review/:id/user| rest_api
+        rest_api --> db[(Database)]
+    end
+
+    subgraph GraphQL
+        graph_client[Client] -->|"POST /graphql {film{cuts{reviews{user}}}}"| graph_api[GraphQL API]
+        graph_api --> db
+    end
+```
+
+| REST                                      | GraphQL                                                    |
+| ----------------------------------------- | ---------------------------------------------------------- |
+| 여러 엔드포인트 호출 필요                 | 단일 엔드포인트(/graphql)에서 요청 처리                    |
+| 오버페칭/언더페칭 발생                    | 클라이언트가 원하는 데이터 구조를 직접 정의                |
+| 요청 횟수가 늘어나 네트워크 효율 하락     | 한 번의 요청으로 필요한 데이터만 가져와 응답 사이즈를 감소 |
+| 역방향 탐색을 하려면 별도 엔드포인트 필요 | 그래프 모델 기반으로 양방향 탐색의 자유로움                |
+
+GraphQL 쿼리 예시
+
+```js
+{
+  film(id: 1) {
+    title
+    cuts {
+      votesCount
+      reviews {
+        contents
+        user {
+          username
+          email
+        }
+      }
+    }
+  }
+}
+```
+
 ### Entity Relationship Diagram
 
 ```mermaid
