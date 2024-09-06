@@ -26,6 +26,26 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 
 ## 다이어그램
 
+### Architecture Diagram
+
+![architecture](https://github.com/user-attachments/assets/e5906f10-f27b-429f-8594-1377ed1a9e0a)
+
+-   백엔드
+    -   **Apollo Server**: Express 플러그인으로 GraphQL query, mutation, resolver 처리
+    -   **Express**: 웹 서버 및 미들웨어 관리
+    -   **비즈니스 로직**: 클라이언트 요청을 받아 MySQL과 Redis에 데이터 저장 및 캐싱
+    -   **MySQL**: 영속적 데이터 저장 (영화, 명장면, 감상평)
+    -   **Redis**: 캐싱 및 성능 최적화
+-   프론트엔드
+    -   **Apollo Client**: GraphQL 쿼리/뮤테이션 전송, 클라이언트 캐싱, 데이터 페칭
+    -   **React**: UI 렌더링 및 상태 관리
+    -   **Chakra UI**: 웹 UI 구성 및 스타일링
+-   데이터 흐름
+    1. 클라이언트(React)에서 Apollo Client로 GraphQL 요청 전송
+    2. Apollo Server + Express에서 요청 처리 후 비즈니스 로직 실행
+    3. MySQL/Redis에서 필요한 데이터 조회 또는 저장
+    4. 서버에서 처리된 데이터를 GraphQL Response로 클라이언트에 반환
+
 ### Comparison Flowchart
 
 ```mermaid
