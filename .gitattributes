@@ -1,0 +1,5 @@
+* text=auto
+*.sh text eol=lf
+
+*.graphql linguist-detectable=true
+*.graphql linguist-language=graphql
