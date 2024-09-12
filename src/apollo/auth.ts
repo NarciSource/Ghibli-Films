@@ -6,9 +6,7 @@ export const refreshAccessToken = (
     operation: Operation, // link마다 전달되는 GraphQL 요청 정보
 ): Promise<boolean> =>
     _apolloClient
-        .mutate<RefreshAccessTokenMutation>({
-            mutation: RefreshAccessTokenDocument,
-        })
+        .mutate<RefreshAccessTokenMutation>({ mutation: RefreshAccessTokenDocument })
         .then(({ data }) => {
             const newAccessToken = data?.refreshAccessToken?.accessToken;
 
@@ -19,12 +17,10 @@ export const refreshAccessToken = (
             } else {
                 localStorage.setItem('access_token', newAccessToken);
 
-                const prevContext = operation.getContext();
+                const prevContext: { headers?: Record<string, string> } = operation.getContext();
+
                 operation.setContext({
-                    headers: {
-                        ...prevContext.headers,
-                        authorization: `Bearer ${newAccessToken}`,
-                    },
+                    headers: { ...prevContext.headers, authorization: `Bearer ${newAccessToken}` },
                 });
                 return true;
             }

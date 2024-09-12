@@ -13,7 +13,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
 
         graphQLErrors.forEach(({ message, locations, path }) => {
             console.log(`[GraphQL error]: ${operation.operationName}
-                Message: ${message}, Query: ${path}, Location: ${JSON.stringify(locations)}`);
+                Message: ${message}, Query: ${(path ?? []).join('.')}, Location: ${JSON.stringify(locations)}`);
         });
     }
     if (networkError) {
