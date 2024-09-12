@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { MiddlewareFn } from 'type-graphql';
 import { JwtVerifiedUser, verifyAccessToken } from '../utils/jwt-auth';
 
-export const isAuthenticated: MiddlewareFn<{ verifiedUser: JwtVerifiedUser; req: Request }> = async (
+export const isAuthenticated: MiddlewareFn<{ verifiedUser: JwtVerifiedUser; req: Request }> = (
     { context },
     next,
 ) => {

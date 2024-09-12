@@ -1,6 +1,6 @@
 import { Mutation, Arg, Resolver, Int, Ctx } from 'type-graphql';
-import { CutReview } from '../../../entities/CutReview';
 import IContext from '../../../apollo/IContext';
+import { CutReview } from '../../../entities/CutReview';
 
 @Resolver(CutReview)
 export default class DeleteReviewMutationResolver {

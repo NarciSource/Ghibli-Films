@@ -1,6 +1,14 @@
-import { Field, Int, ObjectType } from "type-graphql";
-import { Entity, BaseEntity, CreateDateColumn, UpdateDateColumn, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./User";
+import { Field, Int, ObjectType } from 'type-graphql';
+import {
+    Entity,
+    BaseEntity,
+    CreateDateColumn,
+    UpdateDateColumn,
+    Column,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from './User';
 
 @ObjectType()
 @Entity()
@@ -10,7 +18,7 @@ export class Notification extends BaseEntity {
     id!: number;
 
     @Field()
-    @Column({ type: "varchar", length: 255, comment: "Notification message" })
+    @Column({ type: 'varchar', length: 255, comment: 'Notification message' })
     text: string;
 
     @Field(() => String)
@@ -25,6 +33,6 @@ export class Notification extends BaseEntity {
     @Column()
     userId!: number;
 
-    @ManyToOne(() => User, (user) => user.notifications, { onDelete: "CASCADE" })
+    @ManyToOne(() => User, (user) => user.notifications, { onDelete: 'CASCADE' })
     user: User;
 }

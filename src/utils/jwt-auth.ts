@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
-import { Response } from 'express';
-import { AuthenticationError } from 'apollo-server-core';
 import { IncomingHttpHeaders } from 'http';
+import { AuthenticationError } from 'apollo-server-core';
+import { Response } from 'express';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { User } from '../entities/User';
 
 export interface JwtVerifiedUser {
@@ -20,8 +20,12 @@ export function verifyAccessToken(accessToken?: string): JwtVerifiedUser | null 
         try {
             const verified = jwt.verify(accessToken, process.env.JWT_SECRET_KEY) as JwtVerifiedUser;
             return verified;
-        } catch (err) {
-            console.error('access_token expired', err.expiredAt);
+        } catch (error) {
+            if (error instanceof TokenExpiredError) {
+                console.error('access_token expired at', error.expiredAt);
+            } else {
+                console.error('JWT verification failed', error);
+            }
             throw new AuthenticationError('access token expired');
         }
     } else {
@@ -29,7 +33,9 @@ export function verifyAccessToken(accessToken?: string): JwtVerifiedUser | null 
     }
 }
 
-export function verifyAccessTokenFromReqHeaders({ authorization }: IncomingHttpHeaders): JwtVerifiedUser | null {
+export function verifyAccessTokenFromReqHeaders({
+    authorization,
+}: IncomingHttpHeaders): JwtVerifiedUser | null {
     try {
         const accessToken = authorization.replace('Bearer ', '');
         return verifyAccessToken(accessToken);
@@ -40,7 +46,9 @@ export function verifyAccessTokenFromReqHeaders({ authorization }: IncomingHttpH
 
 export const createRefreshToken = (user: User): string => {
     const userData: JwtVerifiedUser = { userId: user.id };
-    const refreshToken = jwt.sign(userData, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: '14d' });
+    const refreshToken = jwt.sign(userData, process.env.JWT_REFRESH_SECRET_KEY, {
+        expiresIn: '14d',
+    });
 
     return refreshToken;
 };

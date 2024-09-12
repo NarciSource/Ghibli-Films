@@ -2,7 +2,11 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Resolver, Mutation, Ctx } from 'type-graphql';
 import IContext from '../../../apollo/IContext';
 import { User } from '../../../entities/User';
-import { createAccessToken, createRefreshToken, setRefreshTokenHeader } from '../../../utils/jwt-auth';
+import {
+    createAccessToken,
+    createRefreshToken,
+    setRefreshTokenHeader,
+} from '../../../utils/jwt-auth';
 import { RefreshAccessTokenResponse } from '../type';
 
 @Resolver(User)
@@ -12,7 +16,7 @@ export default class RefreshAccessTokenMutationResolver {
         @Ctx()
         { req, res, redis }: IContext,
     ): Promise<RefreshAccessTokenResponse | null> {
-        const refreshToken = req.cookies.refreshtoken;
+        const refreshToken = req.cookies.refreshtoken as string;
         if (!refreshToken) return null;
 
         let tokenData: JwtPayload = null;
@@ -22,10 +26,10 @@ export default class RefreshAccessTokenMutationResolver {
             console.error(e);
             return null;
         }
-        const { userId } = tokenData;
+        const { userId } = tokenData as { userId: string };
 
         const storedRefreshToken = await redis.get(userId);
-        const user = await User.findOne({ where: { id: userId } });
+        const user = await User.findOne({ where: { id: Number(userId) } });
 
         if (storedRefreshToken === refreshToken && user) {
             const newAccessToken = createAccessToken(user);

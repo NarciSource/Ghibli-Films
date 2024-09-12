@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
-import { User } from '../entities/User';
-import { CutVote } from '../entities/CutVote';
 import { CutReview } from '../entities/CutReview';
+import { CutVote } from '../entities/CutVote';
 import { Notification } from '../entities/Notification';
+import { User } from '../entities/User';
 
 export const createDB = async (): Promise<DataSource> =>
     new DataSource({

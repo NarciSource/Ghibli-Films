@@ -1,9 +1,9 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 
-import { CutVote } from '../../../entities/CutVote';
-import { CutReview } from '../../../entities/CutReview';
-import { isAuthenticated } from '../../../middlewares/isAuthenticated';
 import IContext from '../../../apollo/IContext';
+import { CutReview } from '../../../entities/CutReview';
+import { CutVote } from '../../../entities/CutVote';
+import { isAuthenticated } from '../../../middlewares/isAuthenticated';
 import NotificationMutationResolver from '../../../resolvers/notification/NotificationMutation';
 import { CreateOrUpdateReviewInput } from '../type';
 
