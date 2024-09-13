@@ -5,6 +5,7 @@
         "rootDir": "./src",
         "baseUrl": "./src",
         "outDir": "./dist",
+        "paths": { "*": ["*"] },
         "moduleResolution": "NodeNext",
         "esModuleInterop": true,
         "experimentalDecorators": true,

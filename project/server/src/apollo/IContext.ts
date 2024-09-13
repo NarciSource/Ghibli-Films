@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { JwtVerifiedUser } from '../utils/jwt-auth';
-import redis from '../redis/redis-client';
-import createLoaders from '../dataloader/createLoader';
+import createLoaders from 'dataloader/createLoader';
+import redis from 'redis/redis-client';
+import { JwtVerifiedUser } from 'utils/jwt-auth';
 
 export default interface IContext {
     req: Request;

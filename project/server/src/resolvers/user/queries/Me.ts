@@ -1,7 +1,7 @@
 import { Resolver, UseMiddleware, Query, Ctx } from 'type-graphql';
-import IContext from '../../../apollo/IContext';
-import { User } from '../../../entities/User';
-import { isAuthenticated } from '../../../middlewares/isAuthenticated';
+import IContext from 'apollo/IContext';
+import { User } from 'entities/User';
+import { isAuthenticated } from 'middlewares/isAuthenticated';
 
 @Resolver(User)
 export default class MeQueryResolver {

@@ -8,8 +8,8 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { CutVote } from './CutVote';
 import { CutReview } from './CutReview';
+import { CutVote } from './CutVote';
 import { Notification } from './Notification';
 
 @ObjectType()
@@ -30,7 +30,7 @@ export class User extends BaseEntity {
     @Column({ comment: '유저 비밀번호' })
     password: string;
 
-    @Column({ comment: '유저 프로필 사진 경로', nullable: true  })
+    @Column({ comment: '유저 프로필 사진 경로', nullable: true })
     @Field({ description: '유저 프로필 사진 경로', nullable: true })
     profileImage: string;
 
@@ -48,6 +48,6 @@ export class User extends BaseEntity {
     @OneToMany(() => CutReview, (cutReview) => cutReview.user)
     cutReviews: CutReview[];
 
-  @OneToMany(() => Notification, (notifications) => notifications.user)
-  notifications: Notification[];
+    @OneToMany(() => Notification, (notifications) => notifications.user)
+    notifications: Notification[];
 }

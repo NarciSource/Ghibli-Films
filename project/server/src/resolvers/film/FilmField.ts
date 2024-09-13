@@ -1,7 +1,7 @@
 import { Resolver, FieldResolver, Root } from 'type-graphql';
-import ghibliData from '../../data/ghibli';
-import { Director } from '../../entities/Director';
-import { Film } from '../../entities/Film';
+import ghibliData from 'data/ghibli';
+import { Director } from 'entities/Director';
+import { Film } from 'entities/Film';
 
 @Resolver(Film)
 export default class FilmFieldResolver {
