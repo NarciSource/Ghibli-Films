@@ -7,10 +7,10 @@ import { graphqlUploadExpress } from 'graphql-upload';
 
 dotenv.config();
 
-import createApolloServer from './apollo/createApolloServer';
-import createSchema from './apollo/createSchema';
-import createSubscriptionServer from './apollo/createSubscriptionServer';
-import { createDB } from './db/db-client';
+import createApolloServer from 'apollo/createApolloServer';
+import createSchema from 'apollo/createSchema';
+import createSubscriptionServer from 'apollo/createSubscriptionServer';
+import { createDB } from 'db/db-client';
 
 async function main() {
     await createDB();

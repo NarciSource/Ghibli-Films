@@ -1,10 +1,10 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 
-import IContext from '../../../apollo/IContext';
-import { CutReview } from '../../../entities/CutReview';
-import { CutVote } from '../../../entities/CutVote';
-import { isAuthenticated } from '../../../middlewares/isAuthenticated';
-import NotificationMutationResolver from '../../../resolvers/notification/NotificationMutation';
+import IContext from 'apollo/IContext';
+import { CutReview } from 'entities/CutReview';
+import { CutVote } from 'entities/CutVote';
+import { isAuthenticated } from 'middlewares/isAuthenticated';
+import NotificationMutationResolver from 'resolvers/notification/NotificationMutation';
 import { CreateOrUpdateReviewInput } from '../type';
 
 @Resolver(CutReview)

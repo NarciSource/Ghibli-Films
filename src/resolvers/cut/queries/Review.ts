@@ -1,7 +1,7 @@
 import { Args, Ctx, Query, Resolver } from 'type-graphql';
 import { Not } from 'typeorm';
-import IContext from '../../../apollo/IContext';
-import { CutReview } from '../../../entities/CutReview';
+import IContext from 'apollo/IContext';
+import { CutReview } from 'entities/CutReview';
 import { PaginationArgs } from '../type';
 
 @Resolver(CutReview)

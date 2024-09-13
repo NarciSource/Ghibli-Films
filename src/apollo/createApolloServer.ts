@@ -1,9 +1,9 @@
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
 import { GraphQLSchema } from 'graphql';
-import createLoaders from '../dataloader/createLoader';
-import redis from '../redis/redis-client';
-import { verifyAccessTokenFromReqHeaders } from '../utils/jwt-auth';
+import createLoaders from 'dataloader/createLoader';
+import redis from 'redis/redis-client';
+import { verifyAccessTokenFromReqHeaders } from 'utils/jwt-auth';
 import IContext from './IContext';
 
 export default function createApolloServer(schema: GraphQLSchema): ApolloServer {

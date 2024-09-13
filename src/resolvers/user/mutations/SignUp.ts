@@ -1,6 +1,6 @@
 import argon2 from 'argon2';
 import { Resolver, Mutation, Arg } from 'type-graphql';
-import { User } from '../../../entities/User';
+import { User } from 'entities/User';
 import { SignUpInput } from '../type';
 
 @Resolver(User)

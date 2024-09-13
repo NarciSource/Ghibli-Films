@@ -1,7 +1,7 @@
 import { Arg, Int, Query, Resolver } from 'type-graphql';
-import ghibliData from '../../../data/ghibli';
-import { Cut } from '../../../entities/Cut';
-import { Film } from '../../../entities/Film';
+import ghibliData from 'data/ghibli';
+import { Cut } from 'entities/Cut';
+import { Film } from 'entities/Film';
 
 @Resolver(Cut)
 export default class CutQueryResolver {

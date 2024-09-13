@@ -2,7 +2,7 @@ import { IncomingHttpHeaders } from 'http';
 import { AuthenticationError } from 'apollo-server-core';
 import { Response } from 'express';
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
-import { User } from '../entities/User';
+import { User } from 'entities/User';
 
 export interface JwtVerifiedUser {
     userId: User['id'];

@@ -1,6 +1,6 @@
 import { GraphQLSchema } from 'graphql';
 import { buildSchema } from 'type-graphql';
-import resolvers from '../resolvers';
+import resolvers from 'resolvers';
 import { pubSub } from './pubSub';
 
 export default async function createSchema(): Promise<GraphQLSchema> {

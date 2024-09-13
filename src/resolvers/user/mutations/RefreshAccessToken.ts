@@ -1,12 +1,8 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Resolver, Mutation, Ctx } from 'type-graphql';
-import IContext from '../../../apollo/IContext';
-import { User } from '../../../entities/User';
-import {
-    createAccessToken,
-    createRefreshToken,
-    setRefreshTokenHeader,
-} from '../../../utils/jwt-auth';
+import IContext from 'apollo/IContext';
+import { User } from 'entities/User';
+import { createAccessToken, createRefreshToken, setRefreshTokenHeader } from 'utils/jwt-auth';
 import { RefreshAccessTokenResponse } from '../type';
 
 @Resolver(User)

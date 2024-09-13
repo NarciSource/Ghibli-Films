@@ -1,5 +1,5 @@
 import { Resolver, Root, Subscription } from 'type-graphql';
-import { Notification } from '../../entities/Notification';
+import { Notification } from 'entities/Notification';
 
 interface UserPayload {
     userId: string;

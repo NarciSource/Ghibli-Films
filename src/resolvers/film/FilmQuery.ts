@@ -1,7 +1,7 @@
 import { Resolver, Query, Arg, Int } from 'type-graphql';
-import ghibliData from '../../data/ghibli';
-import { Film } from '../../entities/Film';
-import { PaginatedFilms } from '../../entities/PaginatedFilm';
+import ghibliData from 'data/ghibli';
+import { Film } from 'entities/Film';
+import { PaginatedFilms } from 'entities/PaginatedFilm';
 
 @Resolver(Film) // 인자: 오브젝트타입
 export default class FilmQueryResolver {

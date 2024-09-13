@@ -2,7 +2,7 @@ import http from 'http';
 import { GraphQLSchema, execute, subscribe } from 'graphql';
 import { useServer } from 'graphql-ws/use/ws';
 import { WebSocketServer } from 'ws';
-import { verifyAccessToken } from '../utils/jwt-auth';
+import { verifyAccessToken } from 'utils/jwt-auth';
 
 export default function createSubscriptionServer(schema: GraphQLSchema, server: http.Server) {
     const wsServer = new WebSocketServer({
