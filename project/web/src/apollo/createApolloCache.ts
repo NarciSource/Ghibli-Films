@@ -8,9 +8,14 @@ export const createApolloCache = (): InMemoryCache => {
                 fields: {
                     films: {
                         keyArgs: false,
-                        merge: (existing: PaginatedFilms | undefined, incoming: PaginatedFilms): PaginatedFilms => ({
+                        merge: (
+                            existing: PaginatedFilms | undefined,
+                            incoming: PaginatedFilms,
+                        ): PaginatedFilms => ({
                             cursor: incoming.cursor,
-                            films: existing ? [...existing.films, ...incoming.films] : incoming.films,
+                            films: existing
+                                ? [...existing.films, ...incoming.films]
+                                : incoming.films,
                         }),
                     },
                 },
