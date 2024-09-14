@@ -36,8 +36,8 @@ export default function FilmCard({ film }: FilmCardProps): React.ReactElement {
                     </Text>
                 </Stack>
                 <Stack spacing={0} fontSize="sm" mt={2}>
-                    <Text as="time" dateTime={film.release} isTruncated color="gray.500">
-                        {`${film.release} ${film.runningTime}분`}
+                    <Text as="time" dateTime={film.releaseDate} isTruncated color="gray.500">
+                        {`${film.releaseDate} ${film.runningTime}분`}
                     </Text>
                     <Text isTruncated>{film.director.name}</Text>
                 </Stack>
