@@ -1,6 +1,9 @@
 import { DataSource } from 'typeorm';
+import { Cut } from 'entities/Cut';
 import { CutReview } from 'entities/CutReview';
 import { CutVote } from 'entities/CutVote';
+import { Director } from 'entities/Director';
+import { Film } from 'entities/Film';
 import { Notification } from 'entities/Notification';
 import { User } from 'entities/User';
 
@@ -13,6 +16,6 @@ export const createDB = async (): Promise<DataSource> =>
         username: process.env.MYSQL_USERNAME,
         password: process.env.MYSQL_PASSWORD,
         logging: !(process.env.NODE_ENV === 'production'),
-        synchronize: true,
-        entities: [User, CutVote, CutReview, Notification],
+        synchronize: false,
+        entities: [Director, Film, Cut, User, CutVote, CutReview, Notification],
     }).initialize();
