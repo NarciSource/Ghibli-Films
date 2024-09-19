@@ -1,14 +1,13 @@
 import { Resolver, FieldResolver, Root, Int, Ctx } from 'type-graphql';
 import IContext from 'apollo/IContext';
-import ghibliData from 'data/ghibli';
 import { Cut } from 'entities/Cut';
 import { Film } from 'entities/Film';
 
 @Resolver(Cut)
 export default class CutFieldResolver {
     @FieldResolver(() => Film, { nullable: true })
-    film(@Root() cut: Cut): Film | undefined {
-        return ghibliData.films.find((film) => film.id === cut.filmId);
+    async film(@Root() cut: Cut): Promise<Film> {
+        return await Film.findOne({ where: { id: cut.filmId } });
     }
 
     @FieldResolver(() => Int)

@@ -1,23 +1,22 @@
 import { Arg, Int, Query, Resolver } from 'type-graphql';
-import ghibliData from 'data/ghibli';
 import { Cut } from 'entities/Cut';
 import { Film } from 'entities/Film';
 
 @Resolver(Cut)
 export default class CutQueryResolver {
     @Query(() => [Cut])
-    cuts(
+    async cuts(
         @Arg('filmId', () => Int)
         filmId: Film['id'],
-    ): Cut[] {
-        return ghibliData.cuts.filter((x) => x.filmId === filmId);
+    ): Promise<Cut[]> {
+        return await Cut.find({ where: { filmId } });
     }
 
     @Query(() => Cut, { nullable: true })
-    cut(
+    async cut(
         @Arg('cutId', () => Int)
-        cutId: number,
-    ): Cut | undefined {
-        return ghibliData.cuts.find((cut) => cut.id === cutId);
+        id: number,
+    ): Promise<Cut> {
+        return await Cut.findOne({ where: { id } });
     }
 }

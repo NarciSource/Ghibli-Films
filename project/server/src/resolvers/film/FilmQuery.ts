@@ -1,5 +1,4 @@
 import { Resolver, Query, Arg, Int } from 'type-graphql';
-import ghibliData from 'data/ghibli';
 import { Film } from 'entities/Film';
 import { PaginatedFilms } from 'entities/PaginatedFilm';
 
@@ -7,32 +6,40 @@ import { PaginatedFilms } from 'entities/PaginatedFilm';
 export default class FilmQueryResolver {
     // 영화 리스트
     @Query(() => PaginatedFilms)
-    films(
+    async films(
         @Arg('limit', () => Int, { nullable: true, defaultValue: 6 })
         limit?: number,
         @Arg('cursor', () => Int, { nullable: true, defaultValue: 1 })
         cursor?: Film['id'],
-    ): PaginatedFilms {
-        const cursorDataIndex = ghibliData.films.findIndex((f) => f.id === cursor);
+    ): Promise<PaginatedFilms> {
+        const qb = Film.createQueryBuilder('film')
+            .orderBy('film.id', 'ASC')
+            .take(limit + 1);
 
-        if (cursorDataIndex !== -1) {
-            const result = ghibliData.films.slice(cursorDataIndex, cursorDataIndex + limit);
-            const nextCursor = result[result.length - 1].id + 1;
-
-            return {
-                films: result,
-                cursor: nextCursor,
-            };
+        // 커서 기반 페이지네이션
+        if (cursor) {
+            qb.where('film.id >= :cursor', { cursor });
         }
-        return { films: [] };
+
+        const films = await qb.getMany();
+
+        let nextCursor: number | null = null;
+        if (films.length > limit) {
+            nextCursor = films.pop().id + 1;
+        }
+
+        return {
+            films,
+            cursor: nextCursor,
+        };
     }
 
     // 영화 상세
     @Query(() => Film, { nullable: true })
-    film(
+    async film(
         @Arg('filmId', () => Int)
-        filmId: number,
-    ): Film | undefined {
-        return ghibliData.films.find((x) => x.id === filmId);
+        id: number,
+    ): Promise<Film> {
+        return await Film.findOne({ where: { id } });
     }
 }
