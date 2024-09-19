@@ -29,7 +29,7 @@ export default function FilmDetail({ film }: FilmDetailProps): React.ReactElemen
                 </Flex>
                 <Heading mb={4}>
                     {film?.title}
-                    {film?.release ? `${new Date(film?.release).getFullYear()}` : null}
+                    {film?.releaseDate ? ` ${new Date(film?.releaseDate).getFullYear()}` : null}
                 </Heading>
                 <Heading size="md" mb={2}>
                     {film?.subtitle}

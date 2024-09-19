@@ -9,7 +9,7 @@ query Films($limit: Int, $cursor: Int) {
             director {
                 name
             }
-            release
+            releaseDate
             posterImg
         }
     }

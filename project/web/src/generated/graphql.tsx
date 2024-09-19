@@ -57,6 +57,7 @@ export type CutReview = {
 export type Director = {
   __typename?: 'Director';
   id: Scalars['Int']['output'];
+  /** 감독 이름 */
   name: Scalars['String']['output'];
 };
 
@@ -73,7 +74,7 @@ export type Film = {
   description: Scalars['String']['output'];
   director: Director;
   /** 제작자 고유 아이디 */
-  director_id: Scalars['Int']['output'];
+  directorId: Scalars['Int']['output'];
   /** 영화 장르 */
   genre: Scalars['String']['output'];
   /** 영화 고유 아이디 */
@@ -81,7 +82,7 @@ export type Film = {
   /** 포스터 이미지 URL */
   posterImg: Scalars['String']['output'];
   /** 개봉일 */
-  release: Scalars['String']['output'];
+  releaseDate: Scalars['String']['output'];
   /** 영화 러닝 타임, minute */
   runningTime: Scalars['Float']['output'];
   /** 영화 부제목 */
@@ -287,7 +288,7 @@ export type FilmQueryVariables = Exact<{
 }>;
 
 
-export type FilmQuery = { __typename?: 'Query', film?: { __typename?: 'Film', id: number, title: string, subtitle?: string | null, description: string, genre: string, runningTime: number, posterImg: string, release: string, director: { __typename?: 'Director', id: number, name: string } } | null };
+export type FilmQuery = { __typename?: 'Query', film?: { __typename?: 'Film', id: number, title: string, subtitle?: string | null, description: string, genre: string, runningTime: number, posterImg: string, releaseDate: string, director: { __typename?: 'Director', id: number, name: string } } | null };
 
 export type FilmsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -295,7 +296,7 @@ export type FilmsQueryVariables = Exact<{
 }>;
 
 
-export type FilmsQuery = { __typename?: 'Query', films: { __typename?: 'PaginatedFilms', cursor?: number | null, films: Array<{ __typename?: 'Film', id: number, title: string, subtitle?: string | null, runningTime: number, release: string, posterImg: string, director: { __typename?: 'Director', name: string } }> } };
+export type FilmsQuery = { __typename?: 'Query', films: { __typename?: 'PaginatedFilms', cursor?: number | null, films: Array<{ __typename?: 'Film', id: number, title: string, subtitle?: string | null, runningTime: number, releaseDate: string, posterImg: string, director: { __typename?: 'Director', name: string } }> } };
 
 export type LoginMutationVariables = Exact<{
   loginInput: LoginInput;
@@ -581,7 +582,7 @@ export const FilmDocument = gql`
     genre
     runningTime
     posterImg
-    release
+    releaseDate
     director {
       id
       name
@@ -634,7 +635,7 @@ export const FilmsDocument = gql`
       director {
         name
       }
-      release
+      releaseDate
       posterImg
     }
   }
