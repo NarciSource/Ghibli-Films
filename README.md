@@ -20,15 +20,15 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 
 ## 스크린샷
 
-| ![films-day](https://github.com/user-attachments/assets/f51933fc-d577-45a7-9613-2838a6539aa7) | ![films-night](https://github.com/user-attachments/assets/b65b66e4-3c8d-4fa1-92eb-f4aac2a6ecf8) |
+| ![films-day](https://github.com/user-attachments/assets/b66797c0-fbee-4510-b645-b3e573803c44) | ![films-night](https://github.com/user-attachments/assets/ed5caf66-c90a-4fff-84b7-7dfbb404f3e7) |
 | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| ![scene](https://github.com/user-attachments/assets/a9fb5fbd-fa36-4d2c-9f03-ccf79eed4b0b)     | ![login](https://github.com/user-attachments/assets/9ca0e3df-14f7-4aaf-af29-31d35aa24e3b)       |
+| ![scene](https://github.com/user-attachments/assets/f5770559-1b4d-402e-a7a5-4a9a6edca8f5)     | ![login](https://github.com/user-attachments/assets/1e61fcf0-eece-4be1-8ad9-26c1ae00cc8a)       |
 
 ## 다이어그램
 
 ### Architecture Diagram
 
-![architecture](https://github.com/user-attachments/assets/e5906f10-f27b-429f-8594-1377ed1a9e0a)
+![architecture](https://github.com/user-attachments/assets/cc31ac82-2e73-4814-b0a6-2fa0e519ad7d)
 
 - 백엔드
     - **Apollo Server**: Express 플러그인으로 GraphQL query, mutation, resolver 처리
@@ -46,49 +46,16 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
     3. MySQL/Redis에서 필요한 데이터 조회 또는 저장
     4. 서버에서 처리된 데이터를 GraphQL Response로 클라이언트에 반환
 
-### Comparison Flowchart
+### GraphQL Schema Diagram
 
-```mermaid
-flowchart LR
-    subgraph REST
-        rest_client[Client] -->|GET /film/:id| rest_api[REST API]
-        rest_client -->|GET /cut/:id/reviews| rest_api
-        rest_client -->|GET /review/:id/user| rest_api
-        rest_api --> db[(Database)]
-    end
+> GraphQL Voyager는 GraphQL 스키마를 시각적으로 탐색하고 구조를 이해할 수 있도록 돕는 정적/인터랙티브 시각화 도구  
+> 타입과 타입 간 참조를 그래프 형태로 표현
 
-    subgraph GraphQL
-        graph_client[Client] -->|"POST /graphql {film{cuts{reviews{user}}}}"| graph_api[GraphQL API]
-        graph_api --> db
-    end
-```
+| [![voyager](https://github.com/user-attachments/assets/f6981b18-d39a-449d-a7d2-97598ebf481f)](https://narcisource.github.io/Ghibli-Films/) |
+| ------------------------------------------------------------------------------------------------------------------------------------------ |
+| [GraphQL Voyager 바로가기](https://narcisource.github.io/Ghibli-Films/)                                                                    |
 
-| REST                                      | GraphQL                                                    |
-| ----------------------------------------- | ---------------------------------------------------------- |
-| 여러 엔드포인트 호출 필요                 | 단일 엔드포인트(/graphql)에서 요청 처리                    |
-| 오버페칭/언더페칭 발생                    | 클라이언트가 원하는 데이터 구조를 직접 정의                |
-| 요청 횟수가 늘어나 네트워크 효율 하락     | 한 번의 요청으로 필요한 데이터만 가져와 응답 사이즈를 감소 |
-| 역방향 탐색을 하려면 별도 엔드포인트 필요 | 그래프 모델 기반으로 양방향 탐색의 자유로움                |
-
-GraphQL 쿼리 예시
-
-```js
-{
-  film(id: 1) {
-    title
-    cuts {
-      votesCount
-      reviews {
-        contents
-        user {
-          username
-          email
-        }
-      }
-    }
-  }
-}
-```
+![schema](https://github.com/user-attachments/assets/14e56fb8-25d4-4a0a-b06b-f16ff63dcec8)
 
 ### Entity Relationship Diagram
 
@@ -163,6 +130,50 @@ erDiagram
 | **CUT_VOTE**   | 명장면 투표 저장 테이블 (명장면ID, 사용자ID)                       | CUT과 USER의 다대다 관계 테이블 |
 | **USER**       | 사용자 정보 테이블 (유저이름, 비밀번호)                            |
 | **DIRECTOR**   | 감독 정보 테이블                                                   |
+
+### Comparison Flowchart
+
+```mermaid
+flowchart LR
+    subgraph REST
+        rest_client[Client] -->|GET /film/:id| rest_api[REST API]
+        rest_client -->|GET /cut/:id/reviews| rest_api
+        rest_client -->|GET /review/:id/user| rest_api
+        rest_api --> db[(Database)]
+    end
+
+    subgraph GraphQL
+        graph_client[Client] -->|"POST /graphql {film{cuts{reviews{user}}}}"| graph_api[GraphQL API]
+        graph_api --> db
+    end
+```
+
+| REST                                      | GraphQL                                                    |
+| ----------------------------------------- | ---------------------------------------------------------- |
+| 여러 엔드포인트 호출 필요                 | 단일 엔드포인트(/graphql)에서 요청 처리                    |
+| 오버페칭/언더페칭 발생                    | 클라이언트가 원하는 데이터 구조를 직접 정의                |
+| 요청 횟수가 늘어나 네트워크 효율 하락     | 한 번의 요청으로 필요한 데이터만 가져와 응답 사이즈를 감소 |
+| 역방향 탐색을 하려면 별도 엔드포인트 필요 | 그래프 모델 기반으로 양방향 탐색의 자유로움                |
+
+GraphQL 쿼리 예시
+
+```js
+{
+  film(id: 1) {
+    title
+    cuts {
+      votesCount
+      reviews {
+        contents
+        user {
+          username
+          email
+        }
+      }
+    }
+  }
+}
+```
 
 ## 실행 방법
 
