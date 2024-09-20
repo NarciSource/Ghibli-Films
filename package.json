@@ -1,20 +1,23 @@
 {
-  "name": "graphql",
+  "name": "Ghibli-Films",
   "version": "1.0.0",
-  "main": "index.js",
+  "homepage": "https://NarciSource.github.io/Ghibli-Films",
   "scripts": {
     "format": "prettier --write \"project/{server,web}/**/*.ts\"",
     "lint": "eslint \"project/{server,web}/**/*.ts\" --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "docs": "graphql-codegen",
+    "deploy": "gh-pages -d docs"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["graphql", "apollo"],
+  "author": "NarciSource",
   "license": "ISC",
-  "description": "",
+  "description": "GraphQL 사용 프로젝트",
   "dependencies": {
     "typescript": "^5.5.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^6.0.0",
+    "@graphql-codegen/introspection": "^5.0.0",
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
@@ -23,6 +26,7 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "gh-pages": "^6.3.0",
     "prettier": "^3.3.2",
     "typescript-eslint": "^8.44.1"
   }

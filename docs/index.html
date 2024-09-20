@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      body {
+        height: 100%;
+        margin: 0;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      #voyager {
+        height: 100vh;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css" />
+    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"></script>
+  </head>
+
+  <body>
+    <div id="voyager">Loading...</div>
+    <script type="module">
+      fetch('schema.json')
+        .then((res) => res.json())
+        .then((schema) => {
+          const introspection = { data: schema };
+          GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
+            introspection,
+          });
+        })
+        .catch((err) => {
+          console.error('Failed to load schema.json', err);
+        });
+    </script>
+  </body>
+</html>
