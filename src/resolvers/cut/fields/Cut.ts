@@ -5,12 +5,12 @@ import { Film } from 'entities/Film';
 
 @Resolver(Cut)
 export default class CutFieldResolver {
-    @FieldResolver(() => Film, { nullable: true })
+    @FieldResolver(() => Film, { nullable: true, description: '영화' })
     async film(@Root() cut: Cut): Promise<Film> {
         return await Film.findOne({ where: { id: cut.filmId } });
     }
 
-    @FieldResolver(() => Int)
+    @FieldResolver(() => Int, { description: '좋아요 수' })
     async votesCount(
         @Root() cut: Cut,
         @Ctx() { loaders: { cutVoteLoader } }: IContext,
@@ -20,7 +20,7 @@ export default class CutFieldResolver {
         return cutVotes.length;
     }
 
-    @FieldResolver(() => Boolean)
+    @FieldResolver(() => Boolean, { description: '좋아요 확인' })
     async isVoted(
         @Root() cut: Cut,
         @Ctx() { verifiedUser, loaders: { cutVoteLoader } }: IContext,

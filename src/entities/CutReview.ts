@@ -11,11 +11,11 @@ import {
 } from 'typeorm';
 import { User } from './User';
 
-@ObjectType()
+@ObjectType({ description: '감상평' })
 @Entity()
 export class CutReview extends BaseEntity {
     @PrimaryGeneratedColumn()
-    @Field(() => Int)
+    @Field(() => Int, { description: '감상평 고유 아이디' })
     id: number;
 
     @Field({ description: '감상평 내용' })

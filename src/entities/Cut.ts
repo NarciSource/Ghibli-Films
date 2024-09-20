@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Film } from './Film';
 
-@ObjectType()
+@ObjectType({ description: '명장면' })
 @Entity()
 export class Cut extends BaseEntity {
     @Field(() => Int, { description: '명장면 고유 아이디' })

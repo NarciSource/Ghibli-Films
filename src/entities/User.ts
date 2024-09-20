@@ -12,10 +12,10 @@ import { CutReview } from './CutReview';
 import { CutVote } from './CutVote';
 import { Notification } from './Notification';
 
-@ObjectType()
+@ObjectType({ description: '유저 고유 아이디' })
 @Entity()
 export class User extends BaseEntity {
-    @Field(() => Int)
+    @Field(() => Int, { description: '식별자' })
     @PrimaryGeneratedColumn()
     id!: number;
 

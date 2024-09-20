@@ -6,7 +6,7 @@ import { isAuthenticated } from 'middlewares/isAuthenticated';
 @Resolver(User)
 export default class MeQueryResolver {
     @UseMiddleware(isAuthenticated)
-    @Query(() => User, { nullable: true })
+    @Query(() => User, { nullable: true, description: '현재 접속자의 정보를 조회합니다.' })
     async me(
         @Ctx()
         context: IContext,

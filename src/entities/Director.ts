@@ -1,10 +1,10 @@
 import { ObjectType, Field, Int } from 'type-graphql';
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@ObjectType()
+@ObjectType({ description: '감독' })
 @Entity()
 export class Director extends BaseEntity {
-    @Field(() => Int)
+    @Field(() => Int, { description: '감독 고유 아이디' })
     @PrimaryGeneratedColumn()
     id: number;
 

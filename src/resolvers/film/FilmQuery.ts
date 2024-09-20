@@ -5,7 +5,7 @@ import { PaginatedFilms } from 'entities/PaginatedFilm';
 @Resolver(Film) // 인자: 오브젝트타입
 export default class FilmQueryResolver {
     // 영화 리스트
-    @Query(() => PaginatedFilms)
+    @Query(() => PaginatedFilms, { description: '영화 목록을 페이지네이션하여 조회합니다.' })
     async films(
         @Arg('limit', () => Int, { nullable: true, defaultValue: 6 })
         limit?: number,
@@ -35,7 +35,7 @@ export default class FilmQueryResolver {
     }
 
     // 영화 상세
-    @Query(() => Film, { nullable: true })
+    @Query(() => Film, { nullable: true, description: '특정 영화를 상세히 조회합니다.' })
     async film(
         @Arg('filmId', () => Int)
         id: number,

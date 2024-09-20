@@ -3,7 +3,7 @@ import { BaseEntity, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Cut } from './Cut';
 import { User } from './User';
 
-@ObjectType()
+@ObjectType({ description: '좋아요' })
 @Entity()
 export class CutVote extends BaseEntity {
     @PrimaryColumn()
