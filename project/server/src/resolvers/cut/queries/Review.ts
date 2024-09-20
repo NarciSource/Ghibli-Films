@@ -6,7 +6,7 @@ import { PaginationArgs } from '../type';
 
 @Resolver(CutReview)
 export default class CutReviewQueryResolver {
-    @Query(() => [CutReview])
+    @Query(() => [CutReview], { description: '장면의 감상평을 조회합니다.' })
     async cutReviews(
         @Args() { skip, cutId }: PaginationArgs,
         @Ctx() { verifiedUser }: IContext,

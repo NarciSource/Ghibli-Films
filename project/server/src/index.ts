@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import { graphqlUploadExpress } from 'graphql-upload';
+import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 dotenv.config();
 
@@ -22,6 +23,8 @@ async function main() {
 
     app.use(express.static('public')); // 'public' 폴더를 정적 파일 제공 폴더로 설정
     app.use(graphqlUploadExpress({ maxFileSize: 1024 * 1000 * 5, maxFiles: 1 })); // graphql-upload 미들웨어 추가
+
+    app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' })); // voyager 스키마 다이어그램
 
     app.get('/', (req, res) => {
         res.status(200).send(); // for healthcheck
@@ -45,7 +48,9 @@ async function main() {
         if (process.env.NODE_ENV !== 'production') {
             console.log(`
                 server started on => http://localhost:4000
-                graphql playground => http://localhost:4000/graphql`);
+                graphql playground => http://localhost:4000/graphql
+                graphql schema => http://localhost:4000/voyager
+            `);
         } else {
             console.log(`Production server Started...`);
         }

@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from 'type-graphql';
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Director } from './Director';
 
-@ObjectType()
+@ObjectType({ description: '영화' })
 @Entity()
 export class Film extends BaseEntity {
     @PrimaryGeneratedColumn()
