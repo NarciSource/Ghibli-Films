@@ -179,66 +179,41 @@ GraphQL 쿼리 예시
 
 ### 서버
 
-#### 환경변수 설정 (/project/server/.env)
-
-```dotenv
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_DATABASE=ghibli_graphql
-MYSQL_USERNAME=root
-MYSQL_PASSWORD=pswd
-MYSQL_ROOT_PASSWORD=pswd
-
-JWT_SECRET_KEY=secret-key
-JWT_REFRESH_SECRET_KEY=refresh-key
-
-DOMAIN=http://localhost:3000
-PORT=4000
-
-REDIS_HOST=localhost
-REDIS_PORT=6379
-```
-
 #### 컨테이너 및 로컬 서버 실행
 
 ```sh
-$ cd project/server
 $ export $(cat .env | xargs)
 
 # mysql 실행
 $ MSYS_NO_PATHCONV=1 \
-  docker run -d \
+  docker run \
   --name mysql-container \
   --env-file ./.env \
   -e LC_ALL=C.UTF-8 \
-  -v ./src/data:/docker-entrypoint-initdb.d \
+  -v ./data:/docker-entrypoint-initdb.d \
   -p ${MYSQL_PORT}:3306 \
   -d mysql:latest
 
 # redis 실행
-$ docker run -d \
+$ MSYS_NO_PATHCONV=1 \
+  docker run \
   --name redis-container \
   --env-file ./.env \
   -p ${REDIS_PORT}:6379 \
-  redis:latest
+  -d redis:latest
 
 # 서버 실행
-$ npm run dev
+$ npm i
+
+$ npm run start:server
 ```
 
 ### 클라이언트
 
-#### 환경변수 설정 (/project/web/.env)
-
-```dotenv
-REACT_APP_API_HOST=http://localhost:4000
-PORT=3000
-```
-
 #### 프론트엔드 개발 서버 실행
 
 ```sh
-$ cd project/web
+$ npm i
 
-$ npm run start
+$ npm run start:web
 ```

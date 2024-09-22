@@ -1,8 +1,14 @@
 {
-  "name": "Ghibli-Films",
-  "version": "1.0.0",
+  "name": "ghibli-films",
+  "version": "1.2.0",
   "homepage": "https://NarciSource.github.io/Ghibli-Films",
+  "private": true,
+  "workspaces": [
+    "project/*"
+  ],
   "scripts": {
+    "start:server": "npm --workspace server run dev",
+    "start:web": "npm --workspace web run start",
     "format": "prettier --write \"project/{server,web}/**/*.ts\"",
     "lint": "eslint \"project/{server,web}/**/*.ts\" --fix",
     "docs": "graphql-codegen",
