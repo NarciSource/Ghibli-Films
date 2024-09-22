@@ -1,7 +1,7 @@
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
 import { GraphQLSchema } from 'graphql';
-import createLoaders from 'dataloader/createLoader';
+import createLoaders from 'dataloaders/createLoader';
 import redis from 'redis/redis-client';
 import { verifyAccessTokenFromReqHeaders } from 'utils/jwt-auth';
 import IContext from './IContext';

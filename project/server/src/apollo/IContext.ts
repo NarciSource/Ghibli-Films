@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import createLoaders from 'dataloader/createLoader';
+import createLoaders from 'dataloaders/createLoader';
 import redis from 'redis/redis-client';
 import { JwtVerifiedUser } from 'utils/jwt-auth';
 
