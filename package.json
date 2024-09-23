@@ -7,6 +7,8 @@
     "project/*"
   ],
   "scripts": {
+    "build:server": "npm --workspace server run build",
+    "build:web": "npm --workspace web run build",
     "start:server": "npm --workspace server run dev",
     "start:web": "npm --workspace web run start",
     "format": "prettier --write \"project/{server,web}/**/*.ts\"",
