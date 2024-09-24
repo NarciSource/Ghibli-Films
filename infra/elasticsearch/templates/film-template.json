@@ -1,0 +1,57 @@
+{
+  "index_patterns": ["film"],
+
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "analysis": {
+        "analyzer": {
+          "korean": {
+            "type": "custom",
+            "tokenizer": "nori_tokenizer",
+            "filter": ["lowercase", "nori_readingform", "korean_stop"],
+            "char_filter": ["html_strip"]
+          }
+        },
+        "tokenizer": {
+          "nori_tokenizer": {
+            "type": "nori_tokenizer",
+            "decompound_mode": "mixed"
+          }
+        },
+        "filter": {
+          "korean_stop": {
+            "type": "stop",
+            "stopwords": ["의", "가", "은", "는"]
+          }
+        }
+      }
+    },
+
+    "mappings": {
+      "properties": {
+        "id": { "type": "long" },
+        "directorId": { "type": "long" },
+        "title": { "type": "text", "analyzer": "korean" },
+        "subtitle": { "type": "text", "analyzer": "korean" },
+        "genre": { "type": "text", "analyzer": "korean" },
+        "runningTime": { "type": "integer" },
+        "description": { "type": "text", "analyzer": "korean" },
+        "posterImg": { "type": "keyword" },
+        "releaseDate": {
+          "type": "date",
+          "format": "yyyy-MM-dd",
+          "fields": {
+            "keyword": {
+              "type": "keyword"
+            },
+            "text": {
+              "type": "text",
+              "analyzer": "korean"
+            }
+          }
+        }
+      }
+    }
+  }
+}
