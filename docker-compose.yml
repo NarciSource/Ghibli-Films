@@ -17,7 +17,7 @@ services:
             - ./data:/docker-entrypoint-initdb.d
 
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
             interval: 10s
             timeout: 5s
             retries: 5
@@ -38,10 +38,68 @@ services:
             - project/server/.env
 
         healthcheck:
-            test: ["CMD", "redis-cli", "ping"]
+            test: ['CMD', 'redis-cli', 'ping']
             interval: 10s
             retries: 5
             start_period: 10s
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+        container_name: elasticsearch-container
+
+        networks:
+            - net
+        ports:
+            - ${ES_PORT}:9200
+
+        env_file:
+            - .env
+        environment:
+            - discovery.type=single-node
+            - xpack.ml.enabled=false
+            - xpack.security.enabled=false
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
+        volumes:
+            - es-data:/usr/share/elasticsearch/data
+
+        healthcheck:
+            test: ['CMD', 'curl', '-f', 'http://localhost:9200/_cluster/health']
+            interval: 10s
+            retries: 100
+            start_period: 60s
+
+    logstash:
+        image: docker.elastic.co/logstash/logstash:8.12.0
+        container_name: logstash-container
+
+        networks:
+            - net
+        depends_on:
+            elasticsearch:
+                condition: service_healthy
+        ports:
+            - ${LS_PORT}:5044
+
+        environment:
+            - LS_JAVA_OPTS=-Xms512m -Xmx512m
+            - PIPELINE_BATCH_SIZE=50
+            - PIPELINE_WORKERS=2
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:8.12.0
+        container_name: kibana-container
+
+        networks:
+            - net
+        depends_on:
+            elasticsearch:
+                condition: service_healthy
+        ports:
+            - ${KB_PORT}:5601
+
+        environment:
+            - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+            - NODE_OPTIONS=--max-old-space-size=1024
 
     server:
         image: ghibli-films-server:${SERVER_VERSION}
@@ -64,11 +122,13 @@ services:
             - project/server/.env
         environment:
             - MYSQL_HOST=rdb
+            - MYSQL_PORT=3306
             - REDIS_HOST=redis
+            - REDIS_PORT=6379
             - DOMAIN=${WEB_DOMAIN}:${WEB_PORT}
 
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:4000/"]
+            test: ['CMD', 'curl', '-f', 'http://localhost:4000/']
             interval: 10s
             timeout: 5s
             retries: 5
@@ -101,4 +161,6 @@ volumes:
     rdb-data:
         driver: local
     redis-data:
+        driver: local
+    es-data:
         driver: local
