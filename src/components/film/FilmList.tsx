@@ -3,10 +3,10 @@ import { useFilmsQuery } from '../../generated/graphql';
 import FilmCard from './FilmCard';
 import { Waypoint } from 'react-waypoint';
 
-export default function FilmList(): JSX.Element {
+export default function FilmList({ search }: { search?: string }): JSX.Element {
     const LIMIT = 6;
     const { data, loading, error, fetchMore } = useFilmsQuery({
-        variables: { limit: LIMIT, cursor: 1 },
+        variables: { limit: LIMIT, cursor: 1, search },
     });
 
     if (error) return <p>{error.message}</p>;
