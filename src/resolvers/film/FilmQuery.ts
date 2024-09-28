@@ -1,4 +1,5 @@
-import { Resolver, Query, Arg, Int } from 'type-graphql';
+import { Arg, Int, Query, Resolver } from 'type-graphql';
+import { getEsClient } from 'db/es-client';
 import { Film } from 'entities/Film';
 import { PaginatedFilms } from 'entities/PaginatedFilm';
 
@@ -11,17 +12,39 @@ export default class FilmQueryResolver {
         limit?: number,
         @Arg('cursor', () => Int, { nullable: true, defaultValue: 1 })
         cursor?: Film['id'],
+        @Arg('search', () => String, { nullable: true })
+        search?: string,
     ): Promise<PaginatedFilms> {
-        const qb = Film.createQueryBuilder('film')
-            .orderBy('film.id', 'ASC')
-            .take(limit + 1);
+        const esClient = getEsClient();
+        let films: Film[] = [];
 
-        // 커서 기반 페이지네이션
-        if (cursor) {
-            qb.where('film.id >= :cursor', { cursor });
+        if (!search) {
+            // rdb
+            const qb = Film.createQueryBuilder('film')
+                .orderBy('film.id', 'ASC')
+                .take(limit + 1);
+
+            // 커서 기반 페이지네이션
+            if (cursor) {
+                qb.where('film.id >= :cursor', { cursor });
+            }
+
+            films = await qb.getMany();
+        } else {
+            // 검색어 있을 시 elasticsearch 역색인으로 검색
+            const result = await esClient.search({
+                index: 'film',
+                query: {
+                    multi_match: {
+                        query: search,
+                        fields: ['title', 'subtitle', 'description', 'genre', 'releaseDate.text'],
+                    },
+                },
+            });
+            const hits = result.hits.hits;
+
+            films = hits.map(({ _source }) => _source as Film);
         }
-
-        const films = await qb.getMany();
 
         let nextCursor: number | null = null;
         if (films.length > limit) {
