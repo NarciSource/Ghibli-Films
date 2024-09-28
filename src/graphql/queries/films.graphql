@@ -1,5 +1,5 @@
-query Films($limit: Int, $cursor: Int) {
-    films(limit: $limit, cursor: $cursor) {
+query Films($limit: Int, $cursor: Int, $search: String) {
+    films(limit: $limit, cursor: $cursor, search: $search) {
         cursor
         films {
             id
