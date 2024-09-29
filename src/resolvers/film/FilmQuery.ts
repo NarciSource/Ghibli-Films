@@ -15,25 +15,13 @@ export default class FilmQueryResolver {
         @Arg('search', () => String, { nullable: true })
         search?: string,
     ): Promise<PaginatedFilms> {
-        const esClient = getEsClient();
-
         const qb = Film.createQueryBuilder('film')
             .orderBy('film.id', 'ASC')
             .take(limit + 1);
 
         // 검색어 있을 시 elasticsearch 역색인으로 검색
         if (search) {
-            const result = await esClient.search({
-                index: 'film',
-                _source: false,
-                query: {
-                    multi_match: {
-                        query: search,
-                        fields: ['title', 'subtitle', 'description', 'genre', 'releaseDate.text'],
-                    },
-                },
-            });
-            const ids = result.hits.hits.map((hit) => hit._id);
+            const ids = await this.searchFilmIdsES(search);
 
             if (ids.length > 0) {
                 qb.where('film.id IN (:...ids)', { ids });
@@ -66,5 +54,45 @@ export default class FilmQueryResolver {
         id: number,
     ): Promise<Film> {
         return await Film.findOne({ where: { id } });
+    }
+
+    async searchFilmIdsES(search: string): Promise<number[]> {
+        const esClient = getEsClient();
+
+        const query = {
+            bool: {
+                should: [
+                    {
+                        multi_match: {
+                            query: search,
+                            fields: [
+                                'title',
+                                'subtitle',
+                                'description',
+                                'genre',
+                                'releaseDate.text',
+                            ],
+                        },
+                    },
+                    {
+                        nested: {
+                            path: 'director',
+                            query: {
+                                match: { 'director.name': search },
+                            },
+                        },
+                    },
+                ],
+            },
+        };
+
+        const result = await esClient.search({
+            index: 'film',
+            _source: false,
+            query,
+        });
+        const ids = result.hits.hits.map((hit) => Number(hit._id));
+
+        return ids;
     }
 }
