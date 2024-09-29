@@ -26,19 +26,24 @@ export type CreateOrUpdateReviewInput = {
   cutId: Scalars['Int']['input'];
 };
 
+/** 명장면 */
 export type Cut = {
   __typename?: 'Cut';
+  /** 영화 */
   film?: Maybe<Film>;
   /** 영화 아이디 */
   filmId: Scalars['Int']['output'];
   /** 명장면 고유 아이디 */
   id: Scalars['Int']['output'];
+  /** 좋아요 확인 */
   isVoted: Scalars['Boolean']['output'];
   /** 명장면 사진 주소 */
   src: Scalars['String']['output'];
+  /** 좋아요 수 */
   votesCount: Scalars['Int']['output'];
 };
 
+/** 감상평 */
 export type CutReview = {
   __typename?: 'CutReview';
   /** 감상평 내용 */
@@ -47,15 +52,19 @@ export type CutReview = {
   createdAt: Scalars['String']['output'];
   /** 명장면 번호 */
   cutId: Scalars['Int']['output'];
+  /** 감상평 고유 아이디 */
   id: Scalars['Int']['output'];
+  /** 유저가 작성한 리뷰인지 여부 */
   isMine: Scalars['Boolean']['output'];
   /** 수정 일자 */
   updatedAt: Scalars['String']['output'];
   user: User;
 };
 
+/** 감독 */
 export type Director = {
   __typename?: 'Director';
+  /** 감독 고유 아이디 */
   id: Scalars['Int']['output'];
   /** 감독 이름 */
   name: Scalars['String']['output'];
@@ -68,10 +77,12 @@ export type FieldError = {
   message: Scalars['String']['output'];
 };
 
+/** 영화 */
 export type Film = {
   __typename?: 'Film';
   /** 영화 줄거리 및 설명 */
   description: Scalars['String']['output'];
+  /** 감독 */
   director: Director;
   /** 제작자 고유 아이디 */
   directorId: Scalars['Int']['output'];
@@ -148,28 +159,43 @@ export type MutationVoteArgs = {
   cutId: Scalars['Int']['input'];
 };
 
+/** 알림 */
 export type Notification = {
   __typename?: 'Notification';
+  /** 작성 날짜 */
   createdAt: Scalars['String']['output'];
+  /** 알림 고유 아이디 */
   id: Scalars['Int']['output'];
+  /** 알림 메시지 */
   text: Scalars['String']['output'];
+  /** 수정 날짜 */
   updatedAt: Scalars['String']['output'];
-  userId: Scalars['Float']['output'];
+  /** 유저 아이디 */
+  userId: Scalars['Int']['output'];
 };
 
+/** 페이지네이션 */
 export type PaginatedFilms = {
   __typename?: 'PaginatedFilms';
+  /** 커서 */
   cursor?: Maybe<Scalars['Int']['output']>;
+  /** 영화 리스트 */
   films: Array<Film>;
 };
 
 export type Query = {
   __typename?: 'Query';
+  /** 특정 장면을 조회합니다. */
   cut?: Maybe<Cut>;
+  /** 장면의 감상평을 조회합니다. */
   cutReviews: Array<CutReview>;
+  /** 장면 목록을 조회합니다. */
   cuts: Array<Cut>;
+  /** 특정 영화를 상세히 조회합니다. */
   film?: Maybe<Film>;
+  /** 영화 목록을 페이지네이션하여 조회합니다. */
   films: PaginatedFilms;
+  /** 현재 접속자의 정보를 조회합니다. */
   me?: Maybe<User>;
   /** 세션에 해당되는 유저의 모든 알림을 가져옵니다. */
   notifications: Array<Notification>;
@@ -201,6 +227,7 @@ export type QueryFilmArgs = {
 export type QueryFilmsArgs = {
   cursor?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** 엑세스 토큰 반환 데이터 */
@@ -220,12 +247,14 @@ export type Subscription = {
   newNotification: Notification;
 };
 
+/** 유저 고유 아이디 */
 export type User = {
   __typename?: 'User';
   /** 생성일자 */
   createdAt: Scalars['String']['output'];
   /** 유저 이메일 */
   email: Scalars['String']['output'];
+  /** 식별자 */
   id: Scalars['Int']['output'];
   /** 유저 프로필 사진 경로 */
   profileImage?: Maybe<Scalars['String']['output']>;
@@ -293,6 +322,7 @@ export type FilmQuery = { __typename?: 'Query', film?: { __typename?: 'Film', id
 export type FilmsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
   cursor?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -523,8 +553,8 @@ export function useCutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CutQue
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<CutQuery, CutQueryVariables>(CutDocument, options);
         }
-export function useCutSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CutQuery, CutQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useCutSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<CutQuery, CutQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<CutQuery, CutQueryVariables>(CutDocument, options);
         }
 export type CutQueryHookResult = ReturnType<typeof useCutQuery>;
@@ -564,8 +594,8 @@ export function useCutsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CutsQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<CutsQuery, CutsQueryVariables>(CutsDocument, options);
         }
-export function useCutsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CutsQuery, CutsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useCutsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<CutsQuery, CutsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<CutsQuery, CutsQueryVariables>(CutsDocument, options);
         }
 export type CutsQueryHookResult = ReturnType<typeof useCutsQuery>;
@@ -615,8 +645,8 @@ export function useFilmLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FilmQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<FilmQuery, FilmQueryVariables>(FilmDocument, options);
         }
-export function useFilmSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FilmQuery, FilmQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useFilmSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FilmQuery, FilmQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<FilmQuery, FilmQueryVariables>(FilmDocument, options);
         }
 export type FilmQueryHookResult = ReturnType<typeof useFilmQuery>;
@@ -624,8 +654,8 @@ export type FilmLazyQueryHookResult = ReturnType<typeof useFilmLazyQuery>;
 export type FilmSuspenseQueryHookResult = ReturnType<typeof useFilmSuspenseQuery>;
 export type FilmQueryResult = Apollo.QueryResult<FilmQuery, FilmQueryVariables>;
 export const FilmsDocument = gql`
-    query Films($limit: Int, $cursor: Int) {
-  films(limit: $limit, cursor: $cursor) {
+    query Films($limit: Int, $cursor: Int, $search: String) {
+  films(limit: $limit, cursor: $cursor, search: $search) {
     cursor
     films {
       id
@@ -656,6 +686,7 @@ export const FilmsDocument = gql`
  *   variables: {
  *      limit: // value for 'limit'
  *      cursor: // value for 'cursor'
+ *      search: // value for 'search'
  *   },
  * });
  */
@@ -667,8 +698,8 @@ export function useFilmsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Film
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<FilmsQuery, FilmsQueryVariables>(FilmsDocument, options);
         }
-export function useFilmsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FilmsQuery, FilmsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useFilmsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FilmsQuery, FilmsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<FilmsQuery, FilmsQueryVariables>(FilmsDocument, options);
         }
 export type FilmsQueryHookResult = ReturnType<typeof useFilmsQuery>;
@@ -782,8 +813,8 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
-export function useMeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useMeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
@@ -825,8 +856,8 @@ export function useNotificationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<NotificationsQuery, NotificationsQueryVariables>(NotificationsDocument, options);
         }
-export function useNotificationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<NotificationsQuery, NotificationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useNotificationsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<NotificationsQuery, NotificationsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<NotificationsQuery, NotificationsQueryVariables>(NotificationsDocument, options);
         }
 export type NotificationsQueryHookResult = ReturnType<typeof useNotificationsQuery>;

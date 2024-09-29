@@ -7,7 +7,7 @@ export const createApolloCache = (): InMemoryCache => {
             Query: {
                 fields: {
                     films: {
-                        keyArgs: false,
+                        keyArgs: ['search'],
                         merge: (
                             existing: PaginatedFilms | undefined,
                             incoming: PaginatedFilms,

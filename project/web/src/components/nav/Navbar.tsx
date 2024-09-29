@@ -1,6 +1,7 @@
 import { Box, Flex, Link, useColorModeValue } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import UserMenu from "./UserMenu";
+import SearchBar from "./SearchBar";
 
 export function Navbar() {
     return (
@@ -11,6 +12,8 @@ export function Navbar() {
                         GhibliBestCut
                     </Link>
                 </Flex>
+
+                <SearchBar />
 
                 <UserMenu />
             </Flex>
