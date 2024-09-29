@@ -15,6 +15,7 @@ export default class FilmQueryResolver {
         @Arg('search', () => String, { nullable: true })
         search?: string,
     ): Promise<PaginatedFilms> {
+        // 쿼리 빌더
         const qb = Film.createQueryBuilder('film')
             .orderBy('film.id', 'ASC')
             .take(limit + 1);
@@ -30,12 +31,15 @@ export default class FilmQueryResolver {
             }
         }
 
+        // 커서 기반 페이지네이션
         if (cursor) {
             qb.andWhere('film.id >= :cursor', { cursor });
         }
 
+        // 데이터 추출
         const films = await qb.getMany();
 
+        // 커서 업데이트
         let nextCursor: number | null = null;
         if (films.length > limit) {
             nextCursor = films.pop().id + 1;
@@ -56,6 +60,7 @@ export default class FilmQueryResolver {
         return await Film.findOne({ where: { id } });
     }
 
+    // 검색어 기반 영화 ID조회
     async searchFilmIdsES(search: string): Promise<number[]> {
         const esClient = getEsClient();
 
