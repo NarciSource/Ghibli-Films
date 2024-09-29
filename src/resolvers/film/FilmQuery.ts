@@ -16,24 +16,16 @@ export default class FilmQueryResolver {
         search?: string,
     ): Promise<PaginatedFilms> {
         const esClient = getEsClient();
-        let films: Film[] = [];
 
-        if (!search) {
-            // rdb
-            const qb = Film.createQueryBuilder('film')
-                .orderBy('film.id', 'ASC')
-                .take(limit + 1);
+        const qb = Film.createQueryBuilder('film')
+            .orderBy('film.id', 'ASC')
+            .take(limit + 1);
 
-            // 커서 기반 페이지네이션
-            if (cursor) {
-                qb.where('film.id >= :cursor', { cursor });
-            }
-
-            films = await qb.getMany();
-        } else {
-            // 검색어 있을 시 elasticsearch 역색인으로 검색
+        // 검색어 있을 시 elasticsearch 역색인으로 검색
+        if (search) {
             const result = await esClient.search({
                 index: 'film',
+                _source: false,
                 query: {
                     multi_match: {
                         query: search,
@@ -41,10 +33,20 @@ export default class FilmQueryResolver {
                     },
                 },
             });
-            const hits = result.hits.hits;
+            const ids = result.hits.hits.map((hit) => hit._id);
 
-            films = hits.map(({ _source }) => _source as Film);
+            if (ids.length > 0) {
+                qb.where('film.id IN (:...ids)', { ids });
+            } else {
+                qb.where('1 = 0');
+            }
         }
+
+        if (cursor) {
+            qb.andWhere('film.id >= :cursor', { cursor });
+        }
+
+        const films = await qb.getMany();
 
         let nextCursor: number | null = null;
         if (films.length > limit) {
