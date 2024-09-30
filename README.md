@@ -1,17 +1,24 @@
 # 스튜디오 지브리 영화의 명장면 감상평 서비스
 
-이 프로젝트는 **GraphQL** 학습을 목적으로 제작된 웹 서비스입니다.  
-REST API의 오버페칭/언더페칭 문제 해결을 위해 GraphQL을 도입했고, Apollo Server + Express를 기반으로 구현.  
-_GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수)에서 제공하는 [🔗예제 프로젝트](https://github.com/hwasurr/graphql-book-fullstack-project)를 클론.
+**GraphQL** 학습을 목적으로 제작된 웹 서비스.
+REST API의 오버페칭/언더페칭 문제를 해결하기 위해 GraphQL을 도입하고, Apollo + Express를 기반으로 구현.  
+또한, Elastic Stack(Elasticsearch, Logstash, Kibana) 을 도입하여 MySQL 데이터를 실시간으로 동기화하고,  
+Elasticsearch 기반의 고성능 검색 기능과 Kibana를 통한 데이터 시각화 및 분석 환경을 제공.
+
+_GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수)에서 제공하는 [🔗예제 프로젝트](https://github.com/hwasurr/graphql-book-fullstack-project)를 바탕으로 함.
 
 ## 기술스택
 
 [![graphql](https://img.shields.io/badge/GraphQL-E10098?style=flat&logo=graphql&logoColor=white)](https://graphql.org/)  
 [![apollo](https://img.shields.io/badge/Apollo-311C87?style=flat&logo=apollographql&logoColor=white)](https://www.apollographql.com/)
 [![express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)](https://expressjs.com/ko/)
+[![elasticstack](https://img.shields.io/badge/Elastic_Stack-005571?style=flat&logo=elasticstack&logoColor=white)](https://www.elastic.co/elastic-stack)
 [![mysql](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![redis](https://img.shields.io/badge/Redis-FF4438?style=flat&logo=redis&logoColor=white)](https://redis.io/)
 [![typeorm](https://img.shields.io/badge/TypeORM-FE0803?style=flat&logo=typeorm&logoColor=white)](https://typeorm.io/)  
+[![elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat&logo=elasticsearch&logoColor=white)](https://www.elastic.co/kr/elasticsearch)
+[![logstash](https://img.shields.io/badge/Logstash-005571?style=flat&logo=logstash&logoColor=white)](https://www.elastic.co/kr/logstash)
+[![kibana](https://img.shields.io/badge/Kibana-005571?style=flat&logo=kibana&logoColor=white)](https://www.elastic.co/kr/kibana)  
 [![react](https://img.shields.io/badge/React-191B1F?style=flat&logo=React&logoColor=61DAFB)](https://reactjs.org)
 [![chakra ui](https://img.shields.io/badge/Chakra_UI-1BB2A9?style=flat&logo=chakraui&logoColor=white)](https://chakra-ui.com/)  
 [![nodejs](https://img.shields.io/badge/Node.js-5FA04E?style=flat&logo=nodedotjs&logoColor=white)](https://nodejs.org/ko/)
@@ -24,15 +31,16 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 
 ## 스크린샷
 
-| ![films-day](https://github.com/user-attachments/assets/b66797c0-fbee-4510-b645-b3e573803c44) | ![films-night](https://github.com/user-attachments/assets/ed5caf66-c90a-4fff-84b7-7dfbb404f3e7) |
+| ![films-day](https://github.com/user-attachments/assets/c8bb187b-937d-4e4e-ae0e-43e0739c85ff) | ![films-night](https://github.com/user-attachments/assets/06bdcbb3-b1f4-49a3-af39-0cbdae8af210) |
 | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| ![scene](https://github.com/user-attachments/assets/f5770559-1b4d-402e-a7a5-4a9a6edca8f5)     | ![login](https://github.com/user-attachments/assets/1e61fcf0-eece-4be1-8ad9-26c1ae00cc8a)       |
+| ![search](https://github.com/user-attachments/assets/dff13592-f1a7-4410-9827-a02f54fc94e9)    | ![scene](https://github.com/user-attachments/assets/4e51b273-0dd5-4ef3-8b9b-2b928cfcc856)       |
+| ![signup](https://github.com/user-attachments/assets/1f0406e6-01bd-466d-a460-13db723dd2c6)    | ![login](https://github.com/user-attachments/assets/3ed7356e-67ff-4a32-90fc-87a89aad838d)       |
 
 ## 다이어그램
 
 ### Architecture Diagram
 
-![architecture](https://github.com/user-attachments/assets/cc31ac82-2e73-4814-b0a6-2fa0e519ad7d)
+![graphql-elk drawio](https://github.com/user-attachments/assets/6a1abb56-040d-48e9-b69d-7a65b6675cbc)
 
 - 백엔드
     - **Apollo Server**: Express 플러그인으로 GraphQL query, mutation, resolver 처리
@@ -40,6 +48,9 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
     - **비즈니스 로직**: 클라이언트 요청을 받아 MySQL과 Redis에 데이터 저장 및 캐싱
     - **MySQL**: 영속적 데이터 저장 (영화, 명장면, 감상평)
     - **Redis**: 캐싱 및 성능 최적화
+    - **Elasticsearch**: 검색 엔진, 영화 데이터에 대한 텍스트 검색 지원
+    - **Logstash**: 데이터 파이프라인, MySQL에서 Elasticsearch로 동기화
+    - **Kibana**: Elasticsearch 데이터를 시각화, 검색/로그 분석 및 모니터링 대시보드 제공
 - 프론트엔드
     - **Apollo Client**: GraphQL 쿼리/뮤테이션 전송, 클라이언트 캐싱, 데이터 페칭
     - **React**: UI 렌더링 및 상태 관리
@@ -47,7 +58,8 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 - 데이터 흐름
     1. 클라이언트(React)에서 Apollo Client로 GraphQL 요청 전송
     2. Apollo Server + Express에서 요청 처리 후 비즈니스 로직 실행
-    3. MySQL/Redis에서 필요한 데이터 조회 또는 저장
+    3. MySQL/Elasticsearch/Redis에서 필요한 데이터 조회 또는 저장
+        1. MySQL에 저장된 데이터는 Logstash 파이프라인을 통해 수집·정제되어 Elasticsearch로 동기화
     4. 서버에서 처리된 데이터를 GraphQL Response로 클라이언트에 반환
 
 ### GraphQL Schema Diagram
@@ -179,55 +191,12 @@ GraphQL 쿼리 예시
 }
 ```
 
+</details>
+
 ## 실행 방법
 
-### 도커 환경
-
 ```sh
-# 도커 컴포즈로 일괄 실행
 $ docker-compose up -d
-```
-
-### 로컬 환경
-
-#### 의존 서비스 실행
-
-```sh
-$ export $(cat .env | xargs)
-
-# mysql 실행
-$ MSYS_NO_PATHCONV=1 \
-  docker run \
-  --name mysql-container \
-  --env-file ./project/server/.env \
-  -e LC_ALL=C.UTF-8 \
-  -v ./data:/docker-entrypoint-initdb.d \
-  -p ${MYSQL_PORT}:3306 \
-  -d mysql:9.4.0
-
-# redis 실행
-$ MSYS_NO_PATHCONV=1 \
-  docker run \
-  --name redis-container \
-  --env-file ./project/server/.env \
-  -p ${REDIS_PORT}:6379 \
-  -d redis:8.2.1
-```
-
-#### 서버 실행
-
-```sh
-$ npm i
-
-$ npm run start:server
-```
-
-#### 클라이언트 개발 서버 실행
-
-```sh
-$ npm i
-
-$ npm run start:web
 ```
 
 ## 접속 안내
@@ -238,3 +207,4 @@ $ npm run start:web
 | server healthcheck | <http://localhost:4000>          |
 | graphql schema     | <http://localhost:4000/voyager>⁠ |
 | graphql playground | <http://localhost:4000/graphql>⁠ |
+| elasticsearch ui   | <http://localhost:5601>⁠         |
