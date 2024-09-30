@@ -191,6 +191,186 @@ GraphQL 쿼리 예시
 }
 ```
 
+## 폴더 구조
+
+<details>
+<summary>열기</summary>
+
+```
+Ghibli-Films
+├─ docs
+│  └─ index.html
+├─ data
+│  ├─ 01.ddl.sql
+│  ├─ 02.directors.sql
+│  ├─ 03.films.sql
+│  └─ 04.cuts.sql
+├─ infra
+│  ├─ logstash
+│  │  ├─ mysql-connector-j-9.4.0.jar
+│  │  └─ sync_rdb_to_es.conf
+│  └─ elasticsearch
+│     ├─ create_index_templates.sh
+│     └─ templates
+│        └─ film-template.json
+├─ project
+│  ├─ server
+│  │  ├─ public
+│  │  ├─ src
+│  │  │  ├─ index.ts
+│  │  │  ├─ apollo
+│  │  │  │  ├─ IContext.ts
+│  │  │  │  ├─ createSchema.ts
+│  │  │  │  ├─ createApolloServer.ts
+│  │  │  │  ├─ createSubscriptionServer.ts
+│  │  │  │  └─ pubSub.ts
+│  │  │  ├─ db
+│  │  │  │  ├─ db-client.ts
+│  │  │  │  └─ es-client.ts
+│  │  │  ├─ redis
+│  │  │  │  └─ redis-client.ts
+│  │  │  ├─ dataloaders
+│  │  │  │  ├─ createLoader.ts
+│  │  │  │  └─ cutVoteLoader.ts
+│  │  │  ├─ middlewares
+│  │  │  │  └─ isAuthenticated.ts
+│  │  │  ├─ utils
+│  │  │  │  └─ jwt-auth.ts
+│  │  │  ├─ entities
+│  │  │  │  ├─ Cut.ts
+│  │  │  │  ├─ CutReview.ts
+│  │  │  │  ├─ CutVote.ts
+│  │  │  │  ├─ Director.ts
+│  │  │  │  ├─ Film.ts
+│  │  │  │  ├─ Notification.ts
+│  │  │  │  ├─ PaginatedFilm.ts
+│  │  │  │  ├─ User.ts
+│  │  │  │  ├─ User.Error.ts
+│  │  │  │  └─ User.withToken.ts
+│  │  │  └─ resolvers
+│  │  │     ├─ index.ts
+│  │  │     ├─ film
+│  │  │     │  ├─ FilmField.ts
+│  │  │     │  └─ FilmQuery.ts
+│  │  │     ├─ cut
+│  │  │     │  ├─ fields
+│  │  │     │  │  ├─ Cut.ts
+│  │  │     │  │  └─ Review.ts
+│  │  │     │  ├─ queries
+│  │  │     │  │  ├─ Cut.ts
+│  │  │     │  │  └─ Review.ts
+│  │  │     │  ├─ mutations
+│  │  │     │  │  ├─ CreateOrUpdateReview.ts
+│  │  │     │  │  ├─ DeleteReview.ts
+│  │  │     │  │  └─ Vote.ts
+│  │  │     │  └─ type.ts
+│  │  │     ├─ notification
+│  │  │     │  ├─ NotificationQuery.ts
+│  │  │     │  ├─ NotificationMutation.ts
+│  │  │     │  └─ NotificationSubscription.ts
+│  │  │     └─ user
+│  │  │        ├─ queries
+│  │  │        │  └─ Me.ts
+│  │  │        ├─ mutations
+│  │  │        │  ├─ Login.ts
+│  │  │        │  ├─ Logout.ts
+│  │  │        │  ├─ SignUp.ts
+│  │  │        │  ├─ RefreshAccessToken.ts
+│  │  │        │  └─ UploadProfileImage.ts
+│  │  │        └─ type.ts
+│  │  ├─ .babelrc
+│  │  ├─ .env
+│  │  ├─ package.json
+│  │  └─ tsconfig.json
+│  └─ web
+│     ├─ public
+│     ├─ src
+│     │  ├─ index.tsx
+│     │  ├─ react-app-env.d.ts
+│     │  ├─ reportWebVitals.ts
+│     │  ├─ apollo
+│     │  │  ├─ createApolloCache.ts
+│     │  │  ├─ createApolloClient.ts
+│     │  │  ├─ auth.ts
+│     │  │  └─ middleware
+│     │  │     ├─ authLink.ts
+│     │  │     ├─ errorLink.ts
+│     │  │     ├─ httpUploadLink.ts
+│     │  │     └─ webSocketLink.ts
+│     │  ├─ generated
+│     │  │  └─ graphql.tsx
+│     │  ├─ graphql
+│     │  │  ├─ queries
+│     │  │  │  ├─ film.graphql
+│     │  │  │  ├─ films.graphql
+│     │  │  │  ├─ cut.graphql
+│     │  │  │  ├─ cuts.graphql
+│     │  │  │  ├─ login.graphql
+│     │  │  │  ├─ logout.graphql
+│     │  │  │  ├─ signup.graphql
+│     │  │  │  ├─ me.graphql
+│     │  │  │  ├─ refreshAccessToken.graphql
+│     │  │  │  └─ notifications.graphql
+│     │  │  ├─ mutations
+│     │  │  │  ├─ createOrUpdateReview.graphql
+│     │  │  │  ├─ deleteReview.graphql
+│     │  │  │  ├─ vote.graphql
+│     │  │  │  └─ uploadProfileImage.graphql
+│     │  │  └─ subscriptions
+│     │  │     └─ newNotification.graphql
+│     │  ├─ App.tsx
+│     │  ├─ components
+│     │  │  ├─ auth
+│     │  │  │  ├─ LoginForm.layout.tsx
+│     │  │  │  ├─ LoginForm.tsx
+│     │  │  │  ├─ SignUpForm.layout.tsx
+│     │  │  │  └─ SignUpForm.tsx
+│     │  │  ├─ ColorModeSwitcher.tsx
+│     │  │  ├─ CommonLayout.tsx
+│     │  │  ├─ film
+│     │  │  │  ├─ FilmCard.tsx
+│     │  │  │  ├─ FilmDetail.tsx
+│     │  │  │  └─ FilmList.tsx
+│     │  │  ├─ film-cut
+│     │  │  │  ├─ FilmCutDetail.tsx
+│     │  │  │  ├─ FilmCutList.tsx
+│     │  │  │  ├─ FilmCutModal.tsx
+│     │  │  │  ├─ FilmCutReview.tsx
+│     │  │  │  ├─ FilmCutReviewDeleteAlert.tsx
+│     │  │  │  └─ FilmCutReviewRegisterModal.tsx
+│     │  │  ├─ nav
+│     │  │  │  ├─ LogoutItem.tsx
+│     │  │  │  ├─ Navbar.tsx
+│     │  │  │  ├─ ProfileImageItem.tsx
+│     │  │  │  ├─ SearchBar.tsx
+│     │  │  │  └─ UserMenu.tsx
+│     │  │  └─ notification
+│     │  │     ├─ Notification.tsx
+│     │  │     ├─ NotificationItem.tsx
+│     │  │     └─ useRealtimeAlarm.ts
+│     │  └─ pages
+│     │     ├─ Main.tsx
+│     │     ├─ Film.tsx
+│     │     ├─ Login.tsx
+│     │     ├─ SignUp.tsx
+│     │     └─ Search.tsx
+│     ├─ .env
+│     ├─ codegen.yml
+│     ├─ package.json
+│     └─ tsconfig.json
+├─ .env
+├─ .prettierrc
+├─ eslint.config.mjs
+├─ package.json
+│  └─ package-lock.json
+├─ codegen.yml
+├─ docker-compose.yml
+│  ├─ Dockerfile.server
+│  └─ Dockerfile.web
+│     └─ nginx.conf
+└─ README.md
+```
+
 </details>
 
 ## 실행 방법
