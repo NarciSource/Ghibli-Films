@@ -1,6 +1,6 @@
 {
   "name": "ghibli-films",
-  "version": "1.2.0",
+  "version": "2.1.0",
   "homepage": "https://NarciSource.github.io/Ghibli-Films",
   "private": true,
   "workspaces": [
@@ -19,7 +19,7 @@
   "keywords": ["graphql", "apollo"],
   "author": "NarciSource",
   "license": "ISC",
-  "description": "GraphQL 사용 프로젝트",
+  "description": "스튜디오 지브리 영화의 명장면 감상평 서비스 ",
   "dependencies": {
     "typescript": "^5.5.3"
   },

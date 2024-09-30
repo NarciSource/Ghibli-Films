@@ -71,7 +71,125 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | [GraphQL Voyager 바로가기](https://narcisource.github.io/Ghibli-Films/)                                                                    |
 
-![schema](https://github.com/user-attachments/assets/14e56fb8-25d4-4a0a-b06b-f16ff63dcec8)
+```mermaid
+classDiagram
+    direction LR
+
+    %% 타입 %%
+    class Cut {
+      +film : Film
+      +filmId : Int!
+      +id : Int!
+      +isVoted : Boolean!
+      +src : String!
+      +votesCount : Int!
+    }
+    class CutReview {
+      +contents : String!
+      +createdAt : String!
+      +cutId : Int!
+      +id : Int!
+      +isMine : Boolean!
+      +updatedAt : String!
+      +user : User!
+    }
+    class Director {
+      +id : Int!
+      +name : String!
+    }
+    class FieldError {
+      +field : String!
+      +message : String!
+    }
+    class Film {
+      +description : String!
+      +director : Director!
+      +directorId : Int!
+      +genre : String!
+      +id : Int!
+      +posterImg : String!
+      +releaseDate : String!
+      +runningTime : Float!
+      +subtitle : String
+      +title : String!
+    }
+    class LoginResponse {
+      <<union>>
+    }
+    class Mutation:::root {
+      +createNotification : Notification!
+      +createOrUpdateReview : CutReview
+      +deleteReview : Boolean!
+      +login : LoginResponse!
+      +logout : Boolean!
+      +refreshAccessToken : RefreshAccessTokenResponse
+      +signUp : User!
+      +uploadProfileImage : Boolean!
+      +vote : Boolean!
+    }
+    class Notification {
+      +createdAt : String!
+      +id : Int!
+      +text : String!
+      +updatedAt : String!
+      +userId : Int!
+    }
+    class PaginatedFilms {
+      +cursor : Int
+      +films : [Film!]!
+    }
+    class Query:::root {
+      +cut : Cut
+      +cutReviews : [CutReview!]!
+      +cuts : [Cut!]!
+      +film : Film
+      +films : PaginatedFilms!
+      +me : User
+      +notifications : [Notification!]!
+    }
+    class RefreshAccessTokenResponse {
+      +accessToken : String!
+    }
+    class Subscription:::root {
+      +newNotification : Notification!
+    }
+    class User {
+      +createdAt : String!
+      +email : String!
+      +id : Int!
+      +profileImage : String
+      +updatedAt : String!
+      +username : String!
+    }
+    class UserWithToken {
+      +accessToken : String!
+      +user : User!
+    }
+
+    %% 관계 %%
+    Cut --> Film
+    CutReview --> User
+    Film --> Director
+    LoginResponse --> FieldError
+    LoginResponse --> UserWithToken
+    UserWithToken --> User
+    PaginatedFilms --> Film
+    Query --> Cut
+    Query --> CutReview
+    Query --> PaginatedFilms
+    Query --> Film
+    Query --> User
+    Query --> Notification
+    Mutation --> Notification
+    Mutation --> LoginResponse
+    Mutation --> User
+    Mutation --> CutReview
+    Mutation --> RefreshAccessTokenResponse
+    Subscription --> Notification
+
+    %% 스타일링 %%
+    classDef root fill:#EEE
+```
 
 ### Entity Relationship Diagram
 
