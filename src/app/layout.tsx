@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
+import { ChakraProvider } from '@chakra-ui/react';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -23,8 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+    <html lang='ko' suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <ChakraProvider>{children}</ChakraProvider>
+      </body>
     </html>
   );
 }
