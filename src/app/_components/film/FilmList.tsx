@@ -14,7 +14,7 @@ export default function FilmList({ search }: { search?: string }): React.ReactEl
   if (error) return <p>{error.message}</p>;
 
   return (
-    <SimpleGrid columns={[2, null, 3]} spacing={[2, null, 10]}>
+    <SimpleGrid columns={[2, null, 3]} gap={[2, null, 10]}>
       {loading && new Array(6).fill(0).map(() => <Skeleton key={uuidv4()} height='400px' />)}
       {!loading &&
         data &&

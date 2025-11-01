@@ -1,6 +1,15 @@
 'use client';
 
-import { Avatar, Button, Menu, MenuButton, MenuList, Stack } from '@chakra-ui/react';
+import {
+  Avatar,
+  Button,
+  Menu,
+  MenuContent,
+  MenuPositioner,
+  MenuTrigger,
+  Portal,
+  Stack,
+} from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import Notification from '../notification/Notification';
@@ -17,27 +26,35 @@ export default function UserMenu(): React.ReactElement {
   const isLoggedIn = useMemo(() => accessToken, [accessToken]);
 
   return isLoggedIn ? (
-    <Stack justify='flex-end' alignItems='center' direction='row' spacing={3}>
+    <Stack justify='flex-end' alignItems='center' direction='row' gap={3}>
       <ColorModeSwitcher />
 
       <Notification />
 
-      <Menu>
-        <MenuButton>
-          <Avatar size='sm' />
-        </MenuButton>
-        <MenuList>
-          <ProfileImageItem profileImage='/test' username='test' email='test@test' />
+      <Menu.Root>
+        <MenuTrigger asChild>
+          <Avatar.Root size='sm'>
+            <Avatar.Fallback name='profile image' />
+            <Avatar.Image src={''} mr={4} cursor='pointer' />
+          </Avatar.Root>
+        </MenuTrigger>
 
-          <LogoutItem />
-        </MenuList>
-      </Menu>
+        <Portal>
+          <MenuPositioner>
+            <MenuContent>
+              <ProfileImageItem profileImage='/test' username='test' email='test@test' />
+
+              <LogoutItem />
+            </MenuContent>
+          </MenuPositioner>
+        </Portal>
+      </Menu.Root>
     </Stack>
   ) : (
-    <Stack justify='flex-end' direction='row' spacing='6'>
+    <Stack justify='flex-end' direction='row' gap='6'>
       <ColorModeSwitcher />
 
-      <Button fontSize='sm' fontWeight='400' variant='link'>
+      <Button fontSize='sm' fontWeight='400'>
         로그인
       </Button>
 
@@ -45,7 +62,7 @@ export default function UserMenu(): React.ReactElement {
         display={{ base: 'none', md: 'inline-flex' }}
         fontSize='sm'
         fontWeight='600'
-        colorScheme='teal'
+        colorPalette='teal'
       >
         시작하기
       </Button>

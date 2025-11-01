@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Heading, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, Stack, Text } from '@chakra-ui/react';
+import { useColorModeValue } from '@/components/ui/color-mode';
 
 export default function SignUpFormLayout({
   children,
@@ -8,7 +9,7 @@ export default function SignUpFormLayout({
   children: React.ReactElement;
 }): React.ReactElement {
   return (
-    <Stack spacing={8} mx='auto' maxW='lg' py={12} px={6}>
+    <Stack gap={8} mx='auto' maxW='lg' py={12} px={6}>
       <Stack align='center'>
         <Heading fontSize='4xl'>계정 생성</Heading>
         <Text fontSize='lg' color='gray.600'>

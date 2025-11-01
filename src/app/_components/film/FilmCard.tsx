@@ -7,8 +7,8 @@ import {
   LinkOverlay,
   Stack,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
+import { useColorModeValue } from '@/components/ui/color-mode';
 
 interface FilmCardProps {
   film: {
@@ -38,15 +38,15 @@ export default function FilmCard({ film }: FilmCardProps): React.ReactElement {
               {film.title}
             </Heading>
           </LinkOverlay>
-          <Text fontSize='sm' color='grey.500' isTruncated>
+          <Text fontSize='sm' color='grey.500' truncate>
             {film.subtitle ? film.subtitle : <>&nbsp;</>}
           </Text>
         </Stack>
-        <Stack spacing={0} fontSize='sm' mt={2}>
-          <Text as='time' dateTime={film.releaseDate} isTruncated color='gray.500'>
+        <Stack gap={0} fontSize='sm' mt={2}>
+          <Text as='time' truncate color='gray.500'>
             {`${film.releaseDate} ${film.runningTime}분`}
           </Text>
-          <Text isTruncated>{film.director.name}</Text>
+          <Text truncate>{film.director.name}</Text>
         </Stack>
       </Box>
     </LinkBox>

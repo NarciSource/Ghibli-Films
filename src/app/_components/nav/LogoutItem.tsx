@@ -9,5 +9,9 @@ export default function LogoutItem(): React.ReactElement {
     }
   }
 
-  return <MenuItem onClick={onLogoutClick}>로그아웃</MenuItem>;
+  return (
+    <MenuItem value='' onClick={onLogoutClick}>
+      로그아웃
+    </MenuItem>
+  );
 }

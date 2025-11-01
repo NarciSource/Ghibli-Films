@@ -6,7 +6,7 @@ export default function NotificationItem({
   notification: { text: string; createdAt: string };
 }): React.ReactElement {
   return (
-    <MenuItem cursor='pointer'>
+    <MenuItem value='' cursor='pointer'>
       <Box position='relative' w='100%'>
         <Text>{notification.text}</Text>
         <Text fontSize='xs' color='gray.500'>

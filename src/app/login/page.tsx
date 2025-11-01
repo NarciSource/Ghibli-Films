@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
+import { useColorModeValue } from '@/components/ui/color-mode';
 import LoginForm from './_components/LoginForm';
 
 export default function Login(): React.ReactElement {

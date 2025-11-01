@@ -1,11 +1,12 @@
 import {
   Box,
-  CircularProgress,
   IconButton,
   Menu,
-  MenuButton,
-  MenuDivider,
-  MenuList,
+  MenuContent,
+  MenuPositioner,
+  MenuTrigger,
+  Portal,
+  ProgressCircle,
   Text,
 } from '@chakra-ui/react';
 import { FaBell } from 'react-icons/fa';
@@ -18,32 +19,44 @@ export default function Notification(): React.ReactElement {
   useRealtimeAlarm();
 
   return (
-    <Menu placement='bottom-end' closeOnSelect={false} isLazy>
-      <Box position='relative'>
-        <MenuButton
-          as={IconButton}
+    <Menu.Root>
+      <MenuTrigger asChild>
+        <IconButton
           size='md'
           fontSize='lg'
           variant='ghost'
           color='current'
-          icon={<FaBell />}
           aria-label='open notification popover'
-        />
-      </Box>
-      <MenuList maxH={350} maxW={400} overflowY='auto' w='100%'>
-        <Text px={4} py={2}>
-          알림 목록
-        </Text>
-        <MenuDivider />
+        >
+          <FaBell />
+        </IconButton>
+      </MenuTrigger>
 
-        {loading ? (
-          <CircularProgress isIndeterminate />
-        ) : (
-          <Text px={4} py={2}>
-            알림이 없습니다.
-          </Text>
-        )}
-      </MenuList>
-    </Menu>
+      <Portal>
+        <MenuPositioner>
+          <MenuContent maxH={350} maxW={400} overflowY='auto' w='100%'>
+            <Text px={4} py={2}>
+              알림 목록
+            </Text>
+            <Menu.Separator />
+
+            {loading ? (
+              <Box display='flex' justifyContent='center' py={4}>
+                <ProgressCircle.Root size='sm'>
+                  <ProgressCircle.Circle>
+                    <ProgressCircle.Track />
+                    <ProgressCircle.Range />
+                  </ProgressCircle.Circle>
+                </ProgressCircle.Root>
+              </Box>
+            ) : (
+              <Text px={4} py={2}>
+                알림이 없습니다.
+              </Text>
+            )}
+          </MenuContent>
+        </MenuPositioner>
+      </Portal>
+    </Menu.Root>
   );
 }

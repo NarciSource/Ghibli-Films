@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Box,
   Image,
@@ -14,7 +16,7 @@ import FilmCutModal from './FilmCutModal';
 export default function FilmCutList({ filmId }: { filmId: number }): React.ReactElement {
   const data: any = null;
   const loading = false;
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
   const [selectedCutId, setSelectedCutId] = useState<number>(0);
   const handleCutSelect = (cutId: number) => {
     onOpen();
@@ -27,7 +29,7 @@ export default function FilmCutList({ filmId }: { filmId: number }): React.React
     </Box>
   ) : (
     <>
-      <SimpleGrid my={4} columns={[1, 2, null, 3]} spacing={[2, null, 8]}>
+      <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
         {data?.cuts.map((cut: any) => (
           <LazyLoad once key={cut.id} height='200px'>
             <LinkBox as='article'>
@@ -40,8 +42,7 @@ export default function FilmCutList({ filmId }: { filmId: number }): React.React
           </LazyLoad>
         ))}
       </SimpleGrid>
-
-      {isOpen && <FilmCutModal open={isOpen} onClose={onClose} cutId={selectedCutId} />}
+      {open && <FilmCutModal open={open} onClose={onClose} cutId={selectedCutId} />}
     </>
   );
 }

@@ -32,9 +32,9 @@ export default function FilmDetail({ film }: FilmDetailProps): React.ReactElemen
       >
         <Flex mt={2}>
           {film?.genre.split(',').map((genre) => (
-            <Tag key={genre} mr={2} size='sm'>
-              {genre}
-            </Tag>
+            <Tag.Root key={genre} mr={2} size='sm'>
+              <Tag.Label>{genre}</Tag.Label>
+            </Tag.Root>
           ))}
         </Flex>
         <Heading mb={4}>

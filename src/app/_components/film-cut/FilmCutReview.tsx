@@ -1,5 +1,6 @@
-import { Avatar, Box, Divider, Flex, HStack, IconButton, Text, Tooltip } from '@chakra-ui/react';
+import { Avatar, Box, Flex, HStack, IconButton, Separator, Text } from '@chakra-ui/react';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { Tooltip } from '@/components/ui/tooltip';
 
 type FilmCutReviewProps = {
   user: { username: string };
@@ -18,36 +19,33 @@ export default function FilmCutReview({
     <Box borderWidth='thin' borderRadius='lg' shadow='sm' p={2} minH={150}>
       <Flex p={2} justifyContent='space-between'>
         <HStack>
-          <Avatar size='sm' />
-          <Text>{author}</Text>
+          <Avatar.Root size='sm'>
+            <Avatar.Fallback name={author} />
+            <Avatar.Image src={''} mr={4} cursor='pointer' />
+          </Avatar.Root>
         </HStack>
 
         {isMine && (
-          <HStack spacing={0}>
-            <Tooltip hasArrow label='감상 수정'>
-              <IconButton
-                aria-label='edit-review'
-                variant='ghost'
-                size='sm'
-                icon={<MdEdit />}
-                onClick={onEditClick}
-              />
+          <HStack gap={0}>
+            <Tooltip showArrow content='감상 수정'>
+              <IconButton aria-label='edit-review' variant='ghost' size='sm' onClick={onEditClick}>
+                <MdEdit />
+              </IconButton>
             </Tooltip>
-            <Tooltip hasArrow label='감상 삭제'>
+            <Tooltip showArrow content='감상 삭제'>
               <IconButton
                 aria-label='delete-review'
                 variant='ghost'
                 size='sm'
-                icon={<MdDelete />}
                 onClick={onDeleteClick}
-              />
+              >
+                <MdDelete />
+              </IconButton>
             </Tooltip>
           </HStack>
         )}
       </Flex>
-
-      <Divider />
-
+      <Separator />
       <Box mt={2} p={2}>
         <Text>{contents}</Text>
       </Box>

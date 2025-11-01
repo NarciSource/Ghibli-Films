@@ -9,12 +9,12 @@ import {
   Image,
   SimpleGrid,
   Text,
-  useColorModeValue,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { FaHeart } from 'react-icons/fa';
+import { useColorModeValue } from '@/components/ui/color-mode';
+import { toaster } from '@/components/ui/toaster';
 import FilmCutReview from './FilmCutReview';
 import FilmCutReviewDeleteAlert from './FilmCutReviewDeleteAlert';
 import FilmCutReviewRegisterModal from './FilmCutReviewRegisterModal';
@@ -34,9 +34,8 @@ export default function FilmCutDetail({
   votesCount = 0,
   reviews,
 }: FilmCutDetailProps): React.ReactElement {
-  const toast = useToast();
   const reviewRegisterDialog = useDisclosure();
-  const deleteAlert = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
   const votedButtonColor = useColorModeValue('gray.500', 'gray.400');
 
   const voteLoading = false;
@@ -52,8 +51,8 @@ export default function FilmCutDetail({
   const showVoteResult = () => {
     if (isLoggedIn) {
     } else {
-      toast({
-        status: 'warning',
+      toaster.create({
+        type: 'warning',
         description: '좋아요 표시는 로그인 후 가능합니다.',
       });
     }
@@ -68,17 +67,17 @@ export default function FilmCutDetail({
       <Box py={4}>
         <Flex justify='space-between' alignItems='center'>
           <Heading size='sm'>{cutId}번째 사진</Heading>
-          <HStack spacing={1} alignItems='center'>
+          <HStack gap={1} alignItems='center'>
             <Button
               color={isVoted ? 'pink.400' : votedButtonColor}
               aria-label='like-this-cut-button'
-              leftIcon={<FaHeart />}
-              isLoading={voteLoading}
+              loading={voteLoading}
               onClick={showVoteResult}
             >
+              <FaHeart />
               <Text>{votesCount}</Text>
             </Button>
-            <Button colorScheme='teal' onClick={reviewRegisterDialog.onOpen}>
+            <Button colorPalette='teal' onClick={reviewRegisterDialog.onOpen}>
               감상 남기기
             </Button>
           </HStack>
@@ -90,7 +89,7 @@ export default function FilmCutDetail({
               <Text>제일 먼저 감상을 남겨보세요!</Text>
             </Center>
           ) : (
-            <SimpleGrid mt={3} spacing={4} columns={{ base: 1, sm: 2 }}>
+            <SimpleGrid mt={3} gap={4} columns={{ base: 1, sm: 2 }}>
               {reviews.map((review: { id: number }) => (
                 <FilmCutReview
                   user={{ username: '' }}
@@ -99,7 +98,7 @@ export default function FilmCutDetail({
                   key={review.id}
                   {...review}
                   onEditClick={reviewRegisterDialog.onOpen}
-                  onDeleteClick={deleteAlert.onOpen}
+                  onDeleteClick={onOpen}
                 />
               ))}
             </SimpleGrid>
@@ -109,14 +108,14 @@ export default function FilmCutDetail({
 
       <FilmCutReviewRegisterModal
         cutId={cutId}
-        isOpen={reviewRegisterDialog.isOpen}
+        isOpen={reviewRegisterDialog.open}
         onClose={reviewRegisterDialog.onClose}
       />
 
       <FilmCutReviewDeleteAlert
-        target={reviews.find((review: { isMine: any }) => review.isMine)}
-        isOpen={deleteAlert.isOpen}
-        onClose={deleteAlert.onClose}
+        target={reviews.find((review: { isMine: boolean }) => review.isMine)}
+        isOpen={open}
+        onClose={onClose}
       />
     </Box>
   );

@@ -28,7 +28,10 @@ export default function ProfileImageItem({
           hidden
           onChange={handleImageUpload}
         />
-        <Avatar size='md' src={profileImageSrc} mr={4} cursor='pointer' />
+        <Avatar.Root size='md'>
+          <Avatar.Fallback name='profile image' />
+          <Avatar.Image src={profileImageSrc} mr={4} cursor='pointer' />
+        </Avatar.Root>
       </label>
 
       <Box>

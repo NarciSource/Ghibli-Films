@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Flex, Link, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Link } from '@chakra-ui/react';
+import { useColorModeValue } from '@/components/ui/color-mode';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 
