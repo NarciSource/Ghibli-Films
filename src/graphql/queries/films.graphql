@@ -1,0 +1,16 @@
+query Films($limit: Int, $cursor: Int, $search: String) {
+  films(limit: $limit, cursor: $cursor, search: $search) {
+    cursor
+    films {
+      id
+      title
+      subtitle
+      runningTime
+      director {
+        name
+      }
+      releaseDate
+      posterImg
+    }
+  }
+}

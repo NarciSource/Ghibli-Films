@@ -1,0 +1,23 @@
+overwrite: true
+schema: "http://localhost:4000/graphql"
+documents: "src/**/*.graphql"
+generates:
+  src/graphql/api/type.ts:
+    plugins:
+      - typescript
+
+  src/graphql/api/operations.ts:
+    plugins:
+      - typescript-operations
+    preset: import-types
+    presetConfig:
+      typesPath: ./type
+      importTypesNamespace: Types
+
+  src/graphql/api/hooks.ts:
+    plugins:
+      - typescript-react-apollo
+    preset: import-types
+    presetConfig:
+      typesPath: ./operations
+      importTypesNamespace: Ops
