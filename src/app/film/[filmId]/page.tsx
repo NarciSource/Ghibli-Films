@@ -1,12 +1,13 @@
 import { Box, Spinner, Text } from '@chakra-ui/react';
+import { useParams } from 'next/navigation';
 import FilmDetail from '@/app/_components/film/FilmDetail';
 import FilmCutList from '@/app/_components/film-cut/FilmCutList';
 
 export default function Film(): React.ReactElement {
-  const filmId = null;
   const loading = false;
   const error = null;
   const data: any = null;
+  const { filmId } = useParams();
 
   return (
     <>

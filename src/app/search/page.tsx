@@ -1,13 +1,17 @@
 'use client';
 
 import { Heading } from '@chakra-ui/react';
+import { useSearchParams } from 'next/navigation';
 import FilmList from '@/app/_components/film/FilmList';
 
 export default function Search(): React.ReactElement {
+  const searchParams = useSearchParams();
+  const q = searchParams.get('q') ?? undefined;
+
   return (
     <>
       <Heading size='lg'>검색결과</Heading>
-      <FilmList />
+      <FilmList search={q} />
     </>
   );
 }

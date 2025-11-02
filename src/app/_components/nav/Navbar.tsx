@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Flex, Link } from '@chakra-ui/react';
+import { Box, Link as ChakraLink, Flex } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
@@ -26,13 +27,14 @@ export default function Navbar() {
         m='auto'
       >
         <Flex flex={{ base: 1, md: 'auto' }}>
-          <Link
+          <ChakraLink
             fontFamily='heading'
             fontWeight='bold'
             color={useColorModeValue('gray.800', 'white')}
+            asChild
           >
-            Ghibli Best Cuts
-          </Link>
+            <NextLink href='/'>Ghibli Best Cuts</NextLink>
+          </ChakraLink>
         </Flex>
 
         <SearchBar />

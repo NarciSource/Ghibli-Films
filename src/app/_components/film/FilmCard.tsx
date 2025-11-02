@@ -9,9 +9,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useColorModeValue } from '@/components/ui/color-mode';
+import NextLink from 'next/link';
 
 interface FilmCardProps {
   film: {
+    id: string;
     posterImg: string;
     title: string;
     subtitle?: string;
@@ -33,10 +35,16 @@ export default function FilmCard({ film }: FilmCardProps): React.ReactElement {
           </AspectRatio>
         </Box>
         <Stack>
-          <LinkOverlay>
-            <Heading color={useColorModeValue('gray.700', 'white')} fontSize='xl' fontFamily='body'>
-              {film.title}
-            </Heading>
+          <LinkOverlay asChild>
+            <NextLink href={`/film/${film.id}`}>
+              <Heading
+                color={useColorModeValue('gray.700', 'white')}
+                fontSize='xl'
+                fontFamily='body'
+              >
+                {film.title}
+              </Heading>
+            </NextLink>
           </LinkOverlay>
           <Text fontSize='sm' color='grey.500' truncate>
             {film.subtitle ? film.subtitle : <>&nbsp;</>}

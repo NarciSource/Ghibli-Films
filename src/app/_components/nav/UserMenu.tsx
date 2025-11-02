@@ -11,6 +11,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
+import NextLink from 'next/link';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import Notification from '../notification/Notification';
 import LogoutItem from './LogoutItem';
@@ -54,8 +55,8 @@ export default function UserMenu(): React.ReactElement {
     <Stack justify='flex-end' direction='row' gap='6'>
       <ColorModeSwitcher />
 
-      <Button fontSize='sm' fontWeight='400'>
-        로그인
+      <Button fontSize='sm' fontWeight='400' variant='ghost' asChild>
+        <NextLink href='/login'>로그인</NextLink>
       </Button>
 
       <Button
@@ -63,8 +64,9 @@ export default function UserMenu(): React.ReactElement {
         fontSize='sm'
         fontWeight='600'
         colorPalette='teal'
+        asChild
       >
-        시작하기
+        <NextLink href='/signup'>시작하기</NextLink>
       </Button>
     </Stack>
   );
