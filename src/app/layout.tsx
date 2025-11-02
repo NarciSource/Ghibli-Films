@@ -2,10 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
-import { Box, Flex } from '@chakra-ui/react';
-import { Provider as ChakraProvider } from '@/components/ui/provider';
-import { Toaster } from '@/components/ui/toaster';
-import Navbar from './_components/nav/Navbar';
+import { ChakraProviders } from './_components/ChakraProvider';
+import CommonLayout from './_components/CommonLayout';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -30,15 +28,9 @@ export default function RootLayout({
   return (
     <html lang='ko' suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ChakraProvider>
-          <Flex justify='center'>
-            <Navbar />
-          </Flex>
-          <Box px={{ base: 4 }} pt='24' mx='auto' maxW='960px' minH='100vh' w='100%'>
-            {children}
-          </Box>
-          <Toaster />
-        </ChakraProvider>
+        <ChakraProviders>
+          <CommonLayout>{children}</CommonLayout>
+        </ChakraProviders>
       </body>
     </html>
   );
