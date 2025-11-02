@@ -1,20 +1,24 @@
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
 import type { ChangeEvent } from 'react';
+import { useUploadProfileImageMutation } from '@/graphql/api/hooks';
+import type { MeQuery } from '@/graphql/api/operations';
 
 export default function ProfileImageItem({
   profileImage,
   username,
   email,
-}: {
-  profileImage: string;
-  username: string;
-  email: string;
-}): React.ReactElement {
-  const profileImageSrc = `${process.env.REACT_APP_API_HOST}/${profileImage}`;
+}: NonNullable<MeQuery['me']>): React.ReactElement {
+  const [upload] = useUploadProfileImageMutation();
+  const profileImageSrc = `${process.env.NEXT_PUBLIC_APP_API_HOST}/${profileImage}`;
 
   async function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       const file = e.target.files[0];
+
+      await upload({
+        variables: { file },
+        update: (cache) => cache.evict({ fieldName: 'me' }),
+      });
     }
   }
 
@@ -30,7 +34,7 @@ export default function ProfileImageItem({
         />
         <Avatar.Root size='md'>
           <Avatar.Fallback name='profile image' />
-          <Avatar.Image src={profileImageSrc} mr={4} cursor='pointer' />
+          <Avatar.Image src={profileImageSrc} mr={4} />
         </Avatar.Root>
       </label>
 

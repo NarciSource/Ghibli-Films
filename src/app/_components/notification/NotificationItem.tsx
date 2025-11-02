@@ -1,9 +1,10 @@
 import { Box, MenuItem, Text } from '@chakra-ui/react';
+import type { Notification as INotification } from '@/graphql/api/type';
 
 export default function NotificationItem({
   notification,
 }: {
-  notification: { text: string; createdAt: string };
+  notification: INotification;
 }): React.ReactElement {
   return (
     <MenuItem value='' cursor='pointer'>

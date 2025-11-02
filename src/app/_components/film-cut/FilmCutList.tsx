@@ -11,11 +11,11 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import LazyLoad from 'react-lazyload';
+import { useCutsQuery } from '@/graphql/api/hooks';
 import FilmCutModal from './FilmCutModal';
 
 export default function FilmCutList({ filmId }: { filmId: number }): React.ReactElement {
-  const data: any = null;
-  const loading = false;
+  const { data, loading } = useCutsQuery({ variables: { filmId } });
   const { open, onOpen, onClose } = useDisclosure();
   const [selectedCutId, setSelectedCutId] = useState<number>(0);
   const handleCutSelect = (cutId: number) => {
@@ -30,7 +30,7 @@ export default function FilmCutList({ filmId }: { filmId: number }): React.React
   ) : (
     <>
       <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
-        {data?.cuts.map((cut: any) => (
+        {data?.cuts.map((cut) => (
           <LazyLoad once key={cut.id} height='200px'>
             <LinkBox as='article'>
               <Box>

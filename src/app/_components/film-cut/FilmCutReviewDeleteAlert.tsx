@@ -1,7 +1,9 @@
 import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react';
 import type React from 'react';
+import { useDeleteReviewMutation } from '@/graphql/api/hooks';
 
 export default function FilmCutReviewDeleteAlert({
+  target,
   isOpen,
   onClose,
 }: {
@@ -9,6 +11,20 @@ export default function FilmCutReviewDeleteAlert({
   isOpen: boolean;
   onClose: () => void;
 }): React.ReactElement {
+  const [deleteReview] = useDeleteReviewMutation();
+
+  async function handleDelete() {
+    if (target) {
+      await deleteReview({
+        variables: { deleteReviewId: target.id },
+        update: (cache) => {
+          cache.evict({ id: `CutReview:${target.id}` });
+        },
+      });
+      onClose();
+    }
+  }
+
   return (
     <Dialog.Root lazyMount open={isOpen}>
       <Portal>
@@ -25,7 +41,7 @@ export default function FilmCutReviewDeleteAlert({
                   취소
                 </Button>
               </Dialog.ActionTrigger>
-              <Button>삭제</Button>
+              <Button onClick={handleDelete}>삭제</Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
               <CloseButton size='sm' />

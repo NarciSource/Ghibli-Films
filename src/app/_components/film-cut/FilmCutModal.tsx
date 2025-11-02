@@ -1,4 +1,5 @@
 import { Center, CloseButton, Dialog, Portal, Spinner, useBreakpointValue } from '@chakra-ui/react';
+import { useCutQuery } from '@/graphql/api/hooks';
 import FilmCutDetail from './FilmCutDetail';
 
 interface FilmCutModalProps {
@@ -12,17 +13,16 @@ export default function FilmCutModal({
   onClose,
   cutId,
 }: FilmCutModalProps): React.ReactElement {
-  const data: any = null;
-  const loading = false;
+  const { loading, data } = useCutQuery({ variables: { cutId } });
   // 화면 가로 크기에 따라 다른 변수를 할당
   const modalSize = useBreakpointValue({ base: 'full', md: 'xl' });
 
   return (
-    <Dialog.Root lazyMount open={open}>
+    <Dialog.Root lazyMount open={open} onOpenChange={onClose}>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content>
+          <Dialog.Content maxW={modalSize}>
             <Dialog.Header>
               <Dialog.Title>{data?.cut?.film?.title}</Dialog.Title>
             </Dialog.Header>

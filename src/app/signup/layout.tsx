@@ -6,7 +6,7 @@ import { useColorModeValue } from '@/components/ui/color-mode';
 export default function SignUpFormLayout({
   children,
 }: {
-  children: React.ReactElement;
+  children: React.ReactNode;
 }): React.ReactElement {
   return (
     <Stack gap={8} mx='auto' maxW='lg' py={12} px={6}>

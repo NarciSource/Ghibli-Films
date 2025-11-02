@@ -1,13 +1,16 @@
+'use client';
+
 import { Box, Spinner, Text } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import FilmDetail from '@/app/_components/film/FilmDetail';
 import FilmCutList from '@/app/_components/film-cut/FilmCutList';
+import { useFilmQuery } from '@/graphql/api/hooks';
 
 export default function Film(): React.ReactElement {
-  const loading = false;
-  const error = null;
-  const data: any = null;
   const { filmId } = useParams();
+  const { data, loading, error } = useFilmQuery({
+    variables: { filmId: Number(filmId) },
+  });
 
   return (
     <>

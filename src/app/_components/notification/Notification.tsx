@@ -10,16 +10,18 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { FaBell } from 'react-icons/fa';
+import { useNotificationsQuery } from '@/graphql/api/hooks';
+import NotificationItem from './NotificationItem';
 import useRealtimeAlarm from './useRealtimeAlarm';
 
 export default function Notification(): React.ReactElement {
-  const loading = false; // 알림 로딩 상태
+  const { data, loading } = useNotificationsQuery();
 
   // 실시간 알림 구독 훅
   useRealtimeAlarm();
 
   return (
-    <Menu.Root>
+    <Menu.Root closeOnSelect={false}>
       <MenuTrigger asChild>
         <IconButton
           size='md'
@@ -40,7 +42,7 @@ export default function Notification(): React.ReactElement {
             </Text>
             <Menu.Separator />
 
-            {loading ? (
+            {loading && (
               <Box display='flex' justifyContent='center' py={4}>
                 <ProgressCircle.Root size='sm'>
                   <ProgressCircle.Circle>
@@ -49,11 +51,16 @@ export default function Notification(): React.ReactElement {
                   </ProgressCircle.Circle>
                 </ProgressCircle.Root>
               </Box>
-            ) : (
+            )}
+
+            {!loading && (!data || data.notifications.length === 0) && (
               <Text px={4} py={2}>
                 알림이 없습니다.
               </Text>
             )}
+
+            {!loading &&
+              data?.notifications.map((n) => <NotificationItem key={n.id} notification={n} />)}
           </MenuContent>
         </MenuPositioner>
       </Portal>

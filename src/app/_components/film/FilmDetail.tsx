@@ -1,18 +1,8 @@
 import { Box, Flex, Heading, Image, Tag, Text } from '@chakra-ui/react';
+import type { FilmQuery } from '@/graphql/api/operations';
 
 interface FilmDetailProps {
-  film?: {
-    posterImg: string;
-    title: string;
-    subtitle?: string;
-    releaseDate: string;
-    runningTime: number;
-    genre: string;
-    director: {
-      name: string;
-    };
-    description: string;
-  };
+  film?: FilmQuery['film'];
 }
 
 export default function FilmDetail({ film }: FilmDetailProps): React.ReactElement {

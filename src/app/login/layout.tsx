@@ -3,7 +3,7 @@ import { Heading, Stack, Text } from '@chakra-ui/react';
 export default function LoginFormLayout({
   children,
 }: {
-  children: React.ReactElement;
+  children: React.ReactNode;
 }): React.ReactElement {
   return (
     <Stack gap={8} mx='auto' maxW='lg' py={12} px={6}>

@@ -15,16 +15,14 @@ import { useMemo } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { toaster } from '@/components/ui/toaster';
+import { CutDocument, useMeQuery, useVoteMutation } from '@/graphql/api/hooks';
+import type { CutQuery, CutQueryVariables } from '@/graphql/api/operations';
 import FilmCutReview from './FilmCutReview';
 import FilmCutReviewDeleteAlert from './FilmCutReviewDeleteAlert';
 import FilmCutReviewRegisterModal from './FilmCutReviewRegisterModal';
 
-type FilmCutDetailProps = {
-  id: number;
-  src: string;
-  isVoted?: boolean;
-  votesCount?: number;
-  reviews: any;
+type FilmCutDetailProps = Exclude<CutQuery['cut'], null | undefined> & {
+  reviews: CutQuery['cutReviews'];
 };
 
 export default function FilmCutDetail({
@@ -35,21 +33,52 @@ export default function FilmCutDetail({
   reviews,
 }: FilmCutDetailProps): React.ReactElement {
   const reviewRegisterDialog = useDisclosure();
-  const { open, onOpen, onClose } = useDisclosure();
+  const deleteAlert = useDisclosure();
   const votedButtonColor = useColorModeValue('gray.500', 'gray.400');
 
-  const voteLoading = false;
+  const [vote, { loading: voteLoading }] = useVoteMutation({
+    variables: { cutId },
+    // 캐시 조절
+    update: (cache, fetchResult) => {
+      // 쿼리 캐시 데이터 조회
+      const currentCut = cache.readQuery<CutQuery, CutQueryVariables>({
+        query: CutDocument,
+        variables: { cutId },
+      });
+
+      if (currentCut?.cut) {
+        if (fetchResult.data?.vote) {
+          // 쿼리 캐시 데이터 덮어쓰기
+          cache.writeQuery<CutQuery, CutQueryVariables>({
+            query: CutDocument,
+            variables: { cutId: currentCut.cut.id },
+            data: {
+              __typename: 'Query',
+              ...currentCut,
+              cut: {
+                ...currentCut.cut,
+                votesCount: isVoted ? currentCut.cut.votesCount - 1 : currentCut.cut.votesCount + 1,
+                isVoted: !isVoted,
+              },
+            },
+          });
+        }
+      }
+    },
+  });
+
   const accessToken = localStorage.getItem('access_token');
-  const userData: any = null;
+  const { data: userData } = useMeQuery({ skip: !accessToken }); // 조건부 쿼리 실행
   const isLoggedIn = useMemo(() => {
     if (accessToken) {
       return userData?.me?.id;
     }
     return false;
-  }, [accessToken]);
+  }, [accessToken, userData?.me?.id]);
 
   const showVoteResult = () => {
     if (isLoggedIn) {
+      vote();
     } else {
       toaster.create({
         type: 'warning',
@@ -90,15 +119,12 @@ export default function FilmCutDetail({
             </Center>
           ) : (
             <SimpleGrid mt={3} gap={4} columns={{ base: 1, sm: 2 }}>
-              {reviews.map((review: { id: number }) => (
+              {reviews.map((review) => (
                 <FilmCutReview
-                  user={{ username: '' }}
-                  contents={''}
-                  isMine={false}
                   key={review.id}
                   {...review}
                   onEditClick={reviewRegisterDialog.onOpen}
-                  onDeleteClick={onOpen}
+                  onDeleteClick={deleteAlert.onOpen}
                 />
               ))}
             </SimpleGrid>
@@ -113,9 +139,9 @@ export default function FilmCutDetail({
       />
 
       <FilmCutReviewDeleteAlert
-        target={reviews.find((review: { isMine: boolean }) => review.isMine)}
-        isOpen={open}
-        onClose={onClose}
+        target={reviews.find((review) => review.isMine)}
+        isOpen={deleteAlert.open}
+        onClose={deleteAlert.onClose}
       />
     </Box>
   );

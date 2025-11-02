@@ -10,8 +10,10 @@ import {
   Portal,
   Stack,
 } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
 import NextLink from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
+import { useMeQuery } from '@/graphql/api/hooks';
+import type { MeQuery } from '@/graphql/api/operations';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import Notification from '../notification/Notification';
 import LogoutItem from './LogoutItem';
@@ -26,6 +28,14 @@ export default function UserMenu(): React.ReactElement {
 
   const isLoggedIn = useMemo(() => accessToken, [accessToken]);
 
+  const { data } = useMeQuery({ skip: !accessToken });
+
+  const profileImageSrc = useMemo(
+    () =>
+      data?.me ? `${process.env.NEXT_PUBLIC_APP_API_HOST}/${data?.me?.profileImage}` : undefined,
+    [data?.me],
+  );
+
   return isLoggedIn ? (
     <Stack justify='flex-end' alignItems='center' direction='row' gap={3}>
       <ColorModeSwitcher />
@@ -34,16 +44,18 @@ export default function UserMenu(): React.ReactElement {
 
       <Menu.Root>
         <MenuTrigger asChild>
-          <Avatar.Root size='sm'>
-            <Avatar.Fallback name='profile image' />
-            <Avatar.Image src={''} mr={4} cursor='pointer' />
-          </Avatar.Root>
+          <Button variant='plain'>
+            <Avatar.Root size='sm'>
+              <Avatar.Fallback name='profile image' />
+              <Avatar.Image src={profileImageSrc} mr={4} />
+            </Avatar.Root>
+          </Button>
         </MenuTrigger>
 
         <Portal>
           <MenuPositioner>
             <MenuContent>
-              <ProfileImageItem profileImage='/test' username='test' email='test@test' />
+              <ProfileImageItem {...(data?.me as NonNullable<MeQuery['me']>)} />
 
               <LogoutItem />
             </MenuContent>

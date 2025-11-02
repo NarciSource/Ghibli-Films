@@ -8,21 +8,12 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useColorModeValue } from '@/components/ui/color-mode';
 import NextLink from 'next/link';
+import { useColorModeValue } from '@/components/ui/color-mode';
+import type { FilmsQuery } from '@/graphql/api/operations';
 
 interface FilmCardProps {
-  film: {
-    id: string;
-    posterImg: string;
-    title: string;
-    subtitle?: string;
-    releaseDate: string;
-    runningTime: number;
-    director: {
-      name: string;
-    };
-  };
+  film: FilmsQuery['films']['films'][0];
 }
 
 export default function FilmCard({ film }: FilmCardProps): React.ReactElement {
