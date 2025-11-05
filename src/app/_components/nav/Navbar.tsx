@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Link as ChakraLink, Flex } from '@chakra-ui/react';
+import Image from 'next/image';
 import NextLink from 'next/link';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import SearchBar from './SearchBar';
@@ -33,7 +34,10 @@ export default function Navbar() {
             color={useColorModeValue('gray.800', 'white')}
             asChild
           >
-            <NextLink href='/'>Ghibli Best Cuts</NextLink>
+            <NextLink href='/'>
+              <Image src='/logo.svg' alt='logo' width={50} height={50} />
+              Ghibli Best Cuts
+            </NextLink>
           </ChakraLink>
         </Flex>
 
