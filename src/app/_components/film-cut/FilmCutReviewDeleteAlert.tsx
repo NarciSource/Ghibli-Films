@@ -41,7 +41,9 @@ export default function FilmCutReviewDeleteAlert({
                   취소
                 </Button>
               </Dialog.ActionTrigger>
-              <Button onClick={handleDelete}>삭제</Button>
+              <Button colorPalette='red' ml={3} onClick={handleDelete}>
+                삭제
+              </Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
               <CloseButton size='sm' />

@@ -98,6 +98,8 @@ export default function FilmCutDetail({
           <Heading size='sm'>{cutId}번째 사진</Heading>
           <HStack gap={1} alignItems='center'>
             <Button
+              colorPalette='gray'
+              variant='subtle'
               color={isVoted ? 'pink.400' : votedButtonColor}
               aria-label='like-this-cut-button'
               loading={voteLoading}

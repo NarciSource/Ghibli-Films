@@ -47,7 +47,7 @@ export default function UserMenu(): React.ReactElement {
           <Button variant='plain'>
             <Avatar.Root size='sm'>
               <Avatar.Fallback name='profile image' />
-              <Avatar.Image src={profileImageSrc} mr={4} />
+              <Avatar.Image src={profileImageSrc} />
             </Avatar.Root>
           </Button>
         </MenuTrigger>

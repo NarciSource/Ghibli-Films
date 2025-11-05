@@ -19,7 +19,7 @@ export default function LogoutItem(): React.ReactElement {
   }
 
   return (
-    <MenuItem value='' onClick={onLogoutClick} disabled={logoutLoading}>
+    <MenuItem value='' cursor='pointer' onClick={onLogoutClick} disabled={logoutLoading}>
       로그아웃
     </MenuItem>
   );

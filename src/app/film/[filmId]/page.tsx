@@ -13,7 +13,7 @@ export default function Film(): React.ReactElement {
   });
 
   return (
-    <>
+    <Box px={{ base: 4 }}>
       {loading && <Spinner />}
       {error && <Text>페이지를 표시할 수 없습니다.</Text>}
       {filmId && data?.film ? (
@@ -26,6 +26,6 @@ export default function Film(): React.ReactElement {
       ) : (
         <Text>페이지를 표시할 수 없습니다.</Text>
       )}
-    </>
+    </Box>
   );
 }

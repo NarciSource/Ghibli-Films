@@ -23,8 +23,8 @@ export default function ProfileImageItem({
   }
 
   return (
-    <Flex px={4} pt={2} pb={4}>
-      <label htmlFor='upload-profile-image'>
+    <Flex px={2} pt={2} pb={4}>
+      <label htmlFor='upload-profile-image' title='프로필 이미지 수정'>
         <input
           id='upload-profile-image'
           type='file'
@@ -32,9 +32,9 @@ export default function ProfileImageItem({
           hidden
           onChange={handleImageUpload}
         />
-        <Avatar.Root size='md'>
+        <Avatar.Root size='md' mr={4} cursor='pointer'>
           <Avatar.Fallback name='profile image' />
-          <Avatar.Image src={profileImageSrc} mr={4} />
+          <Avatar.Image src={profileImageSrc} />
         </Avatar.Root>
       </label>
 

@@ -91,11 +91,11 @@ export default function FilmCutReviewRegisterModal({
 
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button variant='outline'>
+                <Button variant='subtle' colorPalette='gray'>
                   취소
                 </Button>
               </Dialog.ActionTrigger>
-              <Button type='submit' disabled={loading}>
+              <Button colorPalette='teal' type='submit' disabled={loading}>
                 등록
               </Button>
             </Dialog.Footer>
