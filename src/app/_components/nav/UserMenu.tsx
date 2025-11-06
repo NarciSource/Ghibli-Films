@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Avatar,
   Button,
   Menu,
   MenuContent,
@@ -14,6 +13,7 @@ import NextLink from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useMeQuery } from '@/graphql/api/hooks';
 import type { MeQuery } from '@/graphql/api/operations';
+import Avatar from '../auth/Avatar';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import Notification from '../notification/Notification';
 import LogoutItem from './LogoutItem';
@@ -30,12 +30,6 @@ export default function UserMenu(): React.ReactElement {
 
   const { data } = useMeQuery({ skip: !accessToken });
 
-  const profileImageSrc = useMemo(
-    () =>
-      data?.me ? `${process.env.NEXT_PUBLIC_APP_API_HOST}/${data?.me?.profileImage}` : undefined,
-    [data?.me],
-  );
-
   return isLoggedIn ? (
     <Stack justify='flex-end' alignItems='center' direction='row' gap={3}>
       <ColorModeSwitcher />
@@ -45,10 +39,7 @@ export default function UserMenu(): React.ReactElement {
       <Menu.Root>
         <MenuTrigger asChild>
           <Button variant='plain'>
-            <Avatar.Root size='sm'>
-              <Avatar.Fallback name='profile image' />
-              <Avatar.Image src={profileImageSrc} />
-            </Avatar.Root>
+            <Avatar {...data?.me} />
           </Button>
         </MenuTrigger>
 
