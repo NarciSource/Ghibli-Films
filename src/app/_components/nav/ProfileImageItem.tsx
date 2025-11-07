@@ -1,5 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import type { ChangeEvent } from 'react';
+import { Box, FileUpload, Flex, Text } from '@chakra-ui/react';
 import { useUploadProfileImageMutation } from '@/graphql/api/hooks';
 import type { MeQuery } from '@/graphql/api/operations';
 import Avatar from '../auth/Avatar';
@@ -11,9 +10,9 @@ export default function ProfileImageItem({
 }: NonNullable<MeQuery['me']>): React.ReactElement {
   const [upload] = useUploadProfileImageMutation();
 
-  async function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.files) {
-      const file = e.target.files[0];
+  async function handleImageUpload({ acceptedFiles }: { acceptedFiles: File[] }) {
+    if (acceptedFiles) {
+      const file = acceptedFiles[0];
 
       await upload({
         variables: { file },
@@ -23,17 +22,17 @@ export default function ProfileImageItem({
   }
 
   return (
-    <Flex px={2} pt={2} pb={4}>
-      <label htmlFor='upload-profile-image' title='프로필 이미지 수정'>
-        <input
-          id='upload-profile-image'
-          type='file'
-          accept='image/*'
-          hidden
-          onChange={handleImageUpload}
-        />
-        <Avatar username={username} profileImage={profileImage} mr={4} cursor='pointer' />
-      </label>
+    <Flex px={2} pb={4}>
+      <FileUpload.Root
+        accept={['image/*']}
+        title='프로필 이미지 수정'
+        onFileChange={handleImageUpload}
+      >
+        <FileUpload.HiddenInput />
+        <FileUpload.Trigger asChild>
+          <Avatar {...{ profileImage, username }} my={2} mr={4} cursor='pointer' />
+        </FileUpload.Trigger>
+      </FileUpload.Root>
 
       <Box>
         <Text fontWeight='bold'>{username}</Text>
