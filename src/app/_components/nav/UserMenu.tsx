@@ -10,9 +10,9 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
 import { useMeQuery } from '@/graphql/api/hooks';
 import type { MeQuery } from '@/graphql/api/operations';
+import { useIsLoggedIn } from '@/store/useAuthStore';
 import Avatar from '../auth/Avatar';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import Notification from '../notification/Notification';
@@ -20,15 +20,8 @@ import LogoutItem from './LogoutItem';
 import ProfileImageItem from './ProfileImageItem';
 
 export default function UserMenu(): React.ReactElement {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('access_token'));
-  }, []);
-
-  const isLoggedIn = useMemo(() => accessToken, [accessToken]);
-
-  const { data } = useMeQuery({ skip: !accessToken });
+  const isLoggedIn = useIsLoggedIn();
+  const { data } = useMeQuery({ skip: !isLoggedIn });
 
   return isLoggedIn ? (
     <Stack justify='flex-end' alignItems='center' direction='row' gap={3}>

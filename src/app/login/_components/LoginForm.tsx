@@ -7,6 +7,7 @@ import { toaster } from '@/components/ui/toaster';
 import { useLoginMutation } from '@/graphql/api/hooks';
 import type { LoginMutationVariables } from '@/graphql/api/operations';
 import type { FieldError, UserWithToken } from '@/graphql/api/type';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function LoginForm(): React.ReactElement {
   const [login, { loading }] = useLoginMutation();
@@ -16,8 +17,8 @@ export default function LoginForm(): React.ReactElement {
     formState: { errors },
     setError,
   } = useForm<LoginMutationVariables>();
-
   const navigate = useRouter();
+  const { updateAccessToken } = useAuthStore();
 
   const onSubmit = ({ loginInput }: LoginMutationVariables) => {
     login({ variables: { loginInput } })
@@ -31,9 +32,8 @@ export default function LoginForm(): React.ReactElement {
         if (data?.login as UserWithToken) {
           const { accessToken } = data?.login as UserWithToken;
 
-          localStorage.setItem('access_token', accessToken);
+          updateAccessToken(accessToken);
           toaster.create({ title: '환영합니다!', type: 'success' });
-
           navigate.push('/');
         }
       })

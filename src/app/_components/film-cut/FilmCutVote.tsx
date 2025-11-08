@@ -1,10 +1,10 @@
 import { Button, Text } from '@chakra-ui/react';
-import { useMemo } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { toaster } from '@/components/ui/toaster';
-import { CutDocument, useMeQuery, useVoteMutation } from '@/graphql/api/hooks';
+import { CutDocument, useVoteMutation } from '@/graphql/api/hooks';
 import type { CutQuery, CutQueryVariables } from '@/graphql/api/operations';
+import { useIsLoggedIn } from '@/store/useAuthStore';
 
 export default function FilmCutVote({
   cutId,
@@ -16,6 +16,7 @@ export default function FilmCutVote({
   votesCount: number;
 }) {
   const votedButtonColor = useColorModeValue('gray.500', 'gray.400');
+  const isLoggedIn = useIsLoggedIn();
 
   const [vote, { loading: voteLoading }] = useVoteMutation({
     variables: { cutId },
@@ -47,15 +48,6 @@ export default function FilmCutVote({
       }
     },
   });
-
-  const accessToken = localStorage.getItem('access_token');
-  const { data: userData } = useMeQuery({ skip: !accessToken }); // 조건부 쿼리 실행
-  const isLoggedIn = useMemo(() => {
-    if (accessToken) {
-      return userData?.me?.id;
-    }
-    return false;
-  }, [accessToken, userData?.me?.id]);
 
   const showVoteResult = () => {
     if (isLoggedIn) {
