@@ -10,11 +10,17 @@ RUN npm install
 
 RUN npm run build:web
 
-FROM nginx:alpine
+FROM node:20-bullseye-slim AS runner
 
-COPY --from=builder app/project/web/build usr/share/nginx/html
-COPY nginx.conf etc/nginx/conf.d/default.conf
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-EXPOSE 80
+COPY --from=builder /app/project/web/package*.json ./
+COPY --from=builder /app/project/web/.next ./.next
+COPY --from=builder /app/project/web/public ./public
 
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm install --production
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

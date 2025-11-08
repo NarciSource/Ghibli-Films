@@ -1,6 +1,6 @@
 {
   "name": "ghibli-films",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "homepage": "https://NarciSource.github.io/Ghibli-Films",
   "private": true,
   "workspaces": [
