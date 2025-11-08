@@ -9,9 +9,9 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 
 ## 기술스택
 
-[![graphql](https://img.shields.io/badge/GraphQL-E10098?style=flat&logo=graphql&logoColor=white)](https://graphql.org/)  
+[![graphql](https://img.shields.io/badge/GraphQL-E10098?style=flat&logo=graphql&logoColor=white)](https://graphql.org/)
 [![apollo](https://img.shields.io/badge/Apollo-311C87?style=flat&logo=apollographql&logoColor=white)](https://www.apollographql.com/)
-[![express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)](https://expressjs.com/ko/)
+[![express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)](https://expressjs.com/ko/)  
 [![elasticstack](https://img.shields.io/badge/Elastic_Stack-005571?style=flat&logo=elasticstack&logoColor=white)](https://www.elastic.co/elastic-stack)
 [![mysql](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![redis](https://img.shields.io/badge/Redis-FF4438?style=flat&logo=redis&logoColor=white)](https://redis.io/)
@@ -19,10 +19,12 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 [![elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat&logo=elasticsearch&logoColor=white)](https://www.elastic.co/kr/elasticsearch)
 [![logstash](https://img.shields.io/badge/Logstash-005571?style=flat&logo=logstash&logoColor=white)](https://www.elastic.co/kr/logstash)
 [![kibana](https://img.shields.io/badge/Kibana-005571?style=flat&logo=kibana&logoColor=white)](https://www.elastic.co/kr/kibana)  
-[![react](https://img.shields.io/badge/React-191B1F?style=flat&logo=React&logoColor=61DAFB)](https://reactjs.org)
+[![nextjs](https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![zustand](https://img.shields.io/badge/🐻_Zustand-F56D2E?style=flat&logoColor=white)](https://zustand-demo.pmnd.rs/)
 [![chakra ui](https://img.shields.io/badge/Chakra_UI-1BB2A9?style=flat&logo=chakraui&logoColor=white)](https://chakra-ui.com/)  
 [![nodejs](https://img.shields.io/badge/Node.js-5FA04E?style=flat&logo=nodedotjs&logoColor=white)](https://nodejs.org/ko/)
 [![typescript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![biome](https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white)](https://biomejs.dev/)
 [![eslint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
 [![prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=prettier&logoColor=black)](https://prettier.io/)  
 [![docker-compose](https://img.shields.io/badge/Docker_Compose-2AB4FF.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MjMgNjY1Ij4KICA8cGF0aCBmaWxsPSIjZmNmY2ZjIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00MTggMWMtNiAxLTkgMy0xMyA4LTQgMy00IDMtMTAgMS0xMi02LTYwIDAtNjYgOC01IDYtMTEgNDQtOCA1MGwyMyAxN2M3IDQgNyA2IDIgNy0yMyAzLTM3IDI5LTI5IDUyIDMgOSAzIDktMTAgNi0xOS01LTI0LTYtNDUtNS00NyAwLTg2IDE4LTEwOSA1MGExMzUgMTM1IDAgMCAwLTI0IDY0Yy0zIDI4IDIgNDggMTcgNzJsMjIgMjdjNDAgNDQgNDEgNjYgMyA5MS00NSAzMC0xMDQgMTktMTA2LTIwLTEtMTYgNC0yOSAxNy01MiAxMy0yNCAxNC0zMyAzLTUybDEzLThjMjQtMTIgMjItOSAyMy0zNCAwLTIyIDItMjAtMjMtMzAtMTgtNi0yMC02LTQwLTEtMjggOS00MCAxNC00MSAxOCAwIDItMSAzLTIgMy03IDAtMTQgMTItMTUgMjUtMSAyMSA2IDI5IDMwIDM2IDMwIDkgMzUgMjQgMTkgNDktMzYgNTMtMzIgMTAyIDExIDEyMSAzNSAxNiA3NCAxMyAxMTktOWwxMS01IDMgMzJjMCAzNC00MCAzOC04OSA4bC0xNi0xMGMtNTEtMjktMTAyIDI0LTY2IDcwIDE1IDIwIDQyIDIxIDQ2IDIgMi04IDAtMTEtMTAtMTktMTYtMTItMTctMjQtMi0yNyA1LTEgMjYgOCAyOCAxMmwzNCAyOSAyMCAxMiAyMCA4YzM2IDEzIDgyLTE1IDgyLTUwIDAtMTAgMC0xMCA2LTUgMTAgMTAgMTggMTYgMjMgMTkgNiAzIDYgNCAxIDctNSAyLTUgMi01IDctMSA4IDEgMjkgNCAzMyA0IDcgNjMgNDYgNjkgNDYgMyAwIDQ4LTI1IDUxLTI5IDItMSAzLTM0IDEtMzZsLTE2LTljLTE2LTgtMTYtOC05LTEwIDE5LTcgMzctMjcgNDMtNDdsNS0xYTE2NSAxNjUgMCAwIDAgNjAtMTNjOSAwIDM0LTIyIDQwLTM0bDQtOGM0LTcgNi0yNiA2LTU2IDAtMjkgMS0yNy0xMC0yOS02LTItOC0zLTEzLTgtMzAtMjktNzktMjMtOTYgMTAtMyA3LTMgNy04IDlzLTYgNS01IDE3djE1YzEgMTQgNCAxNiAzNCAyOGwxMiA2YzcgMyA3IDMgMzAtNyA4LTMgOS0zIDkgMS02IDIyLTY0IDQyLTczIDI0YTg3IDg3IDAgMCAwLTYzLTQyYy04IDAtOCAwIDYtMTFhNzM2IDczNiAwIDAgMCA4NS04OWwzLTVjMTktMzEgMjEtNzMgMy0xMDctNy0xNS0yMy0zNS0zNi00OC0zOS0zNi00Ni00Ny0zOC02MiA0LTggMTUtMTcgMjAtMTVhNDUyIDQ1MiAwIDAgMCA1NS0xMmMxMS00IDEzLTUgMTQtMTAgMC00IDItNyA5LTE0IDI0LTI2LTgtODAtNDMtNzFNMjI4IDMzNGMxIDEgMCAxLTEgMS0yMCAwLTI4IDMyLTEyIDQyIDE3IDkgMzctMyAzNy0yMiAwLTctNy0xNy0xMS0xN3YtMWMzLTIgMC0zLTctNGwtNiAxbTU0IDgtNCAxYy0yMiAzLTI1IDM5LTMgNDQgMjQgNSA0MS0yMSAyNS0zOGwtNS0zdi0zYy0xLTItMTQtMy0xMy0xbS00OSAxMjBjLTYgNy05IDE0LTkgMjQgMCA4IDEgMTIgMyA2IDItMTIgOC0yOCAxMy0zM3YtM2MtMSAwLTQgMi03IDZtOTcgNGMwIDIgMjMgMTcgMjcgMTcgMiAwIDEtMy00LTctOS03LTIzLTEzLTIzLTEwbS01NCA2Yy0yMSA1MSAyOSA5NiA3MyA2NyA4LTYgOC03LTEtOC0zOS0zLTYzLTIzLTY2LTU0LTItMTItMy0xMy02LTUiLz4KPC9zdmc+Cg==&style=flat&logoColor=black)](https://docs.docker.com/compose/)
@@ -40,7 +42,7 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 
 ### Architecture Diagram
 
-![graphql-elk drawio](https://github.com/user-attachments/assets/6a1abb56-040d-48e9-b69d-7a65b6675cbc)
+![Architecture Diagram](https://github.com/user-attachments/assets/c2f61824-7a92-4b2b-ad73-032a7bd85f81)
 
 - 백엔드
     - **Apollo Server**: Express 플러그인으로 GraphQL query, mutation, resolver 처리
@@ -53,10 +55,10 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
     - **Kibana**: Elasticsearch 데이터를 시각화, 검색/로그 분석 및 모니터링 대시보드 제공
 - 프론트엔드
     - **Apollo Client**: GraphQL 쿼리/뮤테이션 전송, 클라이언트 캐싱, 데이터 페칭
-    - **React**: UI 렌더링 및 상태 관리
+    - **Nest.js**: SSR, SSG UI 렌더링 및 상태 관리
     - **Chakra UI**: 웹 UI 구성 및 스타일링
 - 데이터 흐름
-    1. 클라이언트(React)에서 Apollo Client로 GraphQL 요청 전송
+    1. 클라이언트에서 Apollo Client로 GraphQL 요청 전송
     2. Apollo Server + Express에서 요청 처리 후 비즈니스 로직 실행
     3. MySQL/Elasticsearch/Redis에서 필요한 데이터 조회 또는 저장
         1. MySQL에 저장된 데이터는 Logstash 파이프라인을 통해 수집·정제되어 Elasticsearch로 동기화
@@ -402,21 +404,18 @@ Ghibli-Films
 │  │  └─ tsconfig.json
 │  └─ web
 │     ├─ public
+│     │  └─ logo.svg
 │     ├─ src
-│     │  ├─ index.tsx
-│     │  ├─ react-app-env.d.ts
-│     │  ├─ reportWebVitals.ts
 │     │  ├─ apollo
 │     │  │  ├─ createApolloCache.ts
 │     │  │  ├─ createApolloClient.ts
 │     │  │  ├─ auth.ts
 │     │  │  └─ middleware
+│     │  │     ├─ index.ts
 │     │  │     ├─ authLink.ts
 │     │  │     ├─ errorLink.ts
 │     │  │     ├─ httpUploadLink.ts
 │     │  │     └─ webSocketLink.ts
-│     │  ├─ generated
-│     │  │  └─ graphql.tsx
 │     │  ├─ graphql
 │     │  │  ├─ queries
 │     │  │  │  ├─ film.graphql
@@ -434,46 +433,72 @@ Ghibli-Films
 │     │  │  │  ├─ deleteReview.graphql
 │     │  │  │  ├─ vote.graphql
 │     │  │  │  └─ uploadProfileImage.graphql
-│     │  │  └─ subscriptions
-│     │  │     └─ newNotification.graphql
-│     │  ├─ App.tsx
-│     │  ├─ components
-│     │  │  ├─ auth
-│     │  │  │  ├─ LoginForm.layout.tsx
-│     │  │  │  ├─ LoginForm.tsx
-│     │  │  │  ├─ SignUpForm.layout.tsx
-│     │  │  │  └─ SignUpForm.tsx
-│     │  │  ├─ ColorModeSwitcher.tsx
-│     │  │  ├─ CommonLayout.tsx
-│     │  │  ├─ film
-│     │  │  │  ├─ FilmCard.tsx
-│     │  │  │  ├─ FilmDetail.tsx
-│     │  │  │  └─ FilmList.tsx
-│     │  │  ├─ film-cut
-│     │  │  │  ├─ FilmCutDetail.tsx
-│     │  │  │  ├─ FilmCutList.tsx
-│     │  │  │  ├─ FilmCutModal.tsx
-│     │  │  │  ├─ FilmCutReview.tsx
-│     │  │  │  ├─ FilmCutReviewDeleteAlert.tsx
-│     │  │  │  └─ FilmCutReviewRegisterModal.tsx
-│     │  │  ├─ nav
-│     │  │  │  ├─ LogoutItem.tsx
-│     │  │  │  ├─ Navbar.tsx
-│     │  │  │  ├─ ProfileImageItem.tsx
-│     │  │  │  ├─ SearchBar.tsx
-│     │  │  │  └─ UserMenu.tsx
-│     │  │  └─ notification
-│     │  │     ├─ Notification.tsx
-│     │  │     ├─ NotificationItem.tsx
-│     │  │     └─ useRealtimeAlarm.ts
-│     │  └─ pages
-│     │     ├─ Main.tsx
-│     │     ├─ Film.tsx
-│     │     ├─ Login.tsx
-│     │     ├─ SignUp.tsx
-│     │     └─ Search.tsx
+│     │  │  ├─ subscriptions
+│     │  │  │  └─ newNotification.graphql
+│     │  │  └─ api
+│     │  │     ├─ type.ts
+│     │  │     ├─ operations.ts
+│     │  │     └─ hooks.ts
+│     │  ├─ store
+│     │  │  └─ useAuthStore.ts
+│     │  ├─ app
+│     │  │  ├─ favicon.ico
+│     │  │  ├─ globals.css
+│     │  │  ├─ layout.tsx
+│     │  │  ├─ page.tsx
+│     │  │  ├─ film/[filmId]
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ search
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ signup
+│     │  │  │  ├─ layout.tsx
+│     │  │  │  ├─ page.tsx
+│     │  │  │  └─ _components
+│     │  │  │     └─ SignUpForm.tsx
+│     │  │  ├─ login
+│     │  │  │  ├─ layout.tsx
+│     │  │  │  ├─ page.tsx
+│     │  │  │  └─ _components
+│     │  │  │     └─ LoginForm.tsx
+│     │  │  └─ _components
+│     │  │     ├─ auth
+│     │  │     │  └─ Avatar.tsx
+│     │  │     ├─ ColorModeSwitcher.tsx
+│     │  │     ├─ CommonLayout.tsx
+│     │  │     ├─ film
+│     │  │     │  ├─ FilmCard.tsx
+│     │  │     │  ├─ FilmDetail.tsx
+│     │  │     │  └─ FilmList.tsx
+│     │  │     ├─ film-cut
+│     │  │     │  ├─ FilmCutDetail.tsx
+│     │  │     │  ├─ FilmCutList.tsx
+│     │  │     │  ├─ FilmCutModal.tsx
+│     │  │     │  ├─ FilmCutReview.tsx
+│     │  │     │  ├─ FilmCutReviewDeleteAlert.tsx
+│     │  │     │  ├─ FilmCutReviewRegisterModal.tsx
+│     │  │     │  └─ FilmCutVote.tsx
+│     │  │     ├─ nav
+│     │  │     │  ├─ LogoutItem.tsx
+│     │  │     │  ├─ Navbar.tsx
+│     │  │     │  ├─ ProfileImageItem.tsx
+│     │  │     │  ├─ SearchBar.tsx
+│     │  │     │  └─ UserMenu.tsx
+│     │  │     ├─ notification
+│     │  │     │  ├─ Notification.tsx
+│     │  │     │  ├─ NotificationItem.tsx
+│     │  │     │  └─ useRealtimeAlarm.ts
+│     │  │     └─ Providers.tsx
+│     │  └─ components
+│     │     └─ ui
+│     │        ├─ color-mode.tsx
+│     │        ├─ provider.tsx
+│     │        ├─ toaster.tsx
+│     │        └─ tooltip.tsx
 │     ├─ .env
+│     ├─ biome.json
 │     ├─ codegen.yml
+│     ├─ next.config.ts
+│     ├─ next-env.d.ts
 │     ├─ package.json
 │     └─ tsconfig.json
 ├─ .env
