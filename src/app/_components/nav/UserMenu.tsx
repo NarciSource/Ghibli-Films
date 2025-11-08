@@ -15,8 +15,8 @@ import { useMeQuery } from '@/graphql/api/hooks';
 import type { MeQuery } from '@/graphql/api/operations';
 import { useIsLoggedIn } from '@/store/useAuthStore';
 import Avatar from '../auth/Avatar';
-import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import Notification from '../notification/Notification';
+import { ColorModeSwitcher } from './ColorModeSwitcher';
 import LogoutItem from './LogoutItem';
 import ProfileImageItem from './ProfileImageItem';
 
