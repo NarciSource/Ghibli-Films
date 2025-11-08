@@ -1,16 +1,16 @@
 query film($filmId: Int!) {
-    film(filmId: $filmId) {
-        id
-        title
-        subtitle
-        description
-        genre
-        runningTime
-        posterImg
-        releaseDate
-        director {
-            id
-            name
-        }
+  film(filmId: $filmId) {
+    id
+    title
+    subtitle
+    description
+    genre
+    runningTime
+    posterImg
+    releaseDate
+    director {
+      id
+      name
     }
+  }
 }
