@@ -1,4 +1,5 @@
 import { InMemoryCache } from '@apollo/client';
+
 import type { PaginatedFilms } from '@/graphql/api/type';
 
 export const createApolloCache = (): InMemoryCache => {

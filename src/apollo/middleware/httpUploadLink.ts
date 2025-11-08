@@ -1,6 +1,6 @@
 import { createUploadLink } from 'apollo-upload-client';
 
-const httpUri = process.env.NEXT_PUBLIC_APP_API_HOST!;
+const httpUri = process.env.NEXT_PUBLIC_APP_API_HOST;
 
 const httpUploadLink = createUploadLink({
   uri: `${httpUri}/graphql`,

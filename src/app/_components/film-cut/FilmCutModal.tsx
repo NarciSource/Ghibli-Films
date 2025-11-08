@@ -1,4 +1,5 @@
 import { Center, CloseButton, Dialog, Portal, Spinner, useBreakpointValue } from '@chakra-ui/react';
+
 import { useCutQuery } from '@/graphql/api/hooks';
 import FilmCutDetail from './FilmCutDetail';
 

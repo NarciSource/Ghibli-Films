@@ -1,6 +1,7 @@
-import { Button, CloseButton, Dialog, Field, Portal, Textarea } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { toaster } from '@/components/ui/toaster';
+import { Button, CloseButton, Dialog, Field, Portal, Textarea } from '@chakra-ui/react';
+import { toaster } from '@chakra-ui/react/toaster';
+
 import { CutDocument, useCreateOrUpdateReviewMutation } from '@/graphql/api/hooks';
 import type {
   CreateOrUpdateReviewMutationVariables,

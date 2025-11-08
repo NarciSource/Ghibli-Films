@@ -1,4 +1,5 @@
 import { Box, Flex, Heading, Image, Tag, Text } from '@chakra-ui/react';
+
 import type { FilmQuery } from '@/graphql/api/operations';
 
 interface FilmDetailProps {

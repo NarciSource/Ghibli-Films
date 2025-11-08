@@ -1,4 +1,5 @@
 import { Box, MenuItem, Text } from '@chakra-ui/react';
+
 import type { Notification as INotification } from '@/graphql/api/type';
 
 export default function NotificationItem({

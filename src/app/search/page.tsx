@@ -1,7 +1,8 @@
 'use client';
 
-import { Box, Heading } from '@chakra-ui/react';
 import { useSearchParams } from 'next/navigation';
+import { Box, Heading } from '@chakra-ui/react';
+
 import FilmList from '@/app/_components/film/FilmList';
 
 export default function Search(): React.ReactElement {

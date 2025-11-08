@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client';
 import { MenuItem } from '@chakra-ui/react';
+
 import { useLogoutMutation } from '@/graphql/api/hooks';
 import { useAuthStore } from '@/store/useAuthStore';
 

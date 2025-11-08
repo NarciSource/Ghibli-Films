@@ -1,6 +1,7 @@
 import { ApolloClient, from, type NormalizedCacheObject, split } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { Kind, OperationTypeNode } from 'graphql';
+
 import { createApolloCache } from './createApolloCache';
 import { authLink, errorLink, httpUploadLink, wsLink } from './middleware';
 

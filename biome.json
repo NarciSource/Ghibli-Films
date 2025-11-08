@@ -39,7 +39,17 @@
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":PACKAGE:", "!@chakra-ui/**"],
+              ["@chakra-ui/react", "@chakra-ui/react/**"],
+              ":BLANK_LINE:",
+              "**"
+            ]
+          }
+        }
       }
     }
   }

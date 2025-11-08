@@ -1,9 +1,10 @@
 'use client';
 
-import { Button, Field, Fieldset, Input, Separator, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { toaster } from '@/components/ui/toaster';
+import { Button, Field, Fieldset, Input, Separator, Stack } from '@chakra-ui/react';
+import { toaster } from '@chakra-ui/react/toaster';
+
 import { useLoginMutation } from '@/graphql/api/hooks';
 import type { LoginMutationVariables } from '@/graphql/api/operations';
 import type { FieldError, UserWithToken } from '@/graphql/api/type';

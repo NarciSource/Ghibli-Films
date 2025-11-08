@@ -1,7 +1,8 @@
 'use client';
 
-import { Box, Spinner, Text } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
+import { Box, Spinner, Text } from '@chakra-ui/react';
+
 import FilmDetail from '@/app/_components/film/FilmDetail';
 import FilmCutList from '@/app/_components/film-cut/FilmCutList';
 import { useFilmQuery } from '@/graphql/api/hooks';

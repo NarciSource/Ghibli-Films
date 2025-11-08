@@ -2,8 +2,9 @@
 
 import { ApolloProvider } from '@apollo/client';
 import { useEffect, useState } from 'react';
+import { Provider as ChakraProvider } from '@chakra-ui/react/provider';
+
 import { createApolloClient } from '@/apollo/createApolloClient';
-import { Provider as ChakraProvider } from '@/components/ui/provider';
 
 const apolloClient = createApolloClient();
 

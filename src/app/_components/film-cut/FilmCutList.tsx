@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import LazyLoad from 'react-lazyload';
 import {
   Box,
   Image,
@@ -9,8 +11,7 @@ import {
   Spinner,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import LazyLoad from 'react-lazyload';
+
 import { useCutsQuery } from '@/graphql/api/hooks';
 import FilmCutModal from './FilmCutModal';
 

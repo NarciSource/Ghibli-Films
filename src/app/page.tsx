@@ -1,4 +1,5 @@
 import { Box, Heading } from '@chakra-ui/react';
+
 import FilmList from './_components/film/FilmList';
 
 export default function Home() {

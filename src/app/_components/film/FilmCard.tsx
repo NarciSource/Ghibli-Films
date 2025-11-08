@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import {
   AspectRatio,
   Box,
@@ -8,8 +9,8 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import { useColorModeValue } from '@/components/ui/color-mode';
+import { useColorModeValue } from '@chakra-ui/react/color-mode';
+
 import type { FilmsQuery } from '@/graphql/api/operations';
 
 interface FilmCardProps {

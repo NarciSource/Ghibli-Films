@@ -1,4 +1,5 @@
 import { Box, FileUpload, Flex, Text } from '@chakra-ui/react';
+
 import { useUploadProfileImageMutation } from '@/graphql/api/hooks';
 import type { MeQuery } from '@/graphql/api/operations';
 import Avatar from '../auth/Avatar';

@@ -1,3 +1,4 @@
+import { FaBell } from 'react-icons/fa';
 import {
   Box,
   IconButton,
@@ -9,7 +10,7 @@ import {
   ProgressCircle,
   Text,
 } from '@chakra-ui/react';
-import { FaBell } from 'react-icons/fa';
+
 import { useNotificationsQuery } from '@/graphql/api/hooks';
 import NotificationItem from './NotificationItem';
 import useRealtimeAlarm from './useRealtimeAlarm';

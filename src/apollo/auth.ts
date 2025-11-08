@@ -1,4 +1,5 @@
 import type { ApolloClient, NormalizedCacheObject, Operation } from '@apollo/client';
+
 import { RefreshAccessTokenDocument } from '@/graphql/api/hooks';
 import type { RefreshAccessTokenMutation } from '@/graphql/api/operations';
 

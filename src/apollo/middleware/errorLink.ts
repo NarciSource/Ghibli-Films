@@ -1,5 +1,6 @@
 import { fromPromise } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
+
 import { refreshAccessToken } from '../auth';
 import { apolloClient } from '../createApolloClient';
 

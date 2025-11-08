@@ -1,4 +1,5 @@
 import { Flex } from '@chakra-ui/react';
+
 import SignUpForm from './_components/SignUpForm';
 
 export default function SignUp(): React.ReactElement {

@@ -11,6 +11,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+
 import type { CutQuery } from '@/graphql/api/operations';
 import FilmCutReview from './FilmCutReview';
 import FilmCutReviewDeleteAlert from './FilmCutReviewDeleteAlert';

@@ -1,5 +1,6 @@
 'use client';
 
+import NextLink from 'next/link';
 import {
   Button,
   Menu,
@@ -9,7 +10,7 @@ import {
   Portal,
   Stack,
 } from '@chakra-ui/react';
-import NextLink from 'next/link';
+
 import { useMeQuery } from '@/graphql/api/hooks';
 import type { MeQuery } from '@/graphql/api/operations';
 import { useIsLoggedIn } from '@/store/useAuthStore';

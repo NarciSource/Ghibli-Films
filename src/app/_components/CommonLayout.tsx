@@ -1,7 +1,8 @@
 'use client';
 
 import { Box, Flex } from '@chakra-ui/react';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@chakra-ui/react/toaster';
+
 import Navbar from './nav/Navbar';
 
 export default function CommonLayout({
