@@ -1,18 +1,33 @@
-'use client';
+'use server';
 
-import { useSearchParams } from 'next/navigation';
 import { Box, Heading } from '@chakra-ui/react';
 
+import { getPublicApolloClient } from '@/apollo/getPublicApolloClient';
+import ApolloWrapper from '@/app/_components/ApolloWrapper';
 import FilmList from '@/app/_components/film/FilmList';
+import { FilmsDocument } from '@/graphql/api/hooks';
+import type { FilmsQuery } from '@/graphql/api/operations';
 
-export default function Search(): React.ReactElement {
-  const searchParams = useSearchParams();
-  const q = searchParams.get('q') ?? undefined;
+export default async function Search({ searchParams }: { searchParams: Promise<{ q: string }> }) {
+  const { q } = await searchParams;
+  const LIMIT = 6;
+  // 서버에서 초기 데이터 요청
+  const apolloClient = getPublicApolloClient();
+
+  await apolloClient.query<FilmsQuery>({
+    query: FilmsDocument,
+    variables: { limit: LIMIT, cursor: 1 },
+  });
+
+  // SSR에서 가져온 Apollo 캐시를 직렬화 전달
+  const initApolloState = JSON.parse(JSON.stringify(apolloClient.cache.extract()));
 
   return (
-    <Box px={{ base: 4 }} pt='24'>
-      <Heading size='lg'>검색결과</Heading>
-      <FilmList search={q} />
-    </Box>
+    <ApolloWrapper initialApolloState={initApolloState}>
+      <Box px={{ base: 4 }} pt='24'>
+        <Heading size='lg'>검색결과</Heading>
+        <FilmList search={q} />
+      </Box>
+    </ApolloWrapper>
   );
 }
