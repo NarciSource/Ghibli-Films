@@ -28,16 +28,18 @@ const splitLink = split(
  *   - 전달하지 않으면 클라이언트는 빈 캐시 상태로 시작하여,
  *     첫 렌더링 시 useQuery가 네트워크 요청.
  */
-export const createApolloClient = ({
+export const createApolloClient = async ({
   initialApolloState,
 }: {
   initialApolloState?: NormalizedCacheObject;
-}): ApolloClient<NormalizedCacheObject> => {
+}): Promise<ApolloClient<NormalizedCacheObject>> => {
+  const cache = await createApolloCache(initialApolloState);
+
   apolloClient = new ApolloClient({
     // 요청 타입에 따라 각 Link로 분기
     link: splitLink,
     // SSR 캐시를 hydrate
-    cache: createApolloCache().restore(initialApolloState ?? {}),
+    cache,
   });
   return apolloClient;
 };
