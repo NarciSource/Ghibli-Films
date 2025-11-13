@@ -1,7 +1,8 @@
-import { Button, Text } from '@chakra-ui/react';
 import { FaHeart } from 'react-icons/fa';
-import { useColorModeValue } from '@/components/ui/color-mode';
-import { toaster } from '@/components/ui/toaster';
+import { Button, Text } from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/react/color-mode';
+import { toaster } from '@chakra-ui/react/toaster';
+
 import { CutDocument, useVoteMutation } from '@/graphql/api/hooks';
 import type { CutQuery, CutQueryVariables } from '@/graphql/api/operations';
 import { useIsLoggedIn } from '@/store/useAuthStore';

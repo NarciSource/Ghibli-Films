@@ -1,6 +1,7 @@
 import { type Reference, useSubscription } from '@apollo/client';
 import type { AsStoreObject } from '@apollo/client/utilities';
 import { createToaster } from '@chakra-ui/react';
+
 import { apolloClient } from '@/apollo/createApolloClient';
 import { NewNotificationDocument } from '@/graphql/api/hooks';
 import type { NewNotificationSubscription } from '@/graphql/api/operations';

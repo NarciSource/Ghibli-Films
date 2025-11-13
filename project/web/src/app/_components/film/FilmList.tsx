@@ -1,8 +1,9 @@
 'use client';
 
-import { Box, SimpleGrid, Skeleton } from '@chakra-ui/react';
 import { Waypoint } from 'react-waypoint';
 import { v4 as uuidv4 } from 'uuid';
+import { Box, SimpleGrid, Skeleton } from '@chakra-ui/react';
+
 import { useFilmsQuery } from '@/graphql/api/hooks';
 import FilmCard from './FilmCard';
 

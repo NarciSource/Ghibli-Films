@@ -1,9 +1,10 @@
 'use client';
 
-import { Box, Link as ChakraLink, Flex } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { useColorModeValue } from '@/components/ui/color-mode';
+import { Box, Link as ChakraLink, Flex } from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/react/color-mode';
+
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 

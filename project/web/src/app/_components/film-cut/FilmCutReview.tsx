@@ -1,6 +1,7 @@
-import { Box, Flex, HStack, IconButton, Separator, Text } from '@chakra-ui/react';
 import { MdDelete, MdEdit } from 'react-icons/md';
-import { Tooltip } from '@/components/ui/tooltip';
+import { Box, Flex, HStack, IconButton, Separator, Text } from '@chakra-ui/react';
+import { Tooltip } from '@chakra-ui/react/tooltip';
+
 import type { CutQuery } from '@/graphql/api/operations';
 import Avatar from '../auth/Avatar';
 

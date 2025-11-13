@@ -1,7 +1,4 @@
-'use client';
-
-import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
-import { useColorModeValue } from '@/components/ui/color-mode';
+import { Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
 export default function LoginFormLayout({
   children,
@@ -18,9 +15,7 @@ export default function LoginFormLayout({
           </Text>
         </Stack>
 
-        <Box rounded='lg' bg={useColorModeValue('white', 'gray.700')} boxShadow='lg' p={8}>
-          {children}
-        </Box>
+        {children}
       </Stack>
     </Flex>
   );

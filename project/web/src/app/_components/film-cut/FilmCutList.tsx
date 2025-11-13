@@ -1,21 +1,13 @@
 'use client';
 
-import {
-  Box,
-  Image,
-  LinkBox,
-  LinkOverlay,
-  SimpleGrid,
-  Spinner,
-  useDisclosure,
-} from '@chakra-ui/react';
 import { useState } from 'react';
 import LazyLoad from 'react-lazyload';
-import { useCutsQuery } from '@/graphql/api/hooks';
+import { Box, Image, LinkBox, LinkOverlay, SimpleGrid, useDisclosure } from '@chakra-ui/react';
+
+import type { CutsQuery } from '@/graphql/api/operations';
 import FilmCutModal from './FilmCutModal';
 
-export default function FilmCutList({ filmId }: { filmId: number }): React.ReactElement {
-  const { data, loading } = useCutsQuery({ variables: { filmId } });
+export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   const { open, onOpen, onClose } = useDisclosure();
   const [selectedCutId, setSelectedCutId] = useState<number>(0);
   const handleCutSelect = (cutId: number) => {
@@ -23,14 +15,10 @@ export default function FilmCutList({ filmId }: { filmId: number }): React.React
     setSelectedCutId(cutId);
   };
 
-  return loading ? (
-    <Box>
-      <Spinner />
-    </Box>
-  ) : (
+  return (
     <>
       <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
-        {data?.cuts.map((cut) => (
+        {cuts.map((cut) => (
           <LazyLoad once key={cut.id} height='200px'>
             <LinkBox as='article'>
               <Box>

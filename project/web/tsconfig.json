@@ -18,8 +18,10 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"],
+      "@chakra-ui/react/*": ["src/shared/ui/chakra/*"],
     }
   },
   "include": [

@@ -1,7 +1,9 @@
-import { Input, InputGroup } from '@chakra-ui/react';
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { FaSearch } from 'react-icons/fa';
+import { Input, InputGroup } from '@chakra-ui/react';
 
 export default function SearchBar() {
   const { register, handleSubmit } = useForm<{ q: string }>();
