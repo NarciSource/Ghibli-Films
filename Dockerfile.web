@@ -15,6 +15,7 @@ FROM node:20-bullseye-slim AS runner
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/project/web/package*.json ./
 COPY --from=builder /app/project/web/.next ./.next
 COPY --from=builder /app/project/web/public ./public
