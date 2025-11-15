@@ -2,7 +2,7 @@ import { MiddlewareFn } from 'type-graphql';
 
 import IContext from 'apollo/IContext';
 import { verifyAccessToken } from 'auth/tokens';
-import { refreshAccessToken } from 'auth/tokens/refreshAccessToken';
+import { refreshAccessToken } from './refreshAccessToken';
 
 export const isAuthenticated: MiddlewareFn<IContext> = async ({ context }, next) => {
     try {
