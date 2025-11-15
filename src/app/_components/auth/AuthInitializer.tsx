@@ -7,11 +7,13 @@ import { useAuthStore } from '@/store/useAuthStore';
 
 export default function AuthInitializer() {
   const { setUser } = useAuthStore();
-  const { data } = useMeQuery({ fetchPolicy: 'no-cache' });
+  const { data, loading } = useMeQuery({ fetchPolicy: 'no-cache' });
 
   useEffect(() => {
-    setUser(data?.me ?? null);
-  }, [data, setUser]);
+    if (!loading) {
+      setUser(data?.me ?? null);
+    }
+  }, [loading, data, setUser]);
 
   return null;
 }
