@@ -3,7 +3,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { Kind, OperationTypeNode } from 'graphql';
 
 import { createApolloCache } from './createApolloCache';
-import { authLink, errorLink, httpUploadLink, wsLink } from './middleware';
+import { errorLink, httpUploadLink, wsLink } from './middleware';
 
 const splitLink = split(
   ({ query }) => {
@@ -16,7 +16,7 @@ const splitLink = split(
     );
   },
   from([wsLink]),
-  from([authLink, errorLink, httpUploadLink]),
+  from([errorLink, httpUploadLink]),
 );
 
 /**
