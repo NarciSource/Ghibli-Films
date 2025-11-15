@@ -13,7 +13,7 @@ export default async function FilmCutListLoader({
   filmId: number;
   children: (cuts: CutsQuery['cuts']) => React.ReactNode;
 }) {
-  const apolloClient = getPublicApolloClient();
+  const apolloClient = await getPublicApolloClient();
 
   try {
     const { data } = await apolloClient.query<CutsQuery>({

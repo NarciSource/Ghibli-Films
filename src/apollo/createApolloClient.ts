@@ -36,6 +36,8 @@ export const createApolloClient = async ({
   const cache = await createApolloCache(initialApolloState);
 
   apolloClient = new ApolloClient({
+    // 쿠키와 인증 정보를 함께 전송
+    credentials: 'include',
     // 요청 타입에 따라 각 Link로 분기
     link: splitLink,
     // SSR 캐시를 hydrate

@@ -1,21 +1,26 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export type User = {
+  id: number;
+  username: string;
+};
+
 type AuthState = {
-  accessToken: string | null;
-  updateAccessToken: (accessToken: string | null) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
 };
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      accessToken: null,
-      updateAccessToken: (accessToken: string | null) => set({ accessToken }),
+      user: null,
+      setUser: (user: User | null) => set({ user }),
     }),
     { name: 'auth' },
   ),
 );
 
 export const useIsLoggedIn = () => {
-  return useAuthStore((state) => Boolean(state.accessToken));
+  return useAuthStore((state) => Boolean(state.user));
 };

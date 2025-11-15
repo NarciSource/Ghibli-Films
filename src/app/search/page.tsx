@@ -12,7 +12,7 @@ export default async function Search({ searchParams }: { searchParams: Promise<{
   const { q } = await searchParams;
   const LIMIT = 6;
   // 서버에서 초기 데이터 요청
-  const apolloClient = getPublicApolloClient();
+  const apolloClient = await getPublicApolloClient();
 
   await apolloClient.query<FilmsQuery>({
     query: FilmsDocument,

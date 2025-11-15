@@ -13,7 +13,7 @@ export default async function Film({ params }: { params: Promise<{ filmId: strin
 
   try {
     // 서버에서 데이터 패칭
-    const apolloClient = getPublicApolloClient();
+    const apolloClient = await getPublicApolloClient();
 
     const { data } = await apolloClient.query<FilmQuery>({
       query: FilmDocument,
