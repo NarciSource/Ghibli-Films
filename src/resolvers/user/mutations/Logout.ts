@@ -1,7 +1,8 @@
 import { Resolver, Mutation, Ctx } from 'type-graphql';
 import IContext from 'apollo/IContext';
+
+import { setRefreshTokenHeader } from 'auth/transport';
 import { User } from 'entities/User';
-import { setRefreshTokenHeader } from 'utils/jwt-auth';
 
 @Resolver(User)
 export default class LogoutMutationResolver {

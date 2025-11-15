@@ -2,7 +2,9 @@ import http from 'http';
 import { GraphQLSchema, execute, subscribe } from 'graphql';
 import { useServer } from 'graphql-ws/use/ws';
 import { WebSocketServer } from 'ws';
-import { verifyAccessToken } from 'utils/jwt-auth';
+
+import { verifyAccessToken } from 'auth/tokens';
+import { parseBearerToken } from 'utils/parseBearerToken';
 
 export default function createSubscriptionServer(schema: GraphQLSchema, server: http.Server) {
     const wsServer = new WebSocketServer({
@@ -18,9 +20,7 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
             subscribe,
             context: (ctx) => {
                 // connectionParams에서 인증 헤더 추출
-                const authorization = ctx.connectionParams.Authorization as string;
-                const token = authorization?.split(' ')?.[1];
-                const verifiedUser = token ? verifyAccessToken(token) : null;
+                const verifiedUser = verifyAccessToken(parseBearerToken(ctx.connectionParams));
 
                 return { verifiedUser };
             },

@@ -1,18 +1,15 @@
-import { AuthenticationError } from 'apollo-server-core';
 import { Request } from 'express';
 import { MiddlewareFn } from 'type-graphql';
-import { JwtVerifiedUser, verifyAccessToken } from 'utils/jwt-auth';
+
+import { JwtVerifiedUser } from 'apollo/IContext';
+import { verifyAccessToken } from 'auth/tokens';
+import { parseBearerToken } from 'utils/parseBearerToken';
 
 export const isAuthenticated: MiddlewareFn<{ verifiedUser: JwtVerifiedUser; req: Request }> = (
     { context },
     next,
 ) => {
-    const { authorization } = context.req.headers;
-
-    if (!authorization) throw new AuthenticationError('unauthenticated');
-    const accessToken = authorization.replace('Bearer ', '');
-
-    verifyAccessToken(accessToken);
+    verifyAccessToken(parseBearerToken(context.req.headers));
 
     return next();
 };

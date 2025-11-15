@@ -1,8 +1,10 @@
 import argon2 from 'argon2';
 import { Resolver, Mutation, Arg, Ctx } from 'type-graphql';
 import IContext from 'apollo/IContext';
+
+import { createAccessToken, createRefreshToken } from 'auth/tokens';
+import { setRefreshTokenHeader } from 'auth/transport';
 import { User } from 'entities/User';
-import { createAccessToken, createRefreshToken, setRefreshTokenHeader } from 'utils/jwt-auth';
 import { LoginResponse, LoginInput } from '../type';
 
 @Resolver(User)

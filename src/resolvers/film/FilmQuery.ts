@@ -40,7 +40,7 @@ export default class FilmQueryResolver {
         const films = await qb.getMany();
 
         // 커서 업데이트
-        let nextCursor: number | null = null;
+        let nextCursor: number = null;
         if (films.length > limit) {
             nextCursor = films.pop().id + 1;
         }

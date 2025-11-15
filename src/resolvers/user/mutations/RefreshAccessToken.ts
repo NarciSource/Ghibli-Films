@@ -1,8 +1,10 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Resolver, Mutation, Ctx } from 'type-graphql';
 import IContext from 'apollo/IContext';
+
+import { createAccessToken, createRefreshToken } from 'auth/tokens';
+import { setRefreshTokenHeader } from 'auth/transport';
 import { User } from 'entities/User';
-import { createAccessToken, createRefreshToken, setRefreshTokenHeader } from 'utils/jwt-auth';
 import { RefreshAccessTokenResponse } from '../type';
 
 @Resolver(User)
@@ -12,7 +14,7 @@ export default class RefreshAccessTokenMutationResolver {
         @Ctx()
         { req, res, redis }: IContext,
     ): Promise<RefreshAccessTokenResponse | null> {
-        const refreshToken = req.cookies.refreshtoken as string;
+        const refreshToken = req.cookies.refreshToken as string;
         if (!refreshToken) return null;
 
         let tokenData: JwtPayload = null;
