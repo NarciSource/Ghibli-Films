@@ -5,7 +5,6 @@ import { GraphQLSchema } from 'graphql';
 import { verifyAccessToken } from 'auth/tokens';
 import createLoaders from 'dataloaders/createLoader';
 import redis from 'redis/redis-client';
-import { parseBearerToken } from 'utils/parseBearerToken';
 import IContext, { JwtVerifiedUser } from './IContext';
 
 export default function createApolloServer(schema: GraphQLSchema): ApolloServer {
@@ -17,7 +16,7 @@ export default function createApolloServer(schema: GraphQLSchema): ApolloServer 
             // context에 인증값 추가
             let verified: JwtVerifiedUser;
             try {
-                verified = verifyAccessToken(parseBearerToken(req.headers));
+                verified = verifyAccessToken(req.cookies.accessToken);
             } catch {
                 verified = null;
             }

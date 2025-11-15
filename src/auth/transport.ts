@@ -10,3 +10,12 @@ export function setRefreshTokenHeader(res: Response, refreshToken: string): void
         // none: cross-site도 가능
     });
 }
+
+export function setAccessTokenHeader(res: Response, accessToken: string) {
+    res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 10, // 10분
+    });
+}

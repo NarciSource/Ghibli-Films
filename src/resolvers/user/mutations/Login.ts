@@ -3,7 +3,7 @@ import { Resolver, Mutation, Arg, Ctx } from 'type-graphql';
 import IContext from 'apollo/IContext';
 
 import { createAccessToken, createRefreshToken } from 'auth/tokens';
-import { setRefreshTokenHeader } from 'auth/transport';
+import { setAccessTokenHeader, setRefreshTokenHeader } from 'auth/transport';
 import { User } from 'entities/User';
 import { LoginResponse, LoginInput } from '../type';
 
@@ -30,10 +30,11 @@ export default class LoginMutationResolver {
 
             // 리프레시 토큰 레디스 적재
             await redis.set(String(user.id), refreshToken);
-            // 쿠키로 리프레시 토큰 전송
+            // 쿠키로 엑세스 토큰 및 리프레시 토큰 전송
+            setAccessTokenHeader(res, accessToken);
             setRefreshTokenHeader(res, refreshToken);
 
-            response = { user, accessToken };
+            response = user;
         } else if (user) {
             response = { field: 'password', message: '비밀번호가 틀렸습니다.' };
         } else {

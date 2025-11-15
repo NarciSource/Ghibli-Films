@@ -8,7 +8,12 @@ export interface JwtVerifiedUser {
 }
 
 export default interface IContext {
-    req: Request;
+    req: Request & {
+        cookies: {
+            accessToken?: string;
+            refreshToken?: string;
+        };
+    };
     res: Response;
     verifiedUser: JwtVerifiedUser;
     redis: typeof redis;
