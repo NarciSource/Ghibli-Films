@@ -5,7 +5,7 @@ import './globals.css';
 import { Box, Flex } from '@chakra-ui/react';
 import { Toaster } from '@chakra-ui/react/toaster';
 
-import AuthProvider from './_components/auth/AuthProvider';
+import { AuthInitializer } from './_components/auth';
 import Navbar from './_components/nav/Navbar';
 import Providers from './_components/Providers';
 
@@ -33,15 +33,15 @@ export default function RootLayout({
     <html lang='ko' suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-          <AuthProvider>
-            <Flex justify='center'>
-              <Navbar />
-            </Flex>
-            <Box px={{ base: 4 }} pt='24' mx='auto' maxW='960px' minH='100vh' w='100%'>
-              {children}
-            </Box>
-            <Toaster />
-          </AuthProvider>
+          <AuthInitializer />
+
+          <Flex justify='center'>
+            <Navbar />
+          </Flex>
+          <Box px={{ base: 4 }} pt='24' mx='auto' maxW='960px' minH='100vh' w='100%'>
+            {children}
+          </Box>
+          <Toaster />
         </Providers>
       </body>
     </html>

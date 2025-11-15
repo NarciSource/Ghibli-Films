@@ -11,8 +11,9 @@ import {
   Stack,
 } from '@chakra-ui/react';
 
+import { useMeQuery } from '@/graphql/api/hooks';
 import type { MeQuery } from '@/graphql/api/operations';
-import { useAuthStore, useIsLoggedIn } from '@/store/useAuthStore';
+import { useIsLoggedIn } from '@/store/useAuthStore';
 import Avatar from '../auth/Avatar';
 import Notification from '../notification/Notification';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
@@ -21,7 +22,7 @@ import ProfileImageItem from './ProfileImageItem';
 
 export default function UserMenu(): React.ReactElement {
   const isLoggedIn = useIsLoggedIn();
-  const { user } = useAuthStore();
+  const { data } = useMeQuery({ skip: !isLoggedIn });
 
   return isLoggedIn ? (
     <Stack justify='flex-end' alignItems='center' direction='row' gap={3}>
@@ -32,14 +33,14 @@ export default function UserMenu(): React.ReactElement {
       <Menu.Root>
         <MenuTrigger asChild>
           <Button variant='plain'>
-            <Avatar {...user} />
+            <Avatar {...data?.me} />
           </Button>
         </MenuTrigger>
 
         <Portal>
           <MenuPositioner>
             <MenuContent>
-              <ProfileImageItem {...(user as NonNullable<MeQuery['me']>)} />
+              <ProfileImageItem {...(data?.me as NonNullable<MeQuery['me']>)} />
 
               <LogoutItem />
             </MenuContent>
