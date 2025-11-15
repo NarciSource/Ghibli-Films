@@ -13,11 +13,13 @@ export function setRefreshTokenHeader(res: Response, refreshToken: string): void
     });
 }
 
+const tokenExpiryLeeway = 1000 * 60 * 5;
+
 export function setAccessTokenHeader(res: Response, accessToken: string) {
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: ms(process.env.JWT_ACCESS_EXPIRES_IN as StringValue)
+        maxAge: ms(process.env.JWT_ACCESS_EXPIRES_IN as StringValue) + tokenExpiryLeeway
     });
 }
