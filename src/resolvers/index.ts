@@ -13,7 +13,6 @@ import NotificationQueryResolver from './notification/NotificationQuery';
 import NotificationSubscriptionResolver from './notification/NotificationSubscription';
 import LoginMutationResolver from './user/mutations/Login';
 import LogoutMutationResolver from './user/mutations/Logout';
-import RefreshAccessTokenMutationResolver from './user/mutations/RefreshAccessToken';
 import SignupMutationResolver from './user/mutations/SignUp';
 import UploadProfileImageMutationResolver from './user/mutations/UploadProfileImage';
 import MeQueryResolver from './user/queries/Me';
@@ -35,7 +34,6 @@ export default [
     LogoutMutationResolver,
     SignupMutationResolver,
     UploadProfileImageMutationResolver,
-    RefreshAccessTokenMutationResolver,
 
     NotificationQueryResolver,
     NotificationMutationResolver,

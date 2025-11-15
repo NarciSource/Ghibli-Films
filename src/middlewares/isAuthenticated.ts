@@ -1,13 +1,18 @@
 import { MiddlewareFn } from 'type-graphql';
 
-import IContext, { JwtVerifiedUser } from 'apollo/IContext';
+import IContext from 'apollo/IContext';
 import { verifyAccessToken } from 'auth/tokens';
+import { refreshAccessToken } from 'auth/tokens/refreshAccessToken';
 
-export const isAuthenticated: MiddlewareFn<{
-    verifiedUser: JwtVerifiedUser;
-    req: IContext['req'];
-}> = ({ context: { req } }, next) => {
-    verifyAccessToken(req.cookies['accessToken']);
+export const isAuthenticated: MiddlewareFn<IContext> = async ({ context }, next) => {
+    try {
+        verifyAccessToken(context.req.cookies['accessToken']);
+    } catch (error) {
+        if (error.message === 'access token expired') {
+            await refreshAccessToken(context);
 
+            return next();
+        }
+    }
     return next();
 };
