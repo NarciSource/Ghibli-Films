@@ -16,9 +16,7 @@ export default function LogoutItem(): React.ReactElement {
       setUser(null);
 
       await client.resetStore(); // 아폴로 클라이언트 캐시 리셋
-    } catch (e) {
-      console.log(e);
-    }
+    } catch {}
   }
 
   return (
