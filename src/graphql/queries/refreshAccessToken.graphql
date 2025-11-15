@@ -1,5 +1,3 @@
 mutation refreshAccessToken {
-  refreshAccessToken {
-    accessToken
-  }
+  refreshAccessToken
 }

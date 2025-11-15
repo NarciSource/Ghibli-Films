@@ -7,9 +7,8 @@ import { toaster } from '@chakra-ui/react/toaster';
 
 import { useLoginMutation } from '@/graphql/api/hooks';
 import type { LoginMutationVariables } from '@/graphql/api/operations';
-import type { FieldError, UserWithToken } from '@/graphql/api/type';
+import type { FieldError, User } from '@/graphql/api/type';
 import { useColorModeValue } from '@/shared/ui/chakra/color-mode';
-import { useAuthStore } from '@/store/useAuthStore';
 
 export default function LoginForm(): React.ReactElement {
   const [login, { loading }] = useLoginMutation();
@@ -20,7 +19,6 @@ export default function LoginForm(): React.ReactElement {
     setError,
   } = useForm<LoginMutationVariables>();
   const navigate = useRouter();
-  const { updateAccessToken } = useAuthStore();
 
   const onSubmit = ({ loginInput }: LoginMutationVariables) => {
     login({ variables: { loginInput } })
@@ -31,10 +29,7 @@ export default function LoginForm(): React.ReactElement {
 
           setError((fieldForm + field) as Parameters<typeof setError>[0], { message });
         }
-        if (data?.login as UserWithToken) {
-          const { accessToken } = data?.login as UserWithToken;
-
-          updateAccessToken(accessToken);
+        if (data?.login as User) {
           toaster.create({ title: '환영합니다!', type: 'success' });
           navigate.push('/');
         }

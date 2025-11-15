@@ -441,12 +441,9 @@ export const LoginDocument = gql`
       field
       message
     }
-    ... on UserWithToken {
-      user {
-        id
-        username
-      }
-      accessToken
+    ... on User {
+      id
+      username
     }
   }
 }
@@ -646,9 +643,7 @@ export type NotificationsQueryResult = Apollo.QueryResult<
 >;
 export const RefreshAccessTokenDocument = gql`
     mutation refreshAccessToken {
-  refreshAccessToken {
-    accessToken
-  }
+  refreshAccessToken
 }
     `;
 export type RefreshAccessTokenMutationFn = Apollo.MutationFunction<

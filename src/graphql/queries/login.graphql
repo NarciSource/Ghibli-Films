@@ -4,12 +4,9 @@ mutation Login($loginInput: LoginInput!) {
       field
       message
     }
-    ... on UserWithToken {
-      user {
-        id
-        username
-      }
-      accessToken
+    ... on User {
+      id
+      username
     }
   }
 }
