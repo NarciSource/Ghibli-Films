@@ -11,10 +11,10 @@ export default class LogoutMutationResolver {
         @Ctx()
         { verifiedUser, res, redis }: IContext,
     ): Promise<boolean> {
-        if (verifiedUser) {
-            setAccessTokenHeader(res, '');
-            setRefreshTokenHeader(res, '');
+        setAccessTokenHeader(res, '');
+        setRefreshTokenHeader(res, '');
 
+        if (verifiedUser) {
             await redis.del(String(verifiedUser.userId));
         }
         return true;
