@@ -117,7 +117,6 @@ export type Mutation = {
   deleteReview: Scalars['Boolean']['output'];
   login: LoginResponse;
   logout: Scalars['Boolean']['output'];
-  refreshAccessToken?: Maybe<Scalars['Boolean']['output']>;
   signUp: User;
   uploadProfileImage: Scalars['Boolean']['output'];
   vote: Scalars['Boolean']['output'];

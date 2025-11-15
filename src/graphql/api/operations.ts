@@ -156,13 +156,6 @@ export type NotificationsQuery = {
   }>;
 };
 
-export type RefreshAccessTokenMutationVariables = Types.Exact<{ [key: string]: never }>;
-
-export type RefreshAccessTokenMutation = {
-  __typename?: 'Mutation';
-  refreshAccessToken?: boolean | null;
-};
-
 export type SignUpMutationVariables = Types.Exact<{
   signUpInput: Types.SignUpInput;
 }>;

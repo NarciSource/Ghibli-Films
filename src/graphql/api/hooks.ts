@@ -641,51 +641,6 @@ export type NotificationsQueryResult = Apollo.QueryResult<
   Ops.NotificationsQuery,
   Ops.NotificationsQueryVariables
 >;
-export const RefreshAccessTokenDocument = gql`
-    mutation refreshAccessToken {
-  refreshAccessToken
-}
-    `;
-export type RefreshAccessTokenMutationFn = Apollo.MutationFunction<
-  Ops.RefreshAccessTokenMutation,
-  Ops.RefreshAccessTokenMutationVariables
->;
-
-/**
- * __useRefreshAccessTokenMutation__
- *
- * To run a mutation, you first call `useRefreshAccessTokenMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRefreshAccessTokenMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [refreshAccessTokenMutation, { data, loading, error }] = useRefreshAccessTokenMutation({
- *   variables: {
- *   },
- * });
- */
-export function useRefreshAccessTokenMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    Ops.RefreshAccessTokenMutation,
-    Ops.RefreshAccessTokenMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    Ops.RefreshAccessTokenMutation,
-    Ops.RefreshAccessTokenMutationVariables
-  >(RefreshAccessTokenDocument, options);
-}
-export type RefreshAccessTokenMutationHookResult = ReturnType<typeof useRefreshAccessTokenMutation>;
-export type RefreshAccessTokenMutationResult =
-  Apollo.MutationResult<Ops.RefreshAccessTokenMutation>;
-export type RefreshAccessTokenMutationOptions = Apollo.BaseMutationOptions<
-  Ops.RefreshAccessTokenMutation,
-  Ops.RefreshAccessTokenMutationVariables
->;
 export const SignUpDocument = gql`
     mutation signUp($signUpInput: SignUpInput!) {
   signUp(signUpInput: $signUpInput) {
