@@ -29,11 +29,11 @@ const splitLink = split(
  *     첫 렌더링 시 useQuery가 네트워크 요청.
  */
 export const createApolloClient = async ({
-  initialApolloState,
+  state,
 }: {
-  initialApolloState?: NormalizedCacheObject;
+  state?: NormalizedCacheObject;
 }): Promise<ApolloClient<NormalizedCacheObject>> => {
-  const cache = await createApolloCache(initialApolloState);
+  const cache = await createApolloCache(state);
 
   apolloClient = new ApolloClient({
     // 쿠키와 인증 정보를 함께 전송

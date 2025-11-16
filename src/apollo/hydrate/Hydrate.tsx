@@ -5,18 +5,18 @@ import { useEffect, useState } from 'react';
 
 import { createApolloClient } from '@/apollo/createApolloClient';
 
-export default function ApolloWrapper({
+export default function Hydrate({
   children,
-  initialApolloState,
+  state,
 }: {
   children: React.ReactNode;
-  initialApolloState?: NormalizedCacheObject;
+  state?: NormalizedCacheObject;
 }) {
   const [apolloClient, setClient] = useState<ApolloClient<NormalizedCacheObject>>();
 
   useEffect(() => {
-    createApolloClient({ initialApolloState }).then(setClient);
-  }, [initialApolloState]);
+    createApolloClient({ state }).then(setClient);
+  }, [state]);
 
   if (!apolloClient) return null;
 

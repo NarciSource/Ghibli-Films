@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Provider as ChakraProvider } from '@chakra-ui/react/provider';
 
-import ApolloWrapper from './ApolloWrapper';
+import ApolloHydrate from '@/apollo/hydrate/Hydrate';
+import AuthInitializer from './AuthInitializer';
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
   // 클라이언트에서 마운트 여부를 추적하는 상태값
@@ -21,8 +22,11 @@ export default function ClientProviders({ children }: { children: React.ReactNod
   }
 
   return (
-    <ApolloWrapper>
-      <ChakraProvider>{children}</ChakraProvider>
-    </ApolloWrapper>
+    <ApolloHydrate>
+      <ChakraProvider>
+        <AuthInitializer />
+        {children}
+      </ChakraProvider>
+    </ApolloHydrate>
   );
 }

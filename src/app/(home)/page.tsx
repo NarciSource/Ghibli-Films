@@ -3,10 +3,10 @@
 import { Box, Heading } from '@chakra-ui/react';
 
 import { getPublicApolloClient } from '@/apollo/getPublicApolloClient';
+import { ApolloHydrate, dehydrate } from '@/apollo/hydrate';
 import FilmList from '@/app/film/_components/FilmList';
 import { FilmsDocument } from '@/graphql/api/hooks';
 import type { FilmsQuery } from '@/graphql/api/operations';
-import { ApolloWrapper } from '../_providers';
 
 export default async function Home() {
   const LIMIT = 6;
@@ -19,14 +19,14 @@ export default async function Home() {
   });
 
   // SSR에서 가져온 Apollo 캐시를 직렬화 전달
-  const initApolloState = JSON.parse(JSON.stringify(apolloClient.cache.extract()));
+  const initApolloState = dehydrate(apolloClient);
 
   return (
-    <ApolloWrapper initialApolloState={initApolloState}>
+    <ApolloHydrate state={initApolloState}>
       <Box px={{ base: 4 }}>
         <Heading size='lg'>최고의 장면을 찾아보세요</Heading>
         <FilmList />
       </Box>
-    </ApolloWrapper>
+    </ApolloHydrate>
   );
 }
