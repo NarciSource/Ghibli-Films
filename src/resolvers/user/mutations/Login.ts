@@ -5,7 +5,8 @@ import type IContext from '@/apollo/IContext';
 import { createAccessToken, createRefreshToken } from '@/auth/tokens';
 import { setAccessTokenHeader, setRefreshTokenHeader } from '@/auth/transport';
 import { User } from '@/entities/User';
-import { type LoginInput, LoginResponse } from '../type';
+// biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
+import { LoginInput, LoginResponse } from '../type';
 
 @Resolver(User)
 export default class LoginMutationResolver {

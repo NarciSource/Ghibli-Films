@@ -5,7 +5,8 @@ import { CutReview } from '@/entities/CutReview';
 import { CutVote } from '@/entities/CutVote';
 import NotificationMutationResolver from '@/resolvers/notification/NotificationMutation';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
-import type { CreateOrUpdateReviewInput } from '../type';
+// biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
+import { CreateOrUpdateReviewInput } from '../type';
 
 @Resolver(CutReview)
 export default class CreateOrUpdateReviewMutationResolver {
