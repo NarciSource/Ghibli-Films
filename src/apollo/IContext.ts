@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
-import createLoaders from 'dataloaders/createLoader';
-import { User } from 'entities/User';
-import redis from 'redis/redis-client';
+import type { Request, Response } from 'express';
+
+import type redis from '@/db/redis-client';
+import type createLoaders from '@/dataloaders/createLoader';
+import type { User } from '@/entities/User';
 
 export interface JwtVerifiedUser {
     userId: User['id'];

@@ -8,6 +8,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
+
 import { CutReview } from './CutReview';
 import { CutVote } from './CutVote';
 import { Notification } from './Notification';
@@ -42,12 +43,21 @@ export class User extends BaseEntity {
     @UpdateDateColumn({ comment: '수정일자' })
     updatedAt: Date;
 
-    @OneToMany(() => CutVote, (cutVote) => cutVote.user)
+    @OneToMany(
+        () => CutVote,
+        (cutVote) => cutVote.user,
+    )
     cutVotes: CutVote[];
 
-    @OneToMany(() => CutReview, (cutReview) => cutReview.user)
+    @OneToMany(
+        () => CutReview,
+        (cutReview) => cutReview.user,
+    )
     cutReviews: CutReview[];
 
-    @OneToMany(() => Notification, (notifications) => notifications.user)
+    @OneToMany(
+        () => Notification,
+        (notifications) => notifications.user,
+    )
     notifications: Notification[];
 }

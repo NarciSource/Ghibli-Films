@@ -1,4 +1,5 @@
-import { NonEmptyArray } from 'type-graphql';
+import type { NonEmptyArray } from 'type-graphql';
+
 import CutFieldResolver from './cut/fields/Cut';
 import ReviewFieldResolver from './cut/fields/Review';
 import CreateOrUpdateReviewMutationResolver from './cut/mutations/CreateOrUpdateReview';

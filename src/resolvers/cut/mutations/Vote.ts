@@ -1,8 +1,9 @@
-import { Resolver, Mutation, UseMiddleware, Arg, Int, Ctx } from 'type-graphql';
-import IContext from 'apollo/IContext';
-import { Cut } from 'entities/Cut';
-import { CutVote } from 'entities/CutVote';
-import { isAuthenticated } from 'middlewares/isAuthenticated';
+import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
+
+import type IContext from '@/apollo/IContext';
+import { Cut } from '@/entities/Cut';
+import { CutVote } from '@/entities/CutVote';
+import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(Cut)
 export default class VoteMutationResolver {

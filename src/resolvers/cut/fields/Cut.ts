@@ -1,7 +1,8 @@
-import { Resolver, FieldResolver, Root, Int, Ctx } from 'type-graphql';
-import IContext from 'apollo/IContext';
-import { Cut } from 'entities/Cut';
-import { Film } from 'entities/Film';
+import { Ctx, FieldResolver, Int, Resolver, Root } from 'type-graphql';
+
+import type IContext from '@/apollo/IContext';
+import { Cut } from '@/entities/Cut';
+import { Film } from '@/entities/Film';
 
 @Resolver(Cut)
 export default class CutFieldResolver {

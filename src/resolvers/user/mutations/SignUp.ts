@@ -1,7 +1,8 @@
 import argon2 from 'argon2';
-import { Resolver, Mutation, Arg } from 'type-graphql';
-import { User } from 'entities/User';
-import { SignUpInput } from '../type';
+import { Arg, Mutation, Resolver } from 'type-graphql';
+
+import { User } from '@/entities/User';
+import type { SignUpInput } from '../type';
 
 @Resolver(User)
 export default class SignupMutationResolver {

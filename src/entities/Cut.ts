@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Film } from './Film';
 
 @ObjectType({ description: '명장면' })

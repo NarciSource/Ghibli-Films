@@ -1,8 +1,9 @@
 import { Args, Ctx, Query, Resolver } from 'type-graphql';
 import { Not } from 'typeorm';
-import IContext from 'apollo/IContext';
-import { CutReview } from 'entities/CutReview';
-import { PaginationArgs } from '../type';
+
+import type IContext from '@/apollo/IContext';
+import { CutReview } from '@/entities/CutReview';
+import type { PaginationArgs } from '../type';
 
 @Resolver(CutReview)
 export default class CutReviewQueryResolver {

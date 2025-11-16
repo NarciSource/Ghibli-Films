@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from 'type-graphql';
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Director } from './Director';
 
 @ObjectType({ description: '영화' })
@@ -45,16 +46,3 @@ export class Film extends BaseEntity {
     @Column({ type: 'date', comment: '개봉일' })
     releaseDate: string;
 }
-
-// --SDL--
-// type Film {
-//     id: Int!
-//     title: String
-//     subtitle: String
-//     genre: String!
-//     runningTime: Float!
-//     description: String!
-//     directorId: Int!
-//     posterImg: String!
-//     releaseDate: String
-// }

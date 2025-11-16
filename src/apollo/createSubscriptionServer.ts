@@ -1,10 +1,10 @@
-import http from 'http';
+import type http from 'node:http';
 import { parse } from 'cookie';
-import { GraphQLSchema, execute, subscribe } from 'graphql';
+import { execute, type GraphQLSchema, subscribe } from 'graphql';
 import { useServer } from 'graphql-ws/use/ws';
 import { WebSocketServer } from 'ws';
 
-import { verifyAccessToken } from 'auth/tokens';
+import { verifyAccessToken } from '@/auth/tokens';
 
 export default function createSubscriptionServer(schema: GraphQLSchema, server: http.Server) {
     const wsServer = new WebSocketServer({
@@ -21,7 +21,7 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
             context: (ctx) => {
                 const cookies = getCookieFromRawHeaders(ctx.extra.request.rawHeaders);
 
-                const accessToken = cookies['accessToken'];
+                const accessToken = cookies.accessToken;
 
                 const verifiedUser = verifyAccessToken(accessToken);
 

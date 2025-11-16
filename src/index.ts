@@ -1,4 +1,4 @@
-import http from 'http';
+import http from 'node:http';
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
@@ -8,10 +8,10 @@ import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 dotenv.config();
 
-import createApolloServer from 'apollo/createApolloServer';
-import createSchema from 'apollo/createSchema';
-import createSubscriptionServer from 'apollo/createSubscriptionServer';
-import { createDB } from 'db/db-client';
+import createApolloServer from '@/apollo/createApolloServer';
+import createSchema from '@/apollo/createSchema';
+import createSubscriptionServer from '@/apollo/createSubscriptionServer';
+import { createDB } from '@/db/db-client';
 
 async function main() {
     // DB 설정
@@ -20,7 +20,7 @@ async function main() {
     // Express 설정
     const app = express();
 
-    app.use((req, res, next) => {
+    app.use((_req, res, next) => {
         res.setHeader('Referrer-Policy', 'no-referrer');
         next();
     }, cookieParser()); // cookie-parser 미들웨어 추가
@@ -30,7 +30,7 @@ async function main() {
 
     app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' })); // voyager 스키마 다이어그램
 
-    app.get('/', (req, res) => {
+    app.get('/', (_req, res) => {
         res.status(200).send('Ok'); // for healthcheck
     });
 

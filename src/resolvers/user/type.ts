@@ -1,8 +1,8 @@
 import { IsEmail, IsString } from 'class-validator'; // 입력 필드 유효성 검사
-import { Field, InputType, createUnionType } from 'type-graphql';
+import { createUnionType, Field, InputType } from 'type-graphql';
 
-import { User } from 'entities/User';
-import { FieldError } from 'entities/User.Error';
+import { User } from '@/entities/User';
+import { FieldError } from '@/entities/User.Error';
 
 @InputType()
 export class SignUpInput {

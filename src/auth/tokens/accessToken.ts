@@ -1,14 +1,14 @@
 import { AuthenticationError } from 'apollo-server-core';
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
-import { StringValue } from "ms"
+import type { StringValue } from 'ms';
 
-import { JwtVerifiedUser } from 'apollo/IContext';
-import { User } from 'entities/User';
+import type { JwtVerifiedUser } from '@/apollo/IContext';
+import type { User } from '@/entities/User';
 
 export function createAccessToken(user: User): string {
     const userData: JwtVerifiedUser = { userId: user.id };
     const accessToken = jwt.sign(userData, process.env.JWT_SECRET_KEY, {
-        expiresIn: process.env.JWT_ACCESS_EXPIRES_IN as StringValue ?? '10m'
+        expiresIn: (process.env.JWT_ACCESS_EXPIRES_IN as StringValue) ?? '10m',
     });
 
     return accessToken;

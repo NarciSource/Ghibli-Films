@@ -1,13 +1,13 @@
-import IContext from "apollo/IContext";
-import { User } from "entities/User";
-import { setAccessTokenHeader, setRefreshTokenHeader } from "auth/transport";
-import { createAccessToken } from "auth/tokens/accessToken";
-import { createRefreshToken, verifyRefreshToken } from "auth/tokens/refreshToken";
+import type IContext from '@/apollo/IContext';
+import { createAccessToken } from '@/auth/tokens/accessToken';
+import { createRefreshToken, verifyRefreshToken } from '@/auth/tokens/refreshToken';
+import { setAccessTokenHeader, setRefreshTokenHeader } from '@/auth/transport';
+import { User } from '@/entities/User';
 
 export async function refreshAccessToken(context: IContext) {
     const { req, res, redis } = context;
 
-    const refreshToken = req.cookies['refreshToken'];
+    const refreshToken = req.cookies.refreshToken;
 
     const { userId } = await verifyRefreshToken(refreshToken, redis);
 

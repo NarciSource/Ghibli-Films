@@ -1,5 +1,5 @@
-import { Response } from 'express';
-import ms, { StringValue } from 'ms';
+import type { Response } from 'express';
+import ms, { type StringValue } from 'ms';
 
 export function setRefreshTokenHeader(res: Response, refreshToken: string): void {
     res.cookie('refreshToken', refreshToken, {
@@ -9,7 +9,7 @@ export function setRefreshTokenHeader(res: Response, refreshToken: string): void
         // strict: 같은 도메인만 가능
         // lax: 느슨하게, anchor, link 태그 또는 302 리다이렉트로 이동했을 때 가능
         // none: cross-site도 가능
-        maxAge: ms(process.env.JWT_REFRESH_EXPIRES_IN as StringValue)
+        maxAge: ms(process.env.JWT_REFRESH_EXPIRES_IN as StringValue),
     });
 }
 
@@ -20,6 +20,6 @@ export function setAccessTokenHeader(res: Response, accessToken: string) {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: ms(process.env.JWT_ACCESS_EXPIRES_IN as StringValue) + tokenExpiryLeeway
+        maxAge: ms(process.env.JWT_ACCESS_EXPIRES_IN as StringValue) + tokenExpiryLeeway,
     });
 }

@@ -1,6 +1,7 @@
-import { Resolver, FieldResolver, Root } from 'type-graphql';
-import { Director } from 'entities/Director';
-import { Film } from 'entities/Film';
+import { FieldResolver, Resolver, Root } from 'type-graphql';
+
+import { Director } from '@/entities/Director';
+import { Film } from '@/entities/Film';
 
 @Resolver(Film)
 export default class FilmFieldResolver {

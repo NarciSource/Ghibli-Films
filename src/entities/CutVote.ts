@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from 'type-graphql';
 import { BaseEntity, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+
 import { Cut } from './Cut';
 import { User } from './User';
 
@@ -17,7 +18,10 @@ export class CutVote extends BaseEntity {
     @Field(() => Cut)
     cut: Cut;
 
-    @ManyToOne(() => User, (user) => user.cutVotes)
+    @ManyToOne(
+        () => User,
+        (user) => user.cutVotes,
+    )
     @Field(() => User)
     user: User;
 }

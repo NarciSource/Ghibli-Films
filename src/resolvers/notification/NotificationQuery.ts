@@ -1,7 +1,8 @@
 import { Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
-import IContext from 'apollo/IContext';
-import { Notification } from 'entities/Notification';
-import { isAuthenticated } from 'middlewares/isAuthenticated';
+
+import type IContext from '@/apollo/IContext';
+import { Notification } from '@/entities/Notification';
+import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(Notification)
 export default class NotificationQueryResolver {

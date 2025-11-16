@@ -1,9 +1,10 @@
-import { createWriteStream } from 'fs';
-import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import { createWriteStream } from 'node:fs';
+import { type FileUpload, GraphQLUpload } from 'graphql-upload';
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
-import IContext from 'apollo/IContext';
-import { User } from 'entities/User';
-import { isAuthenticated } from 'middlewares/isAuthenticated';
+
+import type IContext from '@/apollo/IContext';
+import { User } from '@/entities/User';
+import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(User)
 export default class UploadProfileImageMutationResolver {
