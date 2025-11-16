@@ -2,13 +2,19 @@
 
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { Box, Link as ChakraLink, Flex } from '@chakra-ui/react';
+import { Box, Link as ChakraLink, Flex, Stack } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 
+import { useIsLoggedIn } from '@/app/_store/useAuthStore';
+import { ColorModeSwitcher } from './ColorModeSwitcher';
+import EntryActionButton from './EntryActionButton';
+import Notification from './notification/Notification';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 
 export default function Navbar() {
+  const isLoggedIn = useIsLoggedIn();
+
   return (
     <Box
       zIndex={10}
@@ -44,7 +50,18 @@ export default function Navbar() {
 
         <SearchBar />
 
-        <UserMenu />
+        <Stack justify='flex-end' alignItems='center' direction='row' gap={3}>
+          <ColorModeSwitcher />
+
+          {isLoggedIn ? (
+            <>
+              <Notification />
+              <UserMenu />
+            </>
+          ) : (
+            <EntryActionButton />
+          )}
+        </Stack>
       </Flex>
     </Box>
   );
