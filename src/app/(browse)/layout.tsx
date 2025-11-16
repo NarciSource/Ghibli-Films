@@ -1,21 +1,29 @@
 'use server';
 
-import { Box, Heading } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import { getPublicApolloClient } from '@/apollo/getPublicApolloClient';
 import { ApolloHydrate, dehydrate } from '@/apollo/hydrate';
 import { FilmsDocument } from '@/graphql/api/hooks';
 import type { FilmsQuery } from '@/graphql/api/operations';
-import FilmList from '@/app/film/_components/FilmList';
 
-export default async function Home() {
+type LayoutProps = {
+  children: React.ReactNode;
+  searchParams?: { q?: string };
+};
+
+export default async function BrowseLayout({ children, searchParams }: LayoutProps) {
   const LIMIT = 6;
   // 서버에서 초기 데이터 요청
   const apolloClient = await getPublicApolloClient();
 
   await apolloClient.query<FilmsQuery>({
     query: FilmsDocument,
-    variables: { limit: LIMIT, cursor: 1 },
+    variables: {
+      limit: LIMIT,
+      cursor: 1,
+      search: searchParams?.q ?? undefined,
+    },
   });
 
   // SSR에서 가져온 Apollo 캐시를 직렬화 전달
@@ -23,10 +31,7 @@ export default async function Home() {
 
   return (
     <ApolloHydrate state={initApolloState}>
-      <Box px={{ base: 4 }}>
-        <Heading size='lg'>최고의 장면을 찾아보세요</Heading>
-        <FilmList />
-      </Box>
+      <Box px={{ base: 4 }}>{children}</Box>
     </ApolloHydrate>
   );
 }
