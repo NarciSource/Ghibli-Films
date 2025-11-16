@@ -3,11 +3,11 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Field, Fieldset, Input, Separator, Stack } from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/react/color-mode';
 import { toaster } from '@chakra-ui/react/toaster';
 
 import { useSignUpMutation } from '@/graphql/api/hooks';
 import type { SignUpMutationVariables } from '@/graphql/api/operations';
-import { useColorModeValue } from '@/shared/ui/chakra/color-mode';
 
 export default function SignUpForm(): React.ReactElement {
   const [signUp, { loading }] = useSignUpMutation();

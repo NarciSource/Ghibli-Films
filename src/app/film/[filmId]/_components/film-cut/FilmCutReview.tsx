@@ -2,8 +2,8 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { Box, Flex, HStack, IconButton, Separator, Text } from '@chakra-ui/react';
 import { Tooltip } from '@chakra-ui/react/tooltip';
 
-import Avatar from '@/app/_shared/Avatar';
 import type { CutQuery } from '@/graphql/api/operations';
+import Avatar from '@/app/_shared/Avatar';
 
 type FilmCutReviewProps = CutQuery['cutReviews'][0] & {
   onEditClick: () => void;

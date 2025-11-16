@@ -1,2 +1,2 @@
-export { default as dehydrate } from "./dehydrate";
-export { default as ApolloHydrate } from "./Hydrate";
+export { default as dehydrate } from './dehydrate';
+export { default as ApolloHydrate } from './Hydrate';

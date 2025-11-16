@@ -46,6 +46,7 @@
               [":PACKAGE:", "!@chakra-ui/**"],
               ["@chakra-ui/react", "@chakra-ui/react/**"],
               ":BLANK_LINE:",
+              ["@/apollo/**", "@/graphql/**", "@/store/**"],
               "**"
             ]
           }

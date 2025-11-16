@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 
-import { useAuthStore } from '@/app/_store/useAuthStore';
 import { useMeQuery } from '@/graphql/api/hooks';
+import { useAuthStore } from '@/app/_store/useAuthStore';
 
 export default function AuthInitializer() {
   const { setUser } = useAuthStore();

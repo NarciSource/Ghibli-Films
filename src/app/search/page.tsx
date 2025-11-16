@@ -4,9 +4,9 @@ import { Box, Heading } from '@chakra-ui/react';
 
 import { getPublicApolloClient } from '@/apollo/getPublicApolloClient';
 import { ApolloHydrate, dehydrate } from '@/apollo/hydrate';
-import FilmList from '@/app/film/_components/FilmList';
 import { FilmsDocument } from '@/graphql/api/hooks';
 import type { FilmsQuery } from '@/graphql/api/operations';
+import FilmList from '@/app/film/_components/FilmList';
 
 export default async function Search({ searchParams }: { searchParams: Promise<{ q: string }> }) {
   const { q } = await searchParams;

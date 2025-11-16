@@ -2,9 +2,9 @@
 
 import { Button, Menu, MenuContent, MenuPositioner, MenuTrigger, Portal } from '@chakra-ui/react';
 
+import type { MeQuery } from '@/graphql/api/operations';
 import Avatar from '@/app/_shared/Avatar';
 import { useAuthStore } from '@/app/_store/useAuthStore';
-import type { MeQuery } from '@/graphql/api/operations';
 import LogoutItem from './LogoutItem';
 import ProfileImageItem from './ProfileImageItem';
 

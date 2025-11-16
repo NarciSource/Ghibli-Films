@@ -3,12 +3,12 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Field, Fieldset, Input, Separator, Stack } from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/react/color-mode';
 import { toaster } from '@chakra-ui/react/toaster';
 
 import { useLoginMutation } from '@/graphql/api/hooks';
 import type { LoginMutationVariables } from '@/graphql/api/operations';
 import type { FieldError, User } from '@/graphql/api/type';
-import { useColorModeValue } from '@/shared/ui/chakra/color-mode';
 import { useAuthStore } from '@/app/_store/useAuthStore';
 
 export default function LoginForm(): React.ReactElement {
