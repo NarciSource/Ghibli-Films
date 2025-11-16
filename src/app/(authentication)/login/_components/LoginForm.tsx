@@ -25,13 +25,13 @@ export default function LoginForm(): React.ReactElement {
   const onSubmit = ({ loginInput }: LoginMutationVariables) => {
     login({ variables: { loginInput } })
       .then(({ data }) => {
-        if (data?.login as FieldError) {
+        if (data?.login.__typename === 'FieldError') {
           const fieldForm = 'loginInput.';
           const { field, message } = data?.login as FieldError;
 
           setError((fieldForm + field) as Parameters<typeof setError>[0], { message });
         }
-        if (data?.login as User) {
+        if (data?.login.__typename === 'User') {
           const user = data?.login as User;
 
           setUser(user);
