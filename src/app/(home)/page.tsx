@@ -3,10 +3,10 @@
 import { Box, Heading } from '@chakra-ui/react';
 
 import { getPublicApolloClient } from '@/apollo/getPublicApolloClient';
+import FilmList from '@/app/film/_components/FilmList';
 import { FilmsDocument } from '@/graphql/api/hooks';
 import type { FilmsQuery } from '@/graphql/api/operations';
-import ApolloWrapper from './_components/ApolloWrapper';
-import FilmList from './_components/film/FilmList';
+import { ApolloWrapper } from '../_providers';
 
 export default async function Home() {
   const LIMIT = 6;

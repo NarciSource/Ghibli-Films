@@ -5,7 +5,7 @@ import { toaster } from '@chakra-ui/react/toaster';
 
 import { CutDocument, useVoteMutation } from '@/graphql/api/hooks';
 import type { CutQuery, CutQueryVariables } from '@/graphql/api/operations';
-import { useIsLoggedIn } from '@/store/useAuthStore';
+import { useIsLoggedIn } from '@/app/_store/useAuthStore';
 
 export default function FilmCutVote({
   cutId,

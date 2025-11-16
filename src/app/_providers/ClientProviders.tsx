@@ -5,7 +5,7 @@ import { Provider as ChakraProvider } from '@chakra-ui/react/provider';
 
 import ApolloWrapper from './ApolloWrapper';
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function ClientProviders({ children }: { children: React.ReactNode }) {
   // 클라이언트에서 마운트 여부를 추적하는 상태값
   // false: SSR에서는 아직 렌더링하지 않음
   const [hydrated, setHydrated] = useState(false);

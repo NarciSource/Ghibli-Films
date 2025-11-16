@@ -11,13 +11,13 @@ import {
   Stack,
 } from '@chakra-ui/react';
 
+import Avatar from '@/app/_shared/Avatar';
+import { useIsLoggedIn } from '@/app/_store/useAuthStore';
 import { useMeQuery } from '@/graphql/api/hooks';
 import type { MeQuery } from '@/graphql/api/operations';
-import { useIsLoggedIn } from '@/store/useAuthStore';
-import Avatar from '../auth/Avatar';
-import Notification from '../notification/Notification';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import LogoutItem from './LogoutItem';
+import Notification from "./notification/Notification"
 import ProfileImageItem from './ProfileImageItem';
 
 export default function UserMenu(): React.ReactElement {

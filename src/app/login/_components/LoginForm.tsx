@@ -9,7 +9,7 @@ import { useLoginMutation } from '@/graphql/api/hooks';
 import type { LoginMutationVariables } from '@/graphql/api/operations';
 import type { FieldError, User } from '@/graphql/api/type';
 import { useColorModeValue } from '@/shared/ui/chakra/color-mode';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/app/_store/useAuthStore';
 
 export default function LoginForm(): React.ReactElement {
   const [login, { loading }] = useLoginMutation();

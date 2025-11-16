@@ -2,7 +2,7 @@ import { useApolloClient } from '@apollo/client';
 import { MenuItem } from '@chakra-ui/react';
 
 import { useLogoutMutation } from '@/graphql/api/hooks';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/app/_store/useAuthStore';
 
 export default function LogoutItem(): React.ReactElement {
   const [logout, { loading: logoutLoading }] = useLogoutMutation();
