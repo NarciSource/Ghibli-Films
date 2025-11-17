@@ -3,17 +3,17 @@
 import { Box, Text } from '@chakra-ui/react';
 
 import { getPublicApolloClient } from '@/apollo/getPublicApolloClient';
-import FilmDetail from '@/app/_components/film/FilmDetail';
-import { FilmCutList, FilmCutListLoader } from '@/app/_components/film-cut';
 import { FilmDocument } from '@/graphql/api/hooks';
 import type { FilmQuery } from '@/graphql/api/operations';
+import FilmDetail from './_components/FilmDetail';
+import { FilmCutList, FilmCutListLoader } from './_components/film-cut';
 
 export default async function Film({ params }: { params: Promise<{ filmId: string }> }) {
   const { filmId } = await params;
 
   try {
     // 서버에서 데이터 패칭
-    const apolloClient = getPublicApolloClient();
+    const apolloClient = await getPublicApolloClient();
 
     const { data } = await apolloClient.query<FilmQuery>({
       query: FilmDocument,

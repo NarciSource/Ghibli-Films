@@ -7,16 +7,6 @@ const wsUri = httpUri?.replace(/^http:\/\//, 'ws://').replace(/^https:\/\//, 'ws
 const wsLink = new GraphQLWsLink(
   createClient({
     url: `${wsUri}/graphql`,
-    // 웹소켓 연결 시 헤더에 토큰 포함
-    // 링크 체인은 불가
-    connectionParams: () => {
-      const auth = localStorage.getItem('auth');
-      const accessToken = auth ? JSON.parse(auth).state.accessToken : null;
-
-      return {
-        Authorization: `Bearer ${accessToken}`,
-      };
-    },
   }),
 );
 

@@ -3,7 +3,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { Kind, OperationTypeNode } from 'graphql';
 
 import { createApolloCache } from './createApolloCache';
-import { authLink, errorLink, httpUploadLink, wsLink } from './middleware';
+import { errorLink, httpUploadLink, wsLink } from './middleware';
 
 const splitLink = split(
   ({ query }) => {
@@ -16,7 +16,7 @@ const splitLink = split(
     );
   },
   from([wsLink]),
-  from([authLink, errorLink, httpUploadLink]),
+  from([errorLink, httpUploadLink]),
 );
 
 /**
@@ -29,13 +29,15 @@ const splitLink = split(
  *     첫 렌더링 시 useQuery가 네트워크 요청.
  */
 export const createApolloClient = async ({
-  initialApolloState,
+  state,
 }: {
-  initialApolloState?: NormalizedCacheObject;
+  state?: NormalizedCacheObject;
 }): Promise<ApolloClient<NormalizedCacheObject>> => {
-  const cache = await createApolloCache(initialApolloState);
+  const cache = await createApolloCache(state);
 
   apolloClient = new ApolloClient({
+    // 쿠키와 인증 정보를 함께 전송
+    credentials: 'include',
     // 요청 타입에 따라 각 Link로 분기
     link: splitLink,
     // SSR 캐시를 hydrate

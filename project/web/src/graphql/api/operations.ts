@@ -122,11 +122,7 @@ export type LoginMutation = {
   __typename?: 'Mutation';
   login:
     | { __typename?: 'FieldError'; field: string; message: string }
-    | {
-        __typename?: 'UserWithToken';
-        accessToken: string;
-        user: { __typename?: 'User'; id: number; username: string };
-      };
+    | { __typename?: 'User'; id: number; username: string };
 };
 
 export type LogoutMutationVariables = Types.Exact<{ [key: string]: never }>;
@@ -158,13 +154,6 @@ export type NotificationsQuery = {
     createdAt: string;
     updatedAt: string;
   }>;
-};
-
-export type RefreshAccessTokenMutationVariables = Types.Exact<{ [key: string]: never }>;
-
-export type RefreshAccessTokenMutation = {
-  __typename?: 'Mutation';
-  refreshAccessToken?: { __typename?: 'RefreshAccessTokenResponse'; accessToken: string } | null;
 };
 
 export type SignUpMutationVariables = Types.Exact<{

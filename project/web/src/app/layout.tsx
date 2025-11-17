@@ -5,8 +5,8 @@ import './globals.css';
 import { Box, Flex } from '@chakra-ui/react';
 import { Toaster } from '@chakra-ui/react/toaster';
 
-import Navbar from './_components/nav/Navbar';
-import Providers from './_components/Providers';
+import { Navbar } from './_layout/nav';
+import ClientProviders from './_providers/ClientProviders';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang='ko' suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Providers>
+        <ClientProviders>
           <Flex justify='center'>
             <Navbar />
           </Flex>
@@ -39,7 +39,7 @@ export default function RootLayout({
             {children}
           </Box>
           <Toaster />
-        </Providers>
+        </ClientProviders>
       </body>
     </html>
   );

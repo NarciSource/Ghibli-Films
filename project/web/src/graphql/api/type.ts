@@ -108,7 +108,7 @@ export type LoginInput = {
 };
 
 /** 로그인 반환 데이터 */
-export type LoginResponse = FieldError | UserWithToken;
+export type LoginResponse = FieldError | User;
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -117,7 +117,6 @@ export type Mutation = {
   deleteReview: Scalars['Boolean']['output'];
   login: LoginResponse;
   logout: Scalars['Boolean']['output'];
-  refreshAccessToken?: Maybe<RefreshAccessTokenResponse>;
   signUp: User;
   uploadProfileImage: Scalars['Boolean']['output'];
   vote: Scalars['Boolean']['output'];
@@ -218,12 +217,6 @@ export type QueryFilmsArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** 엑세스 토큰 반환 데이터 */
-export type RefreshAccessTokenResponse = {
-  __typename?: 'RefreshAccessTokenResponse';
-  accessToken: Scalars['String']['output'];
-};
-
 export type SignUpInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -250,10 +243,4 @@ export type User = {
   updatedAt: Scalars['String']['output'];
   /** 유저 이름 */
   username: Scalars['String']['output'];
-};
-
-export type UserWithToken = {
-  __typename?: 'UserWithToken';
-  accessToken: Scalars['String']['output'];
-  user: User;
 };
