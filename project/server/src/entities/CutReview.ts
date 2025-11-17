@@ -9,6 +9,7 @@ import {
     RelationId,
     UpdateDateColumn,
 } from 'typeorm';
+
 import { User } from './User';
 
 @ObjectType({ description: '감상평' })
@@ -27,7 +28,10 @@ export class CutReview extends BaseEntity {
     cutId: number;
 
     @Field(() => User)
-    @ManyToOne(() => User, (user) => user.cutReviews)
+    @ManyToOne(
+        () => User,
+        (user) => user.cutReviews,
+    )
     user: User;
 
     @RelationId((cutReview: CutReview) => cutReview.user)

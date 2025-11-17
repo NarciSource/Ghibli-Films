@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { InputType, Field, Int, ArgsType } from 'type-graphql';
+import { ArgsType, Field, InputType, Int } from 'type-graphql';
 
 @InputType()
 export class CreateOrUpdateReviewInput {

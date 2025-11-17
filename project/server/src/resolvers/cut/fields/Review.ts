@@ -1,7 +1,8 @@
 import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
-import IContext from 'apollo/IContext';
-import { CutReview } from 'entities/CutReview';
-import { User } from 'entities/User';
+
+import type IContext from '@/apollo/IContext';
+import { CutReview } from '@/entities/CutReview';
+import { User } from '@/entities/User';
 
 @Resolver(CutReview)
 export default class ReviewFieldResolver {

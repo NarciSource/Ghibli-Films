@@ -1,7 +1,8 @@
 import DataLoader from 'dataloader';
 import { In } from 'typeorm';
-import { Cut } from 'entities/Cut';
-import { CutVote } from 'entities/CutVote';
+
+import type { Cut } from '@/entities/Cut';
+import { CutVote } from '@/entities/CutVote';
 
 type CutVoteKey = {
     cutId: Cut['id'];

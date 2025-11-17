@@ -1,0 +1,64 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "ignoreUnknown": true,
+        "includes": ["**", "!node_modules", "!dist", "!build"]
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineEnding": "crlf",
+        "lineWidth": 100,
+        "bracketSpacing": true,
+        "useEditorconfig": false
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true
+        }
+    },
+
+    "javascript": {
+        "formatter": {
+            "indentWidth": 4,
+            "quoteStyle": "single",
+            "jsxQuoteStyle": "single",
+            "trailingCommas": "all",
+            "semicolons": "always",
+            "arrowParentheses": "always"
+        },
+        "linter": {
+            "enabled": true
+        },
+        "parser": {
+            "unsafeParameterDecoratorsEnabled": true
+        }
+    },
+
+    "assist": {
+        "actions": {
+            "source": {
+                "organizeImports": {
+                    "level": "on",
+                    "options": {
+                        "groups": [
+                            [":NODE:", ":PACKAGE:"],
+                            ":BLANK_LINE:",
+                            ["@/apollo/**", "@/db/**", "@/redis/**"],
+                            ["@/entities/**", "@/auth/**", "@/dataloaders/**", "@/resolvers/**"],
+                            ["@/utils/**", "@/middlewares/**"],
+                            "**"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

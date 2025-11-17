@@ -1,9 +1,12 @@
 import argon2 from 'argon2';
-import { Resolver, Mutation, Arg, Ctx } from 'type-graphql';
-import IContext from 'apollo/IContext';
-import { User } from 'entities/User';
-import { createAccessToken, createRefreshToken, setRefreshTokenHeader } from 'utils/jwt-auth';
-import { LoginResponse, LoginInput } from '../type';
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+
+import type IContext from '@/apollo/IContext';
+import { createAccessToken, createRefreshToken } from '@/auth/tokens';
+import { setAccessTokenHeader, setRefreshTokenHeader } from '@/auth/transport';
+import { User } from '@/entities/User';
+// biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
+import { LoginInput, LoginResponse } from '../type';
 
 @Resolver(User)
 export default class LoginMutationResolver {
@@ -28,10 +31,11 @@ export default class LoginMutationResolver {
 
             // 리프레시 토큰 레디스 적재
             await redis.set(String(user.id), refreshToken);
-            // 쿠키로 리프레시 토큰 전송
+            // 쿠키로 엑세스 토큰 및 리프레시 토큰 전송
+            setAccessTokenHeader(res, accessToken);
             setRefreshTokenHeader(res, refreshToken);
 
-            response = { user, accessToken };
+            response = user;
         } else if (user) {
             response = { field: 'password', message: '비밀번호가 틀렸습니다.' };
         } else {

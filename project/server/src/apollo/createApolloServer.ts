@@ -1,10 +1,12 @@
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
-import { GraphQLSchema } from 'graphql';
-import createLoaders from 'dataloaders/createLoader';
-import redis from 'redis/redis-client';
-import { verifyAccessTokenFromReqHeaders } from 'utils/jwt-auth';
-import IContext from './IContext';
+import type { GraphQLSchema } from 'graphql';
+
+import redis from '@/db/redis-client';
+import { verifyAccessToken } from '@/auth/tokens';
+import createLoaders from '@/dataloaders/createLoader';
+import type IContext from './IContext';
+import type { JwtVerifiedUser } from './IContext';
 
 export default function createApolloServer(schema: GraphQLSchema): ApolloServer {
     return new ApolloServer({
@@ -13,7 +15,12 @@ export default function createApolloServer(schema: GraphQLSchema): ApolloServer 
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
         context: ({ req, res }: IContext) => {
             // context에 인증값 추가
-            const verified = verifyAccessTokenFromReqHeaders(req.headers);
+            let verified: JwtVerifiedUser;
+            try {
+                verified = verifyAccessToken(req.cookies.accessToken);
+            } catch {
+                verified = null;
+            }
             return { req, res, verifiedUser: verified, redis, loaders: createLoaders() };
         },
     });

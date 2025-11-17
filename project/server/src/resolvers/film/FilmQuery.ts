@@ -1,7 +1,8 @@
 import { Arg, Int, Query, Resolver } from 'type-graphql';
-import { getEsClient } from 'db/es-client';
-import { Film } from 'entities/Film';
-import { PaginatedFilms } from 'entities/PaginatedFilm';
+
+import { getEsClient } from '@/db/es-client';
+import { Film } from '@/entities/Film';
+import { PaginatedFilms } from '@/entities/PaginatedFilm';
 
 @Resolver(Film) // 인자: 오브젝트타입
 export default class FilmQueryResolver {
@@ -40,7 +41,7 @@ export default class FilmQueryResolver {
         const films = await qb.getMany();
 
         // 커서 업데이트
-        let nextCursor: number | null = null;
+        let nextCursor: number = null;
         if (films.length > limit) {
             nextCursor = films.pop().id + 1;
         }

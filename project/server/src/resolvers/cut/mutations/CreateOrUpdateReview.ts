@@ -1,10 +1,11 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 
-import IContext from 'apollo/IContext';
-import { CutReview } from 'entities/CutReview';
-import { CutVote } from 'entities/CutVote';
-import { isAuthenticated } from 'middlewares/isAuthenticated';
-import NotificationMutationResolver from 'resolvers/notification/NotificationMutation';
+import type IContext from '@/apollo/IContext';
+import { CutReview } from '@/entities/CutReview';
+import { CutVote } from '@/entities/CutVote';
+import NotificationMutationResolver from '@/resolvers/notification/NotificationMutation';
+import { isAuthenticated } from '@/middlewares/isAuthenticated';
+// biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
 import { CreateOrUpdateReviewInput } from '../type';
 
 @Resolver(CutReview)

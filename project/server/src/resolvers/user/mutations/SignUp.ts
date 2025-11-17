@@ -1,6 +1,8 @@
 import argon2 from 'argon2';
-import { Resolver, Mutation, Arg } from 'type-graphql';
-import { User } from 'entities/User';
+import { Arg, Mutation, Resolver } from 'type-graphql';
+
+import { User } from '@/entities/User';
+// biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
 import { SignUpInput } from '../type';
 
 @Resolver(User)

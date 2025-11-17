@@ -1,11 +1,12 @@
 import { DataSource } from 'typeorm';
-import { Cut } from 'entities/Cut';
-import { CutReview } from 'entities/CutReview';
-import { CutVote } from 'entities/CutVote';
-import { Director } from 'entities/Director';
-import { Film } from 'entities/Film';
-import { Notification } from 'entities/Notification';
-import { User } from 'entities/User';
+
+import { Cut } from '@/entities/Cut';
+import { CutReview } from '@/entities/CutReview';
+import { CutVote } from '@/entities/CutVote';
+import { Director } from '@/entities/Director';
+import { Film } from '@/entities/Film';
+import { Notification } from '@/entities/Notification';
+import { User } from '@/entities/User';
 
 export const createDB = async (): Promise<DataSource> =>
     new DataSource({

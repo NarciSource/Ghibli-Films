@@ -1,8 +1,10 @@
-import http from 'http';
-import { GraphQLSchema, execute, subscribe } from 'graphql';
+import type http from 'node:http';
+import { parse } from 'cookie';
+import { execute, type GraphQLSchema, subscribe } from 'graphql';
 import { useServer } from 'graphql-ws/use/ws';
 import { WebSocketServer } from 'ws';
-import { verifyAccessToken } from 'utils/jwt-auth';
+
+import { verifyAccessToken } from '@/auth/tokens';
 
 export default function createSubscriptionServer(schema: GraphQLSchema, server: http.Server) {
     const wsServer = new WebSocketServer({
@@ -17,10 +19,11 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
             execute,
             subscribe,
             context: (ctx) => {
-                // connectionParams에서 인증 헤더 추출
-                const authorization = ctx.connectionParams.Authorization as string;
-                const token = authorization?.split(' ')?.[1];
-                const verifiedUser = token ? verifyAccessToken(token) : null;
+                const cookies = getCookieFromRawHeaders(ctx.extra.request.rawHeaders);
+
+                const accessToken = cookies.accessToken;
+
+                const verifiedUser = verifyAccessToken(accessToken);
 
                 return { verifiedUser };
             },
@@ -33,4 +36,12 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
         },
         wsServer,
     );
+}
+
+function getCookieFromRawHeaders(rawHeaders: string[]) {
+    const cookieIndex = rawHeaders.findIndex((h) => h.toLowerCase() === 'cookie');
+    if (cookieIndex === -1) return {};
+
+    const cookieHeader = rawHeaders[cookieIndex + 1] || '';
+    return parse(cookieHeader);
 }

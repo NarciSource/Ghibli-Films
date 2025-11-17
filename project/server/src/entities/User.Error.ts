@@ -1,4 +1,4 @@
-import { ObjectType, Field } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType({ description: '필드 에러 타입' })
 export class FieldError {

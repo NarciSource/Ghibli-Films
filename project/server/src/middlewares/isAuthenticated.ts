@@ -1,18 +1,18 @@
-import { AuthenticationError } from 'apollo-server-core';
-import { Request } from 'express';
-import { MiddlewareFn } from 'type-graphql';
-import { JwtVerifiedUser, verifyAccessToken } from 'utils/jwt-auth';
+import type { MiddlewareFn } from 'type-graphql';
 
-export const isAuthenticated: MiddlewareFn<{ verifiedUser: JwtVerifiedUser; req: Request }> = (
-    { context },
-    next,
-) => {
-    const { authorization } = context.req.headers;
+import type IContext from '@/apollo/IContext';
+import { verifyAccessToken } from '@/auth/tokens';
+import { refreshAccessToken } from './refreshAccessToken';
 
-    if (!authorization) throw new AuthenticationError('unauthenticated');
-    const accessToken = authorization.replace('Bearer ', '');
+export const isAuthenticated: MiddlewareFn<IContext> = async ({ context }, next) => {
+    try {
+        verifyAccessToken(context.req.cookies.accessToken);
+    } catch (error) {
+        if (error.message === 'access token expired') {
+            await refreshAccessToken(context);
 
-    verifyAccessToken(accessToken);
-
+            return next();
+        }
+    }
     return next();
 };

@@ -1,7 +1,8 @@
 import { Arg, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
-import { pubSub } from 'apollo/pubSub';
-import { Notification } from 'entities/Notification';
-import { isAuthenticated } from 'middlewares/isAuthenticated';
+
+import { pubSub } from '@/apollo/pubSub';
+import { Notification } from '@/entities/Notification';
+import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(Notification)
 export default class NotificationMutationResolver {

@@ -1,10 +1,20 @@
-import { Request, Response } from 'express';
-import createLoaders from 'dataloaders/createLoader';
-import redis from 'redis/redis-client';
-import { JwtVerifiedUser } from 'utils/jwt-auth';
+import type { Request, Response } from 'express';
+
+import type redis from '@/db/redis-client';
+import type createLoaders from '@/dataloaders/createLoader';
+import type { User } from '@/entities/User';
+
+export interface JwtVerifiedUser {
+    userId: User['id'];
+}
 
 export default interface IContext {
-    req: Request;
+    req: Request & {
+        cookies: {
+            accessToken?: string;
+            refreshToken?: string;
+        };
+    };
     res: Response;
     verifiedUser: JwtVerifiedUser;
     redis: typeof redis;
