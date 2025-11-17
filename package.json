@@ -1,6 +1,6 @@
 {
   "name": "ghibli-films",
-  "version": "3.0.0",
+  "version": "3.2.0",
   "homepage": "https://NarciSource.github.io/Ghibli-Films",
   "private": true,
   "workspaces": [
@@ -26,16 +26,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^6.0.0",
     "@graphql-codegen/introspection": "^5.0.0",
-    "eslint": "^9.36.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
     "gh-pages": "^6.3.0",
-    "prettier": "^3.3.2",
     "typescript-eslint": "^8.44.1"
   },
   "overrides": {
