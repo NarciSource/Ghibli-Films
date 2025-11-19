@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react';
 
-import { createServerApolloClient } from '@/apollo/createServerApolloClient';
+import { createApolloClient } from '@/apollo/createApolloClient';
 import { FilmDocument, FilmsDocument } from '@/graphql/api/hooks';
 import type { FilmQuery, FilmsQuery } from '@/graphql/api/operations';
 import FilmDetail from './_components/FilmDetail';
@@ -17,7 +17,7 @@ import { FilmCutList, FilmCutListLoader } from './_components/film-cut';
  */
 export async function generateStaticParams() {
   const Limit = 9999;
-  const apolloClient = await createServerApolloClient();
+  const apolloClient = await createApolloClient({});
 
   const { data } = await apolloClient.query<FilmsQuery>({
     query: FilmsDocument,
@@ -33,7 +33,7 @@ export default async function Film({ params }: { params: Promise<{ filmId: strin
   const { filmId } = await params;
 
   try {
-    const apolloClient = await createServerApolloClient();
+    const apolloClient = await createApolloClient({});
 
     const { data } = await apolloClient.query<FilmQuery>({
       query: FilmDocument,
