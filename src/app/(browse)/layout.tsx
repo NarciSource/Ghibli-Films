@@ -2,7 +2,7 @@
 
 import { Box } from '@chakra-ui/react';
 
-import { getPublicApolloClient } from '@/apollo/getPublicApolloClient';
+import { createApolloClient } from '@/apollo/createApolloClient';
 import { ApolloHydrate, dehydrate } from '@/apollo/hydrate';
 import { FilmsDocument } from '@/graphql/api/hooks';
 import type { FilmsQuery } from '@/graphql/api/operations';
@@ -15,7 +15,7 @@ type LayoutProps = {
 export default async function BrowseLayout({ children, searchParams }: LayoutProps) {
   const LIMIT = 6;
   // 서버에서 초기 데이터 요청
-  const apolloClient = await getPublicApolloClient();
+  const apolloClient = await createApolloClient({});
 
   await apolloClient.query<FilmsQuery>({
     query: FilmsDocument,

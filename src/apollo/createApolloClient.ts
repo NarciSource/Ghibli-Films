@@ -1,23 +1,7 @@
-import { ApolloClient, from, type NormalizedCacheObject, split } from '@apollo/client';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { Kind, OperationTypeNode } from 'graphql';
+import { ApolloClient, type NormalizedCacheObject } from '@apollo/client';
 
 import { createApolloCache } from './createApolloCache';
-import { errorLink, httpUploadLink, wsLink } from './middleware';
-
-const splitLink = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query);
-
-    // subscription 요청인 경우 wsLink를 사용하고, 그 외에는 httpUploadLink를 사용
-    return (
-      definition.kind === Kind.OPERATION_DEFINITION &&
-      definition.operation === OperationTypeNode.SUBSCRIPTION
-    );
-  },
-  from([wsLink]),
-  from([errorLink, httpUploadLink]),
-);
+import { createLink } from './createApolloLink';
 
 /**
  * @param initialApolloState
@@ -33,17 +17,18 @@ export const createApolloClient = async ({
 }: {
   state?: NormalizedCacheObject;
 }): Promise<ApolloClient<NormalizedCacheObject>> => {
-  const cache = await createApolloCache(state);
-
-  apolloClient = new ApolloClient({
-    // 쿠키와 인증 정보를 함께 전송
-    credentials: 'include',
-    // 요청 타입에 따라 각 Link로 분기
-    link: splitLink,
-    // SSR 캐시를 hydrate
-    cache,
-  });
+  if (!apolloClient) {
+    apolloClient = new ApolloClient({
+      // 쿠키와 인증 정보를 함께 전송
+      credentials: 'include',
+      // 요청 타입에 따라 각 Link로 분기
+      link: await createLink(),
+      // SSR 캐시를 hydrate
+      cache: await createApolloCache(state),
+    });
+  }
   return apolloClient;
 };
 
+// 싱글톤
 export let apolloClient: ApolloClient<NormalizedCacheObject>;

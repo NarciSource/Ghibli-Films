@@ -1,3 +1,3 @@
 export { default as errorLink } from './errorLink';
-export { default as httpUploadLink } from './httpUploadLink';
+export { clientHttpUploadLink, serverHttpUploadLink } from './httpUploadLink';
 export { default as wsLink } from './webSocketLink';
