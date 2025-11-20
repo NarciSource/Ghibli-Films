@@ -1,5 +1,3 @@
-'use server';
-
 import { Box } from '@chakra-ui/react';
 
 import { createApolloClient } from '@/apollo/createApolloClient';
@@ -11,6 +9,8 @@ type LayoutProps = {
   children: React.ReactNode;
   searchParams?: { q?: string };
 };
+
+export const dynamic = 'force-dynamic';
 
 export default async function BrowseLayout({ children, searchParams }: LayoutProps) {
   const LIMIT = 6;

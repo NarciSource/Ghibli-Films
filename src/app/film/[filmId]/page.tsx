@@ -1,8 +1,8 @@
 import { Box, Text } from '@chakra-ui/react';
 
 import { createApolloClient } from '@/apollo/createApolloClient';
-import { FilmDocument, FilmsDocument } from '@/graphql/api/hooks';
-import type { FilmQuery, FilmsQuery } from '@/graphql/api/operations';
+import { FilmDocument } from '@/graphql/api/hooks';
+import type { FilmQuery } from '@/graphql/api/operations';
 import FilmDetail from './_components/FilmDetail';
 import { FilmCutList, FilmCutListLoader } from './_components/film-cut';
 
@@ -16,17 +16,7 @@ import { FilmCutList, FilmCutListLoader } from './_components/film-cut';
  * @returns 정적 페이지 생성을 위해 사용되는 `params` 형태의 파라미터 배열
  */
 export async function generateStaticParams() {
-  const Limit = 9999;
-  const apolloClient = await createApolloClient({});
-
-  const { data } = await apolloClient.query<FilmsQuery>({
-    query: FilmsDocument,
-    variables: { limit: Limit },
-  });
-
-  return data.films.films.map((film) => ({
-    filmId: film.id.toString(),
-  }));
+  return [];
 }
 
 export default async function Film({ params }: { params: Promise<{ filmId: string }> }) {
