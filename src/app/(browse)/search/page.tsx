@@ -2,6 +2,8 @@ import { Heading } from '@chakra-ui/react';
 
 import FilmList from '@/app/film/_components/FilmList';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Search({ searchParams }: { searchParams: Promise<{ q: string }> }) {
   const { q } = await searchParams;
 

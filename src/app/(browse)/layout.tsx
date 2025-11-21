@@ -10,21 +10,24 @@ type LayoutProps = {
   searchParams?: { q?: string };
 };
 
-export const dynamic = 'force-dynamic';
+const isBuild = process.env.NEXT_PHASE === 'phase-production-build';
 
 export default async function BrowseLayout({ children, searchParams }: LayoutProps) {
   const LIMIT = 6;
   // 서버에서 초기 데이터 요청
   const apolloClient = await createApolloClient({});
 
-  await apolloClient.query<FilmsQuery>({
-    query: FilmsDocument,
-    variables: {
-      limit: LIMIT,
-      cursor: 1,
-      search: searchParams?.q ?? undefined,
-    },
-  });
+  // 빌드 후 패치
+  if (!isBuild) {
+    await apolloClient.query<FilmsQuery>({
+      query: FilmsDocument,
+      variables: {
+        limit: LIMIT,
+        cursor: 1,
+        search: searchParams?.q ?? undefined,
+      },
+    });
+  }
 
   // SSR에서 가져온 Apollo 캐시를 직렬화 전달
   const initApolloState = dehydrate(apolloClient);

@@ -12,13 +12,23 @@ export default function Hydrate({
   children: React.ReactNode;
   state?: NormalizedCacheObject;
 }) {
-  const [apolloClient, setClient] = useState<ApolloClient<NormalizedCacheObject>>();
+  const [client, setClient] = useState<ApolloClient<NormalizedCacheObject> | null>(null);
 
   useEffect(() => {
-    createApolloClient({ state }).then(setClient);
+    let mounted = true;
+
+    createApolloClient({ state }).then((client) => {
+      if (mounted) setClient(client);
+    });
+
+    return () => {
+      mounted = false;
+    };
   }, [state]);
 
-  if (!apolloClient) return null;
+  if (!client) {
+    return null;
+  }
 
-  return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
