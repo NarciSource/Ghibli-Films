@@ -1,8 +1,9 @@
 'use client';
 
-import { Code } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 
 import { useMyReviewsQuery } from '@/graphql/api/hooks';
+import ReviewCard from './_components/ReviewCard';
 import groupReviewsByFilm from './_lib/groupReviewsByFilm';
 
 export default function Reviews() {
@@ -15,9 +16,15 @@ export default function Reviews() {
 
   return (
     !loading && (
-      <Code p={4} display='block' whiteSpace='pre-wrap'>
-        {JSON.stringify(reviewsByFilm, null, 2)}
-      </Code>
+      <Box px={4}>
+        <Heading size='lg' mb={8}>
+          나의 감상평 모아보기
+        </Heading>
+
+        {reviewsByFilm.map(({ film, cuts }) => (
+          <ReviewCard key={film.id} film={film} cuts={cuts} />
+        ))}
+      </Box>
     )
   );
 }
