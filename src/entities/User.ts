@@ -13,7 +13,7 @@ import { CutReview } from './CutReview';
 import { CutVote } from './CutVote';
 import { Notification } from './Notification';
 
-@ObjectType({ description: '유저 고유 아이디' })
+@ObjectType({ description: '유저' })
 @Entity()
 export class User extends BaseEntity {
     @Field(() => Int, { description: '식별자' })
@@ -47,17 +47,20 @@ export class User extends BaseEntity {
         () => CutVote,
         (cutVote) => cutVote.user,
     )
+    @Field(() => [CutVote], { description: '좋아요' })
     cutVotes: CutVote[];
 
     @OneToMany(
         () => CutReview,
         (cutReview) => cutReview.user,
     )
+    @Field(() => [CutReview], { description: '감상평' })
     cutReviews: CutReview[];
 
     @OneToMany(
         () => Notification,
         (notifications) => notifications.user,
     )
+    @Field(() => [Notification], { description: '알림' })
     notifications: Notification[];
 }

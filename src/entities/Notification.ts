@@ -6,6 +6,7 @@ import {
     Entity,
     ManyToOne,
     PrimaryGeneratedColumn,
+    RelationId,
     UpdateDateColumn,
 } from 'typeorm';
 
@@ -30,10 +31,11 @@ export class Notification extends BaseEntity {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @Field(() => Int, { description: '유저 아이디' })
-    @Column()
+    @RelationId((notification: Notification) => notification.user)
+    @Column({ comment: '유저 아이디' })
     userId!: number;
 
+    @Field(() => User, { description: '유저' })
     @ManyToOne(
         () => User,
         (user) => user.notifications,

@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 
 import { User } from './User';
+import { Cut } from './Cut';
 
 @ObjectType({ description: '감상평' })
 @Entity()
@@ -23,17 +24,26 @@ export class CutReview extends BaseEntity {
     @Column({ comment: '감상평 내용' })
     contents: string;
 
+    @ManyToOne(
+        () => Cut,
+        (cut) => cut.cutReviews,
+    )
+    @Field(() => Cut, { description: '명장면' })
+    cut: Cut;
+
     @Field(() => Int, { description: '명장면 번호' })
     @Column({ comment: '명장면 번호' })
+    @RelationId((cutReview: CutReview) => cutReview.cut)
     cutId: number;
 
-    @Field(() => User)
+    @Field(() => User, { description: '유저' })
     @ManyToOne(
         () => User,
         (user) => user.cutReviews,
     )
     user: User;
 
+    @Column({ comment: '유저 아이디' })
     @RelationId((cutReview: CutReview) => cutReview.user)
     userId: number;
 

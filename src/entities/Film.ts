@@ -1,5 +1,13 @@
 import { Field, Int, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    JoinColumn,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    RelationId,
+} from 'typeorm';
 
 import { Director } from './Director';
 
@@ -30,11 +38,12 @@ export class Film extends BaseEntity {
     @Column({ comment: '영화 줄거리 및 설명' })
     description: string;
 
-    @Field(() => Int, { description: '제작자 고유 아이디' })
     @Column({ comment: '제작자 고유 ID' })
+    @RelationId((film: Film) => film.director)
     directorId: number;
 
     @OneToOne(() => Director)
+    @Field(() => Director, { description: '제작자' })
     @JoinColumn({ name: 'directorId' })
     director: Director;
 
