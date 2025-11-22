@@ -17,6 +17,7 @@ import LogoutMutationResolver from './user/mutations/Logout';
 import SignupMutationResolver from './user/mutations/SignUp';
 import UploadProfileImageMutationResolver from './user/mutations/UploadProfileImage';
 import MeQueryResolver from './user/queries/Me';
+import ReviewsQueryResolver from './user/queries/Reviews';
 
 export default [
     FilmQueryResolver,
@@ -35,6 +36,7 @@ export default [
     LogoutMutationResolver,
     SignupMutationResolver,
     UploadProfileImageMutationResolver,
+    ReviewsQueryResolver,
 
     NotificationQueryResolver,
     NotificationMutationResolver,
