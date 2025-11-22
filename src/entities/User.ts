@@ -16,16 +16,16 @@ import { Notification } from './Notification';
 @ObjectType({ description: '유저' })
 @Entity()
 export class User extends BaseEntity {
-    @Field(() => Int, { description: '식별자' })
     @PrimaryGeneratedColumn()
+    @Field(() => Int, { description: '식별자' })
     id!: number;
 
-    @Field({ description: '유저 이름' })
     @Column({ unique: true, comment: '유저 이름' })
+    @Field({ description: '유저 이름' })
     username: string;
 
-    @Field({ description: '유저 이메일' })
     @Column({ unique: true, comment: '유저 이름' })
+    @Field({ description: '유저 이메일' })
     email: string;
 
     @Column({ comment: '유저 비밀번호' })
@@ -35,12 +35,12 @@ export class User extends BaseEntity {
     @Field({ description: '유저 프로필 사진 경로', nullable: true })
     profileImage: string;
 
-    @Field(() => String, { description: '생성일자' })
     @CreateDateColumn({ comment: '생성일자' })
+    @Field(() => String, { description: '생성일자' })
     createdAt: Date;
 
-    @Field(() => String, { description: '수정일자' })
     @UpdateDateColumn({ comment: '수정일자' })
+    @Field(() => String, { description: '수정일자' })
     updatedAt: Date;
 
     @OneToMany(

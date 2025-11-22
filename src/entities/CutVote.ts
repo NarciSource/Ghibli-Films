@@ -11,21 +11,21 @@ export class CutVote extends BaseEntity {
     @RelationId((vote: CutVote) => vote.user)
     userId: number;
 
-    @PrimaryColumn({ comment: '명장면 아이디' })
-    @RelationId((vote: CutVote) => vote.cut)
-    cutId: number;
-
-    @Field(() => Cut, { description: '명장면' })
-    @ManyToOne(
-        () => Cut,
-        (cut) => cut.cutVotes,
-    )
-    cut: Cut;
-
     @ManyToOne(
         () => User,
         (user) => user.cutVotes,
     )
     @Field(() => User, { description: '유저' })
     user: User;
+
+    @PrimaryColumn({ comment: '명장면 아이디' })
+    @RelationId((vote: CutVote) => vote.cut)
+    cutId: number;
+
+    @ManyToOne(
+        () => Cut,
+        (cut) => cut.cutVotes,
+    )
+    @Field(() => Cut, { description: '명장면' })
+    cut: Cut;
 }
