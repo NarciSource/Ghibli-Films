@@ -1,7 +1,6 @@
 query notifications {
   notifications {
     id
-    userId
     text
     createdAt
     updatedAt

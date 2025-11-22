@@ -29,8 +29,12 @@ export type CreateOrUpdateReviewInput = {
 /** 명장면 */
 export type Cut = {
   __typename?: 'Cut';
+  /** 감상평 */
+  cutReviews: CutReview;
+  /** 좋아요 */
+  cutVotes: Film;
   /** 영화 */
-  film?: Maybe<Film>;
+  film: Film;
   /** 영화 아이디 */
   filmId: Scalars['Int']['output'];
   /** 명장면 고유 아이디 */
@@ -50,6 +54,8 @@ export type CutReview = {
   contents: Scalars['String']['output'];
   /** 생성 일자 */
   createdAt: Scalars['String']['output'];
+  /** 명장면 */
+  cut: Cut;
   /** 명장면 번호 */
   cutId: Scalars['Int']['output'];
   /** 감상평 고유 아이디 */
@@ -58,6 +64,16 @@ export type CutReview = {
   isMine: Scalars['Boolean']['output'];
   /** 수정 일자 */
   updatedAt: Scalars['String']['output'];
+  /** 유저 */
+  user: User;
+};
+
+/** 좋아요 */
+export type CutVote = {
+  __typename?: 'CutVote';
+  /** 명장면 */
+  cut: Cut;
+  /** 유저 */
   user: User;
 };
 
@@ -82,10 +98,8 @@ export type Film = {
   __typename?: 'Film';
   /** 영화 줄거리 및 설명 */
   description: Scalars['String']['output'];
-  /** 감독 */
+  /** 제작자 */
   director: Director;
-  /** 제작자 고유 아이디 */
-  directorId: Scalars['Int']['output'];
   /** 영화 장르 */
   genre: Scalars['String']['output'];
   /** 영화 고유 아이디 */
@@ -162,8 +176,8 @@ export type Notification = {
   text: Scalars['String']['output'];
   /** 수정 날짜 */
   updatedAt: Scalars['String']['output'];
-  /** 유저 아이디 */
-  userId: Scalars['Int']['output'];
+  /** 유저 */
+  user: User;
 };
 
 /** 페이지네이션 */
@@ -189,6 +203,8 @@ export type Query = {
   films: PaginatedFilms;
   /** 현재 접속자의 정보를 조회합니다. */
   me?: Maybe<User>;
+  /** 현재 접속자의 리뷰 목록을 조회합니다 */
+  myReviews: User;
   /** 세션에 해당되는 유저의 모든 알림을 가져옵니다. */
   notifications: Array<Notification>;
 };
@@ -228,15 +244,21 @@ export type Subscription = {
   newNotification: Notification;
 };
 
-/** 유저 고유 아이디 */
+/** 유저 */
 export type User = {
   __typename?: 'User';
   /** 생성일자 */
   createdAt: Scalars['String']['output'];
+  /** 감상평 */
+  cutReviews: Array<CutReview>;
+  /** 좋아요 */
+  cutVotes: Array<CutVote>;
   /** 유저 이메일 */
   email: Scalars['String']['output'];
   /** 식별자 */
   id: Scalars['Int']['output'];
+  /** 알림 */
+  notifications: Array<Notification>;
   /** 유저 프로필 사진 경로 */
   profileImage?: Maybe<Scalars['String']['output']>;
   /** 수정일자 */

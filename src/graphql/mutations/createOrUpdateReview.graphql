@@ -6,6 +6,7 @@ mutation createOrUpdateReview($cutReviewInput: CreateOrUpdateReviewInput!) {
     user {
       email
       username
+      profileImage
     }
     createdAt
     updatedAt

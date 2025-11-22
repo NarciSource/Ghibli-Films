@@ -14,7 +14,7 @@ export type CreateOrUpdateReviewMutation = {
     createdAt: string;
     updatedAt: string;
     isMine: boolean;
-    user: { __typename?: 'User'; email: string; username: string };
+    user: { __typename?: 'User'; email: string; username: string; profileImage?: string | null };
   } | null;
 };
 
@@ -23,6 +23,37 @@ export type DeleteReviewMutationVariables = Types.Exact<{
 }>;
 
 export type DeleteReviewMutation = { __typename?: 'Mutation'; deleteReview: boolean };
+
+export type LoginMutationVariables = Types.Exact<{
+  loginInput: Types.LoginInput;
+}>;
+
+export type LoginMutation = {
+  __typename?: 'Mutation';
+  login:
+    | { __typename?: 'FieldError'; field: string; message: string }
+    | { __typename?: 'User'; id: number; username: string };
+};
+
+export type LogoutMutationVariables = Types.Exact<{ [key: string]: never }>;
+
+export type LogoutMutation = { __typename?: 'Mutation'; logout: boolean };
+
+export type SignUpMutationVariables = Types.Exact<{
+  signUpInput: Types.SignUpInput;
+}>;
+
+export type SignUpMutation = {
+  __typename?: 'Mutation';
+  signUp: {
+    __typename?: 'User';
+    email: string;
+    username: string;
+    createdAt: string;
+    updatedAt: string;
+    id: number;
+  };
+};
 
 export type UploadProfileImageMutationVariables = Types.Exact<{
   file: Types.Scalars['Upload']['input'];
@@ -48,7 +79,7 @@ export type CutQuery = {
     src: string;
     votesCount: number;
     isVoted: boolean;
-    film?: { __typename?: 'Film'; id: number; title: string } | null;
+    film: { __typename?: 'Film'; id: number; title: string };
   } | null;
   cutReviews: Array<{
     __typename?: 'CutReview';
@@ -114,21 +145,6 @@ export type FilmsQuery = {
   };
 };
 
-export type LoginMutationVariables = Types.Exact<{
-  loginInput: Types.LoginInput;
-}>;
-
-export type LoginMutation = {
-  __typename?: 'Mutation';
-  login:
-    | { __typename?: 'FieldError'; field: string; message: string }
-    | { __typename?: 'User'; id: number; username: string };
-};
-
-export type LogoutMutationVariables = Types.Exact<{ [key: string]: never }>;
-
-export type LogoutMutation = { __typename?: 'Mutation'; logout: boolean };
-
 export type MeQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
@@ -142,6 +158,28 @@ export type MeQuery = {
   } | null;
 };
 
+export type MyReviewsQueryVariables = Types.Exact<{ [key: string]: never }>;
+
+export type MyReviewsQuery = {
+  __typename?: 'Query';
+  myReviews: {
+    __typename?: 'User';
+    cutReviews: Array<{
+      __typename?: 'CutReview';
+      id: number;
+      contents: string;
+      createdAt: string;
+      updatedAt: string;
+      cut: {
+        __typename?: 'Cut';
+        id: number;
+        src: string;
+        film: { __typename?: 'Film'; id: number; title: string; posterImg: string };
+      };
+    }>;
+  };
+};
+
 export type NotificationsQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type NotificationsQuery = {
@@ -149,27 +187,10 @@ export type NotificationsQuery = {
   notifications: Array<{
     __typename?: 'Notification';
     id: number;
-    userId: number;
     text: string;
     createdAt: string;
     updatedAt: string;
   }>;
-};
-
-export type SignUpMutationVariables = Types.Exact<{
-  signUpInput: Types.SignUpInput;
-}>;
-
-export type SignUpMutation = {
-  __typename?: 'Mutation';
-  signUp: {
-    __typename?: 'User';
-    email: string;
-    username: string;
-    createdAt: string;
-    updatedAt: string;
-    id: number;
-  };
 };
 
 export type NewNotificationSubscriptionVariables = Types.Exact<{ [key: string]: never }>;
@@ -179,7 +200,6 @@ export type NewNotificationSubscription = {
   newNotification: {
     __typename?: 'Notification';
     id: number;
-    userId: number;
     text: string;
     createdAt: string;
     updatedAt: string;
