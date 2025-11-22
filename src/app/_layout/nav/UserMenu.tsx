@@ -1,5 +1,6 @@
 'use client';
 
+import NextLink from 'next/link';
 import { Button, Menu, MenuContent, MenuPositioner, MenuTrigger, Portal } from '@chakra-ui/react';
 
 import type { MeQuery } from '@/graphql/api/operations';
@@ -23,6 +24,10 @@ export default function UserMenu(): React.ReactElement {
         <MenuPositioner>
           <MenuContent>
             <ProfileImageItem {...(user as NonNullable<MeQuery['me']>)} />
+
+            <Menu.Item value='reviews' cursor='pointer' asChild>
+              <NextLink href='/reviews'>나의 감상평</NextLink>
+            </Menu.Item>
 
             <LogoutItem />
           </MenuContent>
