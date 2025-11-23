@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Image, Stack, useDisclosure } from '@chakra-ui/react';
 
 import type { Cut, CutReview } from '@/graphql/api/type';
