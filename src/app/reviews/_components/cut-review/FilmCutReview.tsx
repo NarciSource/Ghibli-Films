@@ -2,27 +2,29 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { Box, Flex, HStack, IconButton, Separator, Text } from '@chakra-ui/react';
 import { Tooltip } from '@chakra-ui/react/tooltip';
 
-import type { CutQuery } from '@/graphql/api/operations';
+import type { CutReview, User } from '@/graphql/api/type';
 import Avatar from '@/app/_shared/Avatar';
 
-type FilmCutReviewProps = CutQuery['cutReviews'][0] & {
+type FilmCutReviewProps = {
+  cutReview: Partial<CutReview>;
+  user?: Partial<User>;
   onEditClick: () => void;
   onDeleteClick: () => void;
 };
 
 export default function FilmCutReview({
   user,
-  contents,
-  isMine,
+  cutReview: { contents, isMine, updatedAt },
   onEditClick,
   onDeleteClick,
 }: FilmCutReviewProps): React.ReactElement {
   return (
-    <Box borderWidth='thin' borderRadius='lg' shadow='sm' p={2} minH={150}>
-      <Flex p={2} justifyContent='space-between'>
-        <HStack>
-          <Avatar {...user} />
-        </HStack>
+    <Box borderRadius='lg' shadow='sm' p={2}>
+      <Flex p={1} justifyContent='space-between'>
+        {user && <Avatar {...user} />}
+        <Text alignContent='center' fontSize='x-small'>
+          {new Date(Number(updatedAt) ?? 0).toLocaleString()}
+        </Text>
 
         {isMine && (
           <HStack gap={0}>
@@ -44,7 +46,9 @@ export default function FilmCutReview({
           </HStack>
         )}
       </Flex>
+
       <Separator />
+
       <Box mt={2} p={2}>
         <Text>{contents}</Text>
       </Box>

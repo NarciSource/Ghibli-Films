@@ -13,9 +13,11 @@ import {
 } from '@chakra-ui/react';
 
 import type { CutQuery } from '@/graphql/api/operations';
-import FilmCutReview from './FilmCutReview';
-import FilmCutReviewDeleteAlert from './FilmCutReviewDeleteAlert';
-import FilmCutReviewRegisterModal from './FilmCutReviewRegisterModal';
+import {
+  FilmCutReview,
+  FilmCutReviewDeleteAlert,
+  FilmCutReviewRegisterModal,
+} from '@/app/reviews/_components/cut-review';
 import FilmCutVote from './FilmCutVote';
 
 type FilmCutDetailProps = Exclude<CutQuery['cut'], null | undefined> & {
@@ -57,10 +59,11 @@ export default function FilmCutDetail({
             </Center>
           ) : (
             <SimpleGrid mt={3} gap={4} columns={{ base: 1, sm: 2 }}>
-              {reviews.map((review) => (
+              {reviews.map(({ user, ...review }) => (
                 <FilmCutReview
                   key={review.id}
-                  {...review}
+                  cutReview={review}
+                  user={user}
                   onEditClick={reviewRegisterDialog.onOpen}
                   onDeleteClick={deleteAlert.onOpen}
                 />
