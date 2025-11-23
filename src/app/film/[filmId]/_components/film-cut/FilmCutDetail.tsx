@@ -17,7 +17,7 @@ import {
   FilmCutReview,
   FilmCutReviewDeleteAlert,
   FilmCutReviewRegisterModal,
-} from '@/app/reviews/_components/cut-review';
+} from '@/app/(personal)/reviews/_components/cut-review';
 import FilmCutVote from './FilmCutVote';
 
 type FilmCutDetailProps = Exclude<CutQuery['cut'], null | undefined> & {
