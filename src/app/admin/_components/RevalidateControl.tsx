@@ -2,13 +2,17 @@ import { FaCheck, FaCircle, FaRegCircle } from 'react-icons/fa';
 import { PiFunctionBold } from 'react-icons/pi';
 import { Card, Flex, HStack, Separator, Text, VStack } from '@chakra-ui/react';
 
+import PageTreeCard from './PageTreeCard';
+
 export default function RevalidateControl() {
   return (
     <Card.Root variant='outline' p={5}>
       <Card.Title m={5}>정적 페이지 갱신</Card.Title>
       <Card.Description>클릭 시 선택한 페이지의 정적 페이지를 즉시 갱신합니다.</Card.Description>
 
-      <Card.Body></Card.Body>
+      <Card.Body>
+        <PageTreeCard />
+      </Card.Body>
 
       <Separator />
 
