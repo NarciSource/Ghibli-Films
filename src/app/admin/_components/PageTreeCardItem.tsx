@@ -3,13 +3,18 @@ import { PiFunctionBold } from 'react-icons/pi';
 import { TreeView } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 
-export default function PageTreeCardItem({ node }: { node: Node }) {
+import revalidateAction from '../_actions/revalidateAction';
+
+export default function TreeItem({ node }: { node: Node }) {
   const isClickable = node.mode === PageMode.static || node.mode === PageMode.ssg;
   const bg = useColorModeValue('teal.50', 'teal.700');
   const hoverBg = useColorModeValue('teal.100', 'teal.400');
 
   const handleClick = async (): Promise<void> => {
     if (!isClickable) return;
+
+    // 갱신 액션
+    await revalidateAction(node.path);
   };
 
   return (
