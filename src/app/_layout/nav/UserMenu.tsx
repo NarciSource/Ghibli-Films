@@ -29,9 +29,11 @@ export default function UserMenu(): React.ReactElement {
               <NextLink href='/reviews'>나의 감상평</NextLink>
             </Menu.Item>
 
-            <Menu.Item value='admin' cursor='pointer' asChild>
-              <NextLink href='/admin'>관리자 설정</NextLink>
-            </Menu.Item>
+            {user?.isAdmin && (
+              <Menu.Item value='admin' cursor='pointer' asChild>
+                <NextLink href='/admin'>관리자 설정</NextLink>
+              </Menu.Item>
+            )}
 
             <LogoutItem />
           </MenuContent>

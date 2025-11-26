@@ -119,6 +119,7 @@ export const LoginDocument = gql`
     }
     ... on User {
       id
+      isAdmin
       username
     }
   }
@@ -576,6 +577,7 @@ export const MeDocument = gql`
     query me {
   me {
     id
+    isAdmin
     username
     email
     profileImage

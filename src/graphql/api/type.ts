@@ -257,6 +257,8 @@ export type User = {
   email: Scalars['String']['output'];
   /** 식별자 */
   id: Scalars['Int']['output'];
+  /** 관리자 */
+  isAdmin: Scalars['Boolean']['output'];
   /** 알림 */
   notifications: Array<Notification>;
   /** 유저 프로필 사진 경로 */

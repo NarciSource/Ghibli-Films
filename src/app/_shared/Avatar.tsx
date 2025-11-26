@@ -10,7 +10,7 @@ type RenameKey<T, OldKey extends keyof T, NewKey extends string> = {
 type Props = RenameKey<ChakraAvatar.RootProps, 'id', 'avatarId'> & Partial<MeQuery['me']>;
 
 export default forwardRef<HTMLDivElement, Props>(
-  ({ avatarId, username, profileImage, ...props }, ref) => {
+  ({ avatarId, isAdmin, username, profileImage, ...props }, ref) => {
     return (
       <ChakraAvatar.Root ref={ref} size='sm' {...{ ...props, id: avatarId }}>
         <ChakraAvatar.Fallback name={username} />

@@ -32,7 +32,7 @@ export type LoginMutation = {
   __typename?: 'Mutation';
   login:
     | { __typename?: 'FieldError'; field: string; message: string }
-    | { __typename?: 'User'; id: number; username: string };
+    | { __typename?: 'User'; id: number; isAdmin: boolean; username: string };
 };
 
 export type LogoutMutationVariables = Types.Exact<{ [key: string]: never }>;
@@ -152,6 +152,7 @@ export type MeQuery = {
   me?: {
     __typename?: 'User';
     id: number;
+    isAdmin: boolean;
     username: string;
     email: string;
     profileImage?: string | null;
