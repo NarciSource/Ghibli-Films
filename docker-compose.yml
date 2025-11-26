@@ -33,6 +33,22 @@ services:
             timeout: 5s
             retries: 5
 
+    server-bootstrap:
+        image: ghibli-films-server:${SERVER_VERSION}
+        container_name: server-bootstrap
+        command: ['node', 'dist/scripts/createInitialAdmin.js']
+
+        networks:
+            - net
+        depends_on:
+            - server
+
+        env_file:
+            - project/server/.env
+        environment:
+            - MYSQL_HOST=rdb
+            - MYSQL_PORT=3306
+
     web:
         image: ghibli-films-web:${WEB_VERSION}
         container_name: web
@@ -54,7 +70,7 @@ services:
             - APP_API_HOST=http://server:${SERVER_PORT}
 
 include:
-  - ./infra/docker-compose.yml
+    - ./infra/docker-compose.yml
 
 networks:
     net:
