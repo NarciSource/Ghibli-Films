@@ -20,6 +20,10 @@ export class User extends BaseEntity {
     @Field(() => Int, { description: '식별자' })
     id!: number;
 
+    @Column({ default: false, comment: '관리자' })
+    @Field({ description: '관리자' })
+    isAdmin: boolean = false;
+
     @Column({ unique: true, comment: '유저 이름' })
     @Field({ description: '유저 이름' })
     username: string;
