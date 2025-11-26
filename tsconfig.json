@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "ESNext",
         "module": "NodeNext",
-        "rootDir": "./src",
+        "rootDir": "./",
         "baseUrl": "./",
         "outDir": "./dist",
         "paths": { "@/*": ["src/*"] },
