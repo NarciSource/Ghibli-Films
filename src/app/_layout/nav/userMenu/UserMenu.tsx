@@ -1,6 +1,8 @@
 'use client';
 
 import NextLink from 'next/link';
+import { BsFillChatSquareQuoteFill } from 'react-icons/bs';
+import { RiAdminFill, RiLogoutBoxRLine } from 'react-icons/ri';
 import {
   Button,
   Menu,
@@ -8,6 +10,7 @@ import {
   MenuPositioner,
   MenuTrigger,
   Portal,
+  Separator,
   Show,
 } from '@chakra-ui/react';
 
@@ -33,17 +36,28 @@ export default function UserMenu(): React.ReactElement {
           <MenuContent>
             <ProfileImageItem {...(user as NonNullable<MeQuery['me']>)} />
 
+            <Separator />
+
             <Menu.Item value='reviews' cursor='pointer' asChild>
-              <NextLink href='/reviews'>나의 감상평</NextLink>
+              <NextLink href='/reviews'>
+                <BsFillChatSquareQuoteFill />
+                나의 감상평
+              </NextLink>
             </Menu.Item>
 
             <Show when={user?.isAdmin}>
               <Menu.Item value='admin' cursor='pointer' asChild>
-                <NextLink href='/admin'>관리자 설정</NextLink>
+                <NextLink href='/admin'>
+                  <RiAdminFill />
+                  관리자 설정
+                </NextLink>
               </Menu.Item>
             </Show>
 
-            <LogoutItem />
+            <LogoutItem>
+              <RiLogoutBoxRLine />
+              로그아웃
+            </LogoutItem>
           </MenuContent>
         </MenuPositioner>
       </Portal>
