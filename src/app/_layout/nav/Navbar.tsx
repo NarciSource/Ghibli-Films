@@ -10,7 +10,7 @@ import { ColorModeSwitcher } from './ColorModeSwitcher';
 import EntryActionButton from './EntryActionButton';
 import Notification from './notification/Notification';
 import SearchBar from './SearchBar';
-import UserMenu from './UserMenu';
+import UserMenu from './userMenu/UserMenu';
 
 export default function Navbar() {
   const isLoggedIn = useIsLoggedIn();
