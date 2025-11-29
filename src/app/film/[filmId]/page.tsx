@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Show, Text } from '@chakra-ui/react';
 
 import { createApolloClient } from '@/apollo/createApolloClient';
 import { FilmDocument } from '@/graphql/api/hooks';
@@ -31,20 +31,17 @@ export default async function Film({ params }: { params: Promise<{ filmId: strin
     });
 
     return (
-      <Box px={{ base: 4 }}>
-        {filmId && data?.film ? (
-          <>
-            <FilmDetail film={data.film} />
-            <Box mt={12}>
-              <FilmCutListLoader filmId={data.film.id}>
-                {(cuts) => <FilmCutList cuts={cuts} />}
-              </FilmCutListLoader>
-            </Box>
-          </>
-        ) : (
-          <Text>영화를 찾을 수 없습니다.</Text>
+      <Show when={data.film} fallback={<Text>영화를 찾을 수 없습니다.</Text>}>
+        {(film) => (
+          <Box px={4} gap={12}>
+            <FilmDetail film={film} />
+
+            <FilmCutListLoader filmId={film.id}>
+              {(cuts) => <FilmCutList cuts={cuts} />}
+            </FilmCutListLoader>
+          </Box>
         )}
-      </Box>
+      </Show>
     );
   } catch (error) {
     console.error(error);

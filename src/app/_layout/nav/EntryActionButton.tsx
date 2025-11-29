@@ -1,9 +1,9 @@
 import NextLink from 'next/link';
-import { Button } from '@chakra-ui/react';
+import { Button, Group } from '@chakra-ui/react';
 
 export default function EntryActionButton() {
   return (
-    <>
+    <Group>
       <Button fontSize='sm' fontWeight='400' variant='ghost' asChild>
         <NextLink href='/login'>로그인</NextLink>
       </Button>
@@ -16,6 +16,6 @@ export default function EntryActionButton() {
       >
         <NextLink href='/signup'>시작하기</NextLink>
       </Button>
-    </>
+    </Group>
   );
 }

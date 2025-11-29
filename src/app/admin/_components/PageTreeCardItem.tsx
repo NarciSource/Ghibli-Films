@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaCircle, FaRegCircle } from 'react-icons/fa';
 import { PiFunctionBold } from 'react-icons/pi';
-import { TreeView } from '@chakra-ui/react';
+import { Show, TreeView } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 
 import revalidateAction from '../_actions/revalidateAction';
@@ -33,7 +33,9 @@ export default function TreeItem({ node }: { node: Node }) {
       <TreeViewNodeIcon type={node.mode} />
       <TreeView.ItemText>{node.name}</TreeView.ItemText>
 
-      {isClickable && <AnimationCheck trigger={showIcon} />}
+      <Show when={isClickable}>
+        <AnimationCheck trigger={showIcon} />
+      </Show>
     </TreeView.Item>
   );
 }

@@ -2,7 +2,16 @@
 
 import { useState } from 'react';
 import LazyLoad from 'react-lazyload';
-import { Box, Image, LinkBox, LinkOverlay, SimpleGrid, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  For,
+  Image,
+  LinkBox,
+  LinkOverlay,
+  Show,
+  SimpleGrid,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import type { CutsQuery } from '@/graphql/api/operations';
 import FilmCutModal from './FilmCutModal';
@@ -18,19 +27,24 @@ export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   return (
     <>
       <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
-        {cuts.map((cut) => (
-          <LazyLoad once key={cut.id} height='200px'>
-            <LinkBox as='article'>
-              <Box>
-                <LinkOverlay onClick={() => handleCutSelect(cut.id)} cursor='pointer'>
-                  <Image src={cut.src} />
-                </LinkOverlay>
-              </Box>
-            </LinkBox>
-          </LazyLoad>
-        ))}
+        <For each={cuts}>
+          {(cut) => (
+            <LazyLoad once key={cut.id} height='200px'>
+              <LinkBox as='article'>
+                <Box>
+                  <LinkOverlay onClick={() => handleCutSelect(cut.id)} cursor='pointer'>
+                    <Image src={cut.src} />
+                  </LinkOverlay>
+                </Box>
+              </LinkBox>
+            </LazyLoad>
+          )}
+        </For>
       </SimpleGrid>
-      {open && <FilmCutModal open={open} onClose={onClose} cutId={selectedCutId} />}
+
+      <Show when={open}>
+        <FilmCutModal open={open} onClose={onClose} cutId={selectedCutId} />
+      </Show>
     </>
   );
 }

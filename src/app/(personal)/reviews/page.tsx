@@ -1,7 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Box, For, Heading, Text } from '@chakra-ui/react';
 
 import { createApolloClient } from '@/apollo/createApolloClient';
 import { MyReviewsDocument } from '@/graphql/api/hooks';
@@ -31,9 +31,9 @@ export default async function Reviews() {
           나의 감상평 모아보기
         </Heading>
 
-        {reviewsByFilm.map(({ film, cuts }) => (
-          <FilmCard key={film.id} film={film} cuts={cuts} />
-        ))}
+        <For each={reviewsByFilm}>
+          {({ film, cuts }) => <FilmCard key={film.id} film={film} cuts={cuts} />}
+        </For>
       </Box>
     );
   } catch {

@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { Card, Image, LinkBox, LinkOverlay, SimpleGrid, Splitter } from '@chakra-ui/react';
+import { Card, For, Image, LinkBox, LinkOverlay, SimpleGrid, Splitter } from '@chakra-ui/react';
 
 import type { Cut, CutReview, Film } from '@/graphql/api/type';
 import CutCard from './CutCard';
@@ -28,9 +28,9 @@ export default function FilmCard({
         <Splitter.Panel id='cut'>
           <Card.Body p={2}>
             <SimpleGrid columns={2} gap={2}>
-              {cuts.map(({ cut, reviews }) => (
-                <CutCard key={cut.id} cut={cut} reviews={reviews} />
-              ))}
+              <For each={cuts}>
+                {({ cut, reviews }) => <CutCard key={cut.id} cut={cut} reviews={reviews} />}
+              </For>
             </SimpleGrid>
           </Card.Body>
         </Splitter.Panel>

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image, Tag, Text } from '@chakra-ui/react';
+import { Box, Flex, For, Heading, Image, Tag, Text } from '@chakra-ui/react';
 
 import type { FilmQuery } from '@/graphql/api/operations';
 
@@ -22,11 +22,13 @@ export default function FilmDetail({ film }: FilmDetailProps): React.ReactElemen
         alignItems='flex-start'
       >
         <Flex mt={2}>
-          {film?.genre.split(',').map((genre) => (
-            <Tag.Root key={genre} mr={2} size='sm'>
-              <Tag.Label>{genre}</Tag.Label>
-            </Tag.Root>
-          ))}
+          <For each={film?.genre.split(',')}>
+            {(genre) => (
+              <Tag.Root key={genre} mr={2} size='sm'>
+                <Tag.Label>{genre}</Tag.Label>
+              </Tag.Root>
+            )}
+          </For>
         </Flex>
         <Heading mb={4}>
           {film?.title}

@@ -1,7 +1,15 @@
 'use client';
 
 import NextLink from 'next/link';
-import { Button, Menu, MenuContent, MenuPositioner, MenuTrigger, Portal } from '@chakra-ui/react';
+import {
+  Button,
+  Menu,
+  MenuContent,
+  MenuPositioner,
+  MenuTrigger,
+  Portal,
+  Show,
+} from '@chakra-ui/react';
 
 import type { MeQuery } from '@/graphql/api/operations';
 import Avatar from '@/app/_shared/Avatar';
@@ -29,11 +37,11 @@ export default function UserMenu(): React.ReactElement {
               <NextLink href='/reviews'>나의 감상평</NextLink>
             </Menu.Item>
 
-            {user?.isAdmin && (
+            <Show when={user?.isAdmin}>
               <Menu.Item value='admin' cursor='pointer' asChild>
                 <NextLink href='/admin'>관리자 설정</NextLink>
               </Menu.Item>
-            )}
+            </Show>
 
             <LogoutItem />
           </MenuContent>

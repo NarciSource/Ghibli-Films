@@ -1,4 +1,12 @@
-import { Center, CloseButton, Dialog, Portal, Spinner, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Center,
+  CloseButton,
+  Dialog,
+  Portal,
+  Show,
+  Spinner,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 
 import { useCutQuery } from '@/graphql/api/hooks';
 import FilmCutDetail from './FilmCutDetail';
@@ -29,13 +37,21 @@ export default function FilmCutModal({
             </Dialog.Header>
 
             <Dialog.Body>
-              {loading && (
-                <Center py={4}>
-                  <Spinner />
-                </Center>
-              )}
-              {!loading && !data && <Center>데이터를 불러오지 못했습니다.</Center>}
-              {data?.cut && <FilmCutDetail {...data.cut} reviews={data.cutReviews} />}
+              <Show
+                when={!loading}
+                fallback={
+                  <Center py={4}>
+                    <Spinner />
+                  </Center>
+                }
+              >
+                <Show
+                  when={data?.cut ? { cut: data.cut, reviews: data.cutReviews } : null}
+                  fallback={<Center>데이터를 불러오지 못했습니다.</Center>}
+                >
+                  {({ cut, reviews }) => <FilmCutDetail {...cut} reviews={reviews} />}
+                </Show>
+              </Show>
             </Dialog.Body>
 
             <Dialog.CloseTrigger asChild>

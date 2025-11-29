@@ -4,9 +4,11 @@ import {
   Button,
   Center,
   Flex,
+  For,
   Heading,
   HStack,
   Image,
+  Show,
   SimpleGrid,
   Text,
   useDisclosure,
@@ -53,23 +55,28 @@ export default function FilmCutDetail({
         </Flex>
 
         <Box mt={6}>
-          {!reviews?.length ? (
-            <Center minH={100}>
-              <Text>제일 먼저 감상을 남겨보세요!</Text>
-            </Center>
-          ) : (
+          <Show
+            when={reviews.length}
+            fallback={
+              <Center minH={100}>
+                <Text>제일 먼저 감상을 남겨보세요!</Text>
+              </Center>
+            }
+          >
             <SimpleGrid mt={3} gap={4} columns={{ base: 1, sm: 2 }}>
-              {reviews.map(({ user, ...review }) => (
-                <FilmCutReview
-                  key={review.id}
-                  cutReview={review}
-                  user={user}
-                  onEditClick={reviewRegisterDialog.onOpen}
-                  onDeleteClick={deleteAlert.onOpen}
-                />
-              ))}
+              <For each={reviews}>
+                {({ user, ...review }) => (
+                  <FilmCutReview
+                    key={review.id}
+                    cutReview={review}
+                    user={user}
+                    onEditClick={reviewRegisterDialog.onOpen}
+                    onDeleteClick={deleteAlert.onOpen}
+                  />
+                )}
+              </For>
             </SimpleGrid>
-          )}
+          </Show>
         </Box>
       </Box>
 
