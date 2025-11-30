@@ -1,11 +1,10 @@
 'use client';
 
+import NextImage from 'next/image';
 import { useState } from 'react';
-import LazyLoad from 'react-lazyload';
 import {
-  Box,
+  AspectRatio,
   For,
-  Image,
   LinkBox,
   LinkOverlay,
   Show,
@@ -29,15 +28,18 @@ export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
       <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
         <For each={cuts}>
           {(cut) => (
-            <LazyLoad once key={cut.id} height='200px'>
-              <LinkBox as='article'>
-                <Box>
-                  <LinkOverlay onClick={() => handleCutSelect(cut.id)} cursor='pointer'>
-                    <Image src={cut.src} />
-                  </LinkOverlay>
-                </Box>
-              </LinkBox>
-            </LazyLoad>
+            <LinkBox key={cut.id} as='article'>
+              <AspectRatio ratio={16 / 9} position='relative'>
+                <LinkOverlay onClick={() => handleCutSelect(cut.id)} cursor='pointer'>
+                  <NextImage
+                    src={cut.src}
+                    alt={`장면-${cut.id}`}
+                    fill
+                    sizes='(max-width: 768px) 100vw, 33vw'
+                  />
+                </LinkOverlay>
+              </AspectRatio>
+            </LinkBox>
           )}
         </For>
       </SimpleGrid>

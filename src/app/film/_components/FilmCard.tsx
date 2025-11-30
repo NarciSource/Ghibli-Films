@@ -1,14 +1,6 @@
+import NextImage from 'next/image';
 import NextLink from 'next/link';
-import {
-  AspectRatio,
-  Box,
-  Heading,
-  Image,
-  LinkBox,
-  LinkOverlay,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { AspectRatio, Box, Heading, LinkBox, LinkOverlay, Stack, Text } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 
 import type { FilmsQuery } from '@/graphql/api/operations';
@@ -23,9 +15,15 @@ export default function FilmCard({ film }: FilmCardProps): React.ReactElement {
       <Box maxW='300px' w='full' rounded='md' px={{ base: 1, md: 3 }} pt={3} overflow='hidden'>
         <Box bg='gray.100' mt={-3} mx={-3} mb={2} pos='relative'>
           <AspectRatio ratio={2 / 3}>
-            <Image src={film.posterImg} />
+            <NextImage
+              src={film.posterImg}
+              alt={film.title}
+              fill
+              sizes='(max-width: 768px) 100vw, 300px'
+            />
           </AspectRatio>
         </Box>
+
         <Stack>
           <LinkOverlay asChild>
             <NextLink href={`/film/${film.id}`}>
@@ -42,6 +40,7 @@ export default function FilmCard({ film }: FilmCardProps): React.ReactElement {
             {film.subtitle ? film.subtitle : <>&nbsp;</>}
           </Text>
         </Stack>
+
         <Stack gap={0} fontSize='sm' mt={2}>
           <Text as='time' truncate color='gray.500'>
             {`${film.releaseDate} ${film.runningTime}분`}

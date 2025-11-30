@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, For, Image, Stack, useDisclosure } from '@chakra-ui/react';
+import NextImage from 'next/image';
+import { AspectRatio, Box, For, Stack, useDisclosure } from '@chakra-ui/react';
 
 import type { Cut, CutReview } from '@/graphql/api/type';
 import { FilmCutReview, FilmCutReviewDeleteAlert, FilmCutReviewRegisterModal } from './cut-review';
@@ -17,7 +18,9 @@ export default function CutCard({
 
   return (
     <Stack key={cut.id} gap={0}>
-      <Image src={cut.src} />
+      <AspectRatio ratio={16 / 9}>
+        <NextImage src={cut.src!} alt='장면 이미지' fill sizes='(max-width: 768px) 100vw, 33vw' />
+      </AspectRatio>
 
       <Stack>
         <For each={reviews}>

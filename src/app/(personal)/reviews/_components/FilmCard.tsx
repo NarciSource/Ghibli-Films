@@ -1,5 +1,15 @@
+import NextImage from 'next/image';
 import NextLink from 'next/link';
-import { Card, For, Image, LinkBox, LinkOverlay, SimpleGrid, Splitter } from '@chakra-ui/react';
+import {
+  AspectRatio,
+  Card,
+  Image as ChakraImage,
+  For,
+  LinkBox,
+  LinkOverlay,
+  SimpleGrid,
+  Splitter,
+} from '@chakra-ui/react';
 
 import type { Cut, CutReview, Film } from '@/graphql/api/type';
 import CutCard from './CutCard';
@@ -15,8 +25,18 @@ export default function FilmCard({
     <Card.Root flexDirection='row' w='100%'>
       <Splitter.Root panels={[{ id: 'film' }, { id: 'cut' }]} defaultSize={[33, 66]}>
         <Splitter.Panel id='film'>
-          <LinkBox as='article'>
-            <Image align='top' p={2} objectFit='contain' src={film.posterImg} alt={film.title} />
+          <LinkBox as='article' p={2}>
+            <AspectRatio ratio={2 / 3}>
+              <ChakraImage borderRadius={12} fit='cover' asChild>
+                <NextImage
+                  src={film.posterImg ?? '/default-film.png'}
+                  alt={film.title ?? '기본 이미지'}
+                  fill
+                  sizes='(max-width: 768px) 100vw, 33vw'
+                />
+              </ChakraImage>
+            </AspectRatio>
+
             <LinkOverlay asChild>
               <NextLink href={`/film/${film.id}`} />
             </LinkOverlay>

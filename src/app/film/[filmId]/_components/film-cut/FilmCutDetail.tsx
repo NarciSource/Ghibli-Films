@@ -1,13 +1,14 @@
+import NextImage from 'next/image';
 import {
   AspectRatio,
   Box,
   Button,
   Center,
+  Image as ChakraImage,
   Flex,
   For,
   Heading,
   HStack,
-  Image,
   Show,
   SimpleGrid,
   Text,
@@ -39,7 +40,15 @@ export default function FilmCutDetail({
   return (
     <Box>
       <AspectRatio ratio={16 / 9}>
-        <Image src={cutImg} objectFit='cover' />
+        <ChakraImage objectFit='cover' asChild>
+          <NextImage
+            src={cutImg}
+            alt={`장면-${cutId}`}
+            sizes='(max-width: 768px) 100vw, 250px'
+            fill
+            priority
+          />
+        </ChakraImage>
       </AspectRatio>
 
       <Box py={4}>

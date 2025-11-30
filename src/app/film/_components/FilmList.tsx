@@ -16,7 +16,7 @@ export default function FilmList({ search }: { search?: string }): React.ReactEl
   if (error) return <p>{error.message}</p>;
 
   return (
-    <SimpleGrid columns={[2, null, 3]} gap={[2, null, 10]}>
+    <SimpleGrid columns={[1, 2, null, 3]} gap={[2, null, 10]}>
       <Show
         when={!loading && data ? data : null}
         fallback={
