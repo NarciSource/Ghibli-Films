@@ -1,34 +1,29 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 import { v4 as uuidv4 } from 'uuid';
 import { Box, For, Show, SimpleGrid, Skeleton } from '@chakra-ui/react';
 
 import { useFilmsQuery } from '@/graphql/api/hooks';
+import { useInfiniteScroll } from '../_hooks/useInfiniteScroll';
 import FilmCard from './FilmCard';
 
 export default function FilmList({ search }: { search?: string }): React.ReactElement {
-  // 무한스크롤 트리거
-  const { ref, inView } = useInView({
-    root: null, // 스크린 기준
-    rootMargin: '200px', // 뷰박스
-    triggerOnce: false, // 무한스크롤
-  });
   // 데이터 패칭
   const LIMIT = 6;
   const { data, loading, error, fetchMore } = useFilmsQuery({
     variables: { limit: LIMIT, cursor: 1, search },
   });
 
-  // 무한 스크롤 트리거로 재패칭
-  useEffect(() => {
-    if (inView && data?.films.cursor) {
-      fetchMore({
-        variables: { limit: LIMIT, cursor: data.films.cursor },
-      });
-    }
-  }, [inView, data?.films.cursor, fetchMore]);
+  const onLoadMore = () =>
+    fetchMore({
+      variables: { limit: LIMIT, cursor: data?.films.cursor },
+    });
+
+  const { ref } = useInfiniteScroll({
+    loading,
+    hasMore: !!data?.films.cursor,
+    onLoadMore,
+  });
 
   if (error) return <p>{error.message}</p>;
 
@@ -44,9 +39,10 @@ export default function FilmList({ search }: { search?: string }): React.ReactEl
           <For each={data.films.films}>
             {(film, i) => (
               <Box key={film.id}>
-                {data.films.cursor && i === data.films.films.length - LIMIT / 2 && (
+                {/* 리스트 끝까지 가기 전에 로딩 트리거 지점 */}
+                <Show when={i === data.films.films.length - LIMIT / 2}>
                   <Box ref={ref} style={{ height: 1 }} />
-                )}
+                </Show>
                 <FilmCard film={film} />
               </Box>
             )}
