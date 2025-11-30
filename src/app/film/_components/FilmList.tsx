@@ -1,6 +1,7 @@
 'use client';
 
-import { Waypoint } from 'react-waypoint';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { v4 as uuidv4 } from 'uuid';
 import { Box, For, Show, SimpleGrid, Skeleton } from '@chakra-ui/react';
 
@@ -8,10 +9,26 @@ import { useFilmsQuery } from '@/graphql/api/hooks';
 import FilmCard from './FilmCard';
 
 export default function FilmList({ search }: { search?: string }): React.ReactElement {
+  // 무한스크롤 트리거
+  const { ref, inView } = useInView({
+    root: null, // 스크린 기준
+    rootMargin: '200px', // 뷰박스
+    triggerOnce: false, // 무한스크롤
+  });
+  // 데이터 패칭
   const LIMIT = 6;
   const { data, loading, error, fetchMore } = useFilmsQuery({
     variables: { limit: LIMIT, cursor: 1, search },
   });
+
+  // 무한 스크롤 트리거로 재패칭
+  useEffect(() => {
+    if (inView && data?.films.cursor) {
+      fetchMore({
+        variables: { limit: LIMIT, cursor: data.films.cursor },
+      });
+    }
+  }, [inView, data?.films.cursor, fetchMore]);
 
   if (error) return <p>{error.message}</p>;
 
@@ -28,14 +45,7 @@ export default function FilmList({ search }: { search?: string }): React.ReactEl
             {(film, i) => (
               <Box key={film.id}>
                 {data.films.cursor && i === data.films.films.length - LIMIT / 2 && (
-                  /* 4번째 데이터에서 Waypoint 엮임 */
-                  <Waypoint
-                    onEnter={() => {
-                      fetchMore({
-                        variables: { limit: LIMIT, cursor: data.films.cursor },
-                      });
-                    }}
-                  />
+                  <Box ref={ref} style={{ height: 1 }} />
                 )}
                 <FilmCard film={film} />
               </Box>
