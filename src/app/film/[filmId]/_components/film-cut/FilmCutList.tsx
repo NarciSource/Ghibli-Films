@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import type { CutsQuery } from '@/graphql/api/operations';
+import FilmCutModal from './FilmCutModal';
 import FilmCutSlide from './FilmCutSlide';
 
 export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
@@ -45,7 +46,9 @@ export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
       </SimpleGrid>
 
       <Show when={open}>
-        <FilmCutSlide cuts={cuts} page={selectedCutId} open={open} onClose={onClose} />
+        <FilmCutModal open={open} onClose={onClose}>
+          <FilmCutSlide items={cuts} page={selectedCutId} />
+        </FilmCutModal>
       </Show>
     </>
   );
