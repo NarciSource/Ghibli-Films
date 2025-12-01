@@ -19,8 +19,6 @@ export const createApolloClient = async ({
 }): Promise<ApolloClient<NormalizedCacheObject>> => {
   if (!apolloClient) {
     apolloClient = new ApolloClient({
-      // 쿠키와 인증 정보를 함께 전송
-      credentials: 'include',
       // 요청 타입에 따라 각 Link로 분기
       link: await createLink(),
       // SSR 캐시를 hydrate

@@ -1,7 +1,7 @@
 'use client';
 
 import NextLink from 'next/link';
-import { Box, Link as ChakraLink, Flex, Image, Stack } from '@chakra-ui/react';
+import { Box, Link as ChakraLink, Flex, Image, Stack, Text } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 
 import { useIsLoggedIn } from '@/app/_store/useAuthStore';
@@ -42,7 +42,9 @@ export default function Navbar() {
           >
             <NextLink href='/'>
               <Image src='/logo.svg' alt='logo' width={50} height={50} />
-              Ghibli Best Cuts
+              <Text as='span' display={{ base: 'none', md: 'inline' }}>
+                Ghibli Best Cuts
+              </Text>
             </NextLink>
           </ChakraLink>
         </Flex>

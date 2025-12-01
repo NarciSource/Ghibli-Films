@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
 import { Box, Flex } from '@chakra-ui/react';
@@ -7,16 +6,6 @@ import { Toaster } from '@chakra-ui/react/toaster';
 
 import { Navbar } from './_layout/nav';
 import ClientProviders from './_providers/ClientProviders';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'Ghibli Best Cuts',
@@ -30,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko' suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
         <ClientProviders>
           <Flex justify='center'>
             <Navbar />
