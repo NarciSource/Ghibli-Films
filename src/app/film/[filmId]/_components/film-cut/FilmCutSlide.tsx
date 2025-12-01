@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 import FilmCutDetail from './FilmCutDetail';
+import LazySlide from './LazySlide';
 
 interface FilmCutModalProps {
   cuts: { id: number; src: string }[];
@@ -54,7 +55,9 @@ export default function FilmCutSlide({
                     <For each={cuts}>
                       {({ id }, index) => (
                         <Carousel.Item key={id} index={index}>
-                          <FilmCutDetail cutId={id} />
+                          <LazySlide index={index}>
+                            <FilmCutDetail cutId={id} />
+                          </LazySlide>
                         </Carousel.Item>
                       )}
                     </For>
