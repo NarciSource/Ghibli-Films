@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import type { CutsQuery } from '@/graphql/api/operations';
-import FilmCutModal from './FilmCutModal';
+import FilmCutSlide from './FilmCutSlide';
 
 export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   const { open, onOpen, onClose } = useDisclosure();
@@ -27,10 +27,10 @@ export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
     <>
       <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
         <For each={cuts}>
-          {(cut) => (
+          {(cut, index) => (
             <LinkBox key={cut.id} as='article'>
               <AspectRatio ratio={16 / 9} position='relative'>
-                <LinkOverlay onClick={() => handleCutSelect(cut.id)} cursor='pointer'>
+                <LinkOverlay onClick={() => handleCutSelect(index)} cursor='pointer'>
                   <NextImage
                     src={cut.src}
                     alt={`장면-${cut.id}`}
@@ -45,7 +45,7 @@ export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
       </SimpleGrid>
 
       <Show when={open}>
-        <FilmCutModal open={open} onClose={onClose} cutId={selectedCutId} />
+        <FilmCutSlide cuts={cuts} page={selectedCutId} open={open} onClose={onClose} />
       </Show>
     </>
   );
