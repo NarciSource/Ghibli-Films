@@ -25,7 +25,7 @@ export default class CreateOrUpdateReviewMutationResolver {
 
         // 이전 감상평 조회
         const prevCutReview = await CutReview.findOne({
-            where: { cutId, user: { id: userId } },
+            where: { cutId, userId },
             relations: ['user'],
         });
 
@@ -37,7 +37,7 @@ export default class CreateOrUpdateReviewMutationResolver {
         }
 
         // 감상평 생성
-        const cutReview = CutReview.create({ contents, cutId, user: { id: userId } });
+        const cutReview = CutReview.create({ contents, cutId, userId });
         await cutReview.save();
 
         // 새로운 감상평이 등록되었음을 알림

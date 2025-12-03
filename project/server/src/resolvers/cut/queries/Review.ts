@@ -18,7 +18,7 @@ export default class CutReviewQueryResolver {
 
         if (verifiedUser?.userId) {
             reviewHistory = await CutReview.findOne({
-                where: { cutId, user: { id: verifiedUser.userId } },
+                where: { cutId, userId: verifiedUser.userId },
             });
 
             realTake = 1;

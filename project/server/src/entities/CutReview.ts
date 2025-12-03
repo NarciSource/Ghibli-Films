@@ -10,6 +10,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 
+import { Cut } from './Cut';
 import { User } from './User';
 
 @ObjectType({ description: '감상평' })
@@ -19,29 +20,38 @@ export class CutReview extends BaseEntity {
     @Field(() => Int, { description: '감상평 고유 아이디' })
     id: number;
 
-    @Field({ description: '감상평 내용' })
     @Column({ comment: '감상평 내용' })
+    @Field({ description: '감상평 내용' })
     contents: string;
 
-    @Field(() => Int, { description: '명장면 번호' })
     @Column({ comment: '명장면 번호' })
+    @RelationId((cutReview: CutReview) => cutReview.cut)
+    @Field(() => Int, { description: '명장면 번호' })
     cutId: number;
 
-    @Field(() => User)
+    @ManyToOne(
+        () => Cut,
+        (cut) => cut.cutReviews,
+    )
+    @Field(() => Cut, { description: '명장면' })
+    cut: Cut;
+
+    @Column({ comment: '유저 아이디' })
+    @RelationId((cutReview: CutReview) => cutReview.user)
+    userId: number;
+
     @ManyToOne(
         () => User,
         (user) => user.cutReviews,
     )
+    @Field(() => User, { description: '유저' })
     user: User;
 
-    @RelationId((cutReview: CutReview) => cutReview.user)
-    userId: number;
-
-    @Field(() => String, { description: '생성 일자' })
     @CreateDateColumn({ comment: '생성 일자' })
+    @Field(() => String, { description: '생성 일자' })
     createdAt: Date;
 
-    @Field(() => String, { description: '수정 일자' })
     @UpdateDateColumn({ comment: '수정 일자' })
+    @Field(() => String, { description: '수정 일자' })
     updatedAt: Date;
 }

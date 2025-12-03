@@ -6,6 +6,7 @@ import {
     Entity,
     ManyToOne,
     PrimaryGeneratedColumn,
+    RelationId,
     UpdateDateColumn,
 } from 'typeorm';
 
@@ -14,24 +15,24 @@ import { User } from './User';
 @ObjectType({ description: '알림' })
 @Entity()
 export class Notification extends BaseEntity {
-    @Field(() => Int, { description: '알림 고유 아이디' })
     @PrimaryGeneratedColumn()
+    @Field(() => Int, { description: '알림 고유 아이디' })
     id!: number;
 
-    @Field(() => String, { description: '알림 메시지' })
     @Column({ type: 'varchar', length: 255, comment: 'Notification message' })
+    @Field(() => String, { description: '알림 메시지' })
     text: string;
 
-    @Field(() => String, { description: '작성 날짜' })
     @CreateDateColumn()
+    @Field(() => String, { description: '작성 날짜' })
     createdAt: Date;
 
-    @Field(() => String, { description: '수정 날짜' })
     @UpdateDateColumn()
+    @Field(() => String, { description: '수정 날짜' })
     updatedAt: Date;
 
-    @Field(() => Int, { description: '유저 아이디' })
-    @Column()
+    @RelationId((notification: Notification) => notification.user)
+    @Column({ comment: '유저 아이디' })
     userId!: number;
 
     @ManyToOne(
@@ -39,5 +40,6 @@ export class Notification extends BaseEntity {
         (user) => user.notifications,
         { onDelete: 'CASCADE' },
     )
+    @Field(() => User, { description: '유저' })
     user: User;
 }

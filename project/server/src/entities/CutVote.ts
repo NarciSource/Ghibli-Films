@@ -1,5 +1,5 @@
-import { Field, Int, ObjectType } from 'type-graphql';
-import { BaseEntity, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Field, ObjectType } from 'type-graphql';
+import { BaseEntity, Entity, ManyToOne, PrimaryColumn, RelationId } from 'typeorm';
 
 import { Cut } from './Cut';
 import { User } from './User';
@@ -7,21 +7,25 @@ import { User } from './User';
 @ObjectType({ description: '좋아요' })
 @Entity()
 export class CutVote extends BaseEntity {
-    @PrimaryColumn()
-    @Field(() => Int)
+    @PrimaryColumn({ comment: '유저 아이디' })
+    @RelationId((vote: CutVote) => vote.user)
     userId: number;
-
-    @PrimaryColumn()
-    @Field(() => Int)
-    cutId: number;
-
-    @Field(() => Cut)
-    cut: Cut;
 
     @ManyToOne(
         () => User,
         (user) => user.cutVotes,
     )
-    @Field(() => User)
+    @Field(() => User, { description: '유저' })
     user: User;
+
+    @PrimaryColumn({ comment: '명장면 아이디' })
+    @RelationId((vote: CutVote) => vote.cut)
+    cutId: number;
+
+    @ManyToOne(
+        () => Cut,
+        (cut) => cut.cutVotes,
+    )
+    @Field(() => Cut, { description: '명장면' })
+    cut: Cut;
 }

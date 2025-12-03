@@ -12,7 +12,7 @@ export default class DeleteReviewMutationResolver {
         @Ctx()
         { verifiedUser }: IContext,
     ): Promise<boolean> {
-        const result = await CutReview.delete({ id, user: { id: verifiedUser.userId } });
+        const result = await CutReview.delete({ id, userId: verifiedUser.userId });
 
         if (result.affected && result.affected > 0) {
             return true;

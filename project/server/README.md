@@ -57,7 +57,8 @@ server
    │  ├─ user
    │  │  ├─ type.ts
    │  │  ├─ queries
-   │  │  │  └─ Me.ts
+   │  │  │  ├─ Me.ts
+   │  │  │  └─ Reviews.ts
    │  │  └─ mutations
    │  │     ├─ Login.ts
    │  │     ├─ Logout.ts
