@@ -1,8 +1,6 @@
-'use server';
-
 import { Text } from '@chakra-ui/react';
 
-import { getPublicApolloClient } from '@/apollo/getPublicApolloClient';
+import { createApolloClient } from '@/apollo/createApolloClient';
 import { CutsDocument } from '@/graphql/api/hooks';
 import type { CutsQuery } from '@/graphql/api/operations';
 
@@ -13,7 +11,7 @@ export default async function FilmCutListLoader({
   filmId: number;
   children: (cuts: CutsQuery['cuts']) => React.ReactNode;
 }) {
-  const apolloClient = await getPublicApolloClient();
+  const apolloClient = await createApolloClient({});
 
   try {
     const { data } = await apolloClient.query<CutsQuery>({

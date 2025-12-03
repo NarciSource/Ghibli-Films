@@ -1,6 +1,7 @@
 import { FaBell } from 'react-icons/fa';
 import {
   Box,
+  For,
   IconButton,
   Menu,
   MenuContent,
@@ -8,6 +9,7 @@ import {
   MenuTrigger,
   Portal,
   ProgressCircle,
+  Show,
   Text,
 } from '@chakra-ui/react';
 
@@ -43,28 +45,36 @@ export default function Notification(): React.ReactElement {
             </Text>
             <Menu.Separator />
 
-            {loading && (
-              <Box display='flex' justifyContent='center' py={4}>
-                <ProgressCircle.Root size='sm'>
-                  <ProgressCircle.Circle>
-                    <ProgressCircle.Track />
-                    <ProgressCircle.Range />
-                  </ProgressCircle.Circle>
-                </ProgressCircle.Root>
-              </Box>
-            )}
-
-            {!loading && (!data || data.notifications.length === 0) && (
-              <Text px={4} py={2}>
-                알림이 없습니다.
-              </Text>
-            )}
-
-            {!loading &&
-              data?.notifications.map((n) => <NotificationItem key={n.id} notification={n} />)}
+            <Show when={!loading} fallback={<Progress />}>
+              <Show
+                when={data && data.notifications.length !== 0 ? data.notifications : null}
+                fallback={
+                  <Text px={4} py={2}>
+                    알림이 없습니다.
+                  </Text>
+                }
+              >
+                {(notifications) => (
+                  <For each={notifications}>
+                    {(n) => <NotificationItem key={n.id} notification={n} />}
+                  </For>
+                )}
+              </Show>
+            </Show>
           </MenuContent>
         </MenuPositioner>
       </Portal>
     </Menu.Root>
   );
 }
+
+const Progress = () => (
+  <Box display='flex' justifyContent='center' py={4}>
+    <ProgressCircle.Root size='sm'>
+      <ProgressCircle.Circle>
+        <ProgressCircle.Track />
+        <ProgressCircle.Range />
+      </ProgressCircle.Circle>
+    </ProgressCircle.Root>
+  </Box>
+);

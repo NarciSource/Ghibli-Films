@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 
 export type User = {
   id: number;
+  isAdmin: boolean;
   username: string;
 };
 

@@ -1,86 +1,113 @@
+import NextImage from 'next/image';
 import {
   AspectRatio,
   Box,
   Button,
   Center,
+  Image as ChakraImage,
   Flex,
+  For,
   Heading,
   HStack,
-  Image,
+  Show,
   SimpleGrid,
+  Spinner,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 
-import type { CutQuery } from '@/graphql/api/operations';
-import FilmCutReview from './FilmCutReview';
-import FilmCutReviewDeleteAlert from './FilmCutReviewDeleteAlert';
-import FilmCutReviewRegisterModal from './FilmCutReviewRegisterModal';
+import { useCutQuery } from '@/graphql/api/hooks';
+import {
+  FilmCutReview,
+  FilmCutReviewDeleteAlert,
+  FilmCutReviewRegisterModal,
+} from '@/app/(personal)/reviews/_components/cut-review';
 import FilmCutVote from './FilmCutVote';
 
-type FilmCutDetailProps = Exclude<CutQuery['cut'], null | undefined> & {
-  reviews: CutQuery['cutReviews'];
-};
-
-export default function FilmCutDetail({
-  id: cutId,
-  src: cutImg,
-  isVoted = false,
-  votesCount = 0,
-  reviews,
-}: FilmCutDetailProps): React.ReactElement {
+export default function FilmCutDetail({ cutId }: { cutId: number }): React.ReactElement {
   const reviewRegisterDialog = useDisclosure();
   const deleteAlert = useDisclosure();
+  const { loading, data } = useCutQuery({ variables: { cutId } });
 
   return (
-    <Box>
-      <AspectRatio ratio={16 / 9}>
-        <Image src={cutImg} objectFit='cover' />
-      </AspectRatio>
-
-      <Box py={4}>
-        <Flex justify='space-between' alignItems='center'>
-          <Heading size='sm'>{cutId}번째 사진</Heading>
-          <HStack gap={1} alignItems='center'>
-            <FilmCutVote cutId={cutId} isVoted={isVoted} votesCount={votesCount} />
-
-            <Button colorPalette='teal' onClick={reviewRegisterDialog.onOpen}>
-              감상 남기기
-            </Button>
-          </HStack>
-        </Flex>
-
-        <Box mt={6}>
-          {!reviews?.length ? (
-            <Center minH={100}>
-              <Text>제일 먼저 감상을 남겨보세요!</Text>
-            </Center>
-          ) : (
-            <SimpleGrid mt={3} gap={4} columns={{ base: 1, sm: 2 }}>
-              {reviews.map((review) => (
-                <FilmCutReview
-                  key={review.id}
-                  {...review}
-                  onEditClick={reviewRegisterDialog.onOpen}
-                  onDeleteClick={deleteAlert.onOpen}
+    <Show
+      when={!loading}
+      fallback={
+        <Center py={4}>
+          <Spinner />
+        </Center>
+      }
+    >
+      <Show
+        when={data?.cut ? { cut: data.cut, reviews: data.cutReviews } : null}
+        fallback={<Center>데이터를 불러오지 못했습니다.</Center>}
+      >
+        {({ cut, reviews }) => (
+          <Box>
+            <AspectRatio ratio={16 / 9}>
+              <ChakraImage objectFit='cover' asChild>
+                <NextImage
+                  src={cut.src}
+                  alt={`장면-${cut.id}`}
+                  sizes='(max-width: 768px) 100vw, 250px'
+                  fill
+                  priority
                 />
-              ))}
-            </SimpleGrid>
-          )}
-        </Box>
-      </Box>
+              </ChakraImage>
+            </AspectRatio>
 
-      <FilmCutReviewRegisterModal
-        cutId={cutId}
-        isOpen={reviewRegisterDialog.open}
-        onClose={reviewRegisterDialog.onClose}
-      />
+            <Box p={10} bg='white'>
+              <Flex justify='space-between' alignItems='center'>
+                <Heading size='sm'>{cut.id}번째 사진</Heading>
+                <HStack gap={1} alignItems='center'>
+                  <FilmCutVote cutId={cut.id} isVoted={cut.isVoted} votesCount={cut.votesCount} />
 
-      <FilmCutReviewDeleteAlert
-        target={reviews.find((review) => review.isMine)}
-        isOpen={deleteAlert.open}
-        onClose={deleteAlert.onClose}
-      />
-    </Box>
+                  <Button colorPalette='teal' onClick={reviewRegisterDialog.onOpen}>
+                    감상 남기기
+                  </Button>
+                </HStack>
+              </Flex>
+
+              <Box mt={6}>
+                <Show
+                  when={reviews.length}
+                  fallback={
+                    <Center minH={100}>
+                      <Text>제일 먼저 감상을 남겨보세요!</Text>
+                    </Center>
+                  }
+                >
+                  <SimpleGrid mt={3} gap={4} columns={{ base: 1, sm: 2 }}>
+                    <For each={reviews}>
+                      {({ user, ...review }) => (
+                        <FilmCutReview
+                          key={review.id}
+                          cutReview={review}
+                          user={user}
+                          onEditClick={reviewRegisterDialog.onOpen}
+                          onDeleteClick={deleteAlert.onOpen}
+                        />
+                      )}
+                    </For>
+                  </SimpleGrid>
+                </Show>
+              </Box>
+            </Box>
+
+            <FilmCutReviewRegisterModal
+              cutId={cut.id}
+              isOpen={reviewRegisterDialog.open}
+              onClose={reviewRegisterDialog.onClose}
+            />
+
+            <FilmCutReviewDeleteAlert
+              target={reviews.find((review) => review.isMine)}
+              isOpen={deleteAlert.open}
+              onClose={deleteAlert.onClose}
+            />
+          </Box>
+        )}
+      </Show>
+    </Show>
   );
 }

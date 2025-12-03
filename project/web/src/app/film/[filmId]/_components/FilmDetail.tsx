@@ -1,4 +1,14 @@
-import { Box, Flex, Heading, Image, Tag, Text } from '@chakra-ui/react';
+import NextImage from 'next/image';
+import {
+  AspectRatio,
+  Box,
+  Image as ChakraImage,
+  Flex,
+  For,
+  Heading,
+  Tag,
+  Text,
+} from '@chakra-ui/react';
 
 import type { FilmQuery } from '@/graphql/api/operations';
 
@@ -9,8 +19,18 @@ interface FilmDetailProps {
 export default function FilmDetail({ film }: FilmDetailProps): React.ReactElement {
   return (
     <Flex mt={12} flexDirection={{ base: 'column', md: 'row' }} alignItems='center'>
-      <Box maxW='250px' flex={1}>
-        <Image src={film?.posterImg} borderRadius={20} />
+      <Box w={{ base: '100%', md: '250px' }}>
+        <AspectRatio ratio={2 / 3}>
+          <ChakraImage fit='cover' borderRadius={20} asChild>
+            <NextImage
+              src={film?.posterImg ?? '/default-poster.png'}
+              alt={film?.title ?? '기본 이미지'}
+              priority
+              fill
+              sizes='(max-width: 768px) 100vw, 250px'
+            />
+          </ChakraImage>
+        </AspectRatio>
       </Box>
 
       <Flex
@@ -22,11 +42,13 @@ export default function FilmDetail({ film }: FilmDetailProps): React.ReactElemen
         alignItems='flex-start'
       >
         <Flex mt={2}>
-          {film?.genre.split(',').map((genre) => (
-            <Tag.Root key={genre} mr={2} size='sm'>
-              <Tag.Label>{genre}</Tag.Label>
-            </Tag.Root>
-          ))}
+          <For each={film?.genre.split(',')}>
+            {(genre) => (
+              <Tag.Root key={genre} mr={2} size='sm'>
+                <Tag.Label>{genre}</Tag.Label>
+              </Tag.Root>
+            )}
+          </For>
         </Flex>
         <Heading mb={4}>
           {film?.title}

@@ -25,11 +25,13 @@ export const createApolloCache = async (
     },
   });
 
-  // 캐시를 영속화: localStorage와 동기화
-  await persistCache({
-    cache,
-    storage: new LocalStorageWrapper(window.localStorage),
-  });
+  if (typeof window !== 'undefined') {
+    // 캐시를 영속화: localStorage와 동기화
+    await persistCache({
+      cache,
+      storage: new LocalStorageWrapper(window.localStorage),
+    });
+  }
 
   // 이전 캐시 상태를 추출
   const existingCache = cache.extract();

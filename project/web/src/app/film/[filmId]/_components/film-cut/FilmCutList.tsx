@@ -1,11 +1,20 @@
 'use client';
 
+import NextImage from 'next/image';
 import { useState } from 'react';
-import LazyLoad from 'react-lazyload';
-import { Box, Image, LinkBox, LinkOverlay, SimpleGrid, useDisclosure } from '@chakra-ui/react';
+import {
+  AspectRatio,
+  For,
+  LinkBox,
+  LinkOverlay,
+  Show,
+  SimpleGrid,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import type { CutsQuery } from '@/graphql/api/operations';
 import FilmCutModal from './FilmCutModal';
+import FilmCutSlide from './FilmCutSlide';
 
 export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   const { open, onOpen, onClose } = useDisclosure();
@@ -18,19 +27,29 @@ export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   return (
     <>
       <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
-        {cuts.map((cut) => (
-          <LazyLoad once key={cut.id} height='200px'>
-            <LinkBox as='article'>
-              <Box>
-                <LinkOverlay onClick={() => handleCutSelect(cut.id)} cursor='pointer'>
-                  <Image src={cut.src} />
+        <For each={cuts}>
+          {(cut, index) => (
+            <LinkBox key={cut.id} as='article'>
+              <AspectRatio ratio={16 / 9} position='relative'>
+                <LinkOverlay onClick={() => handleCutSelect(index)} cursor='pointer'>
+                  <NextImage
+                    src={cut.src}
+                    alt={`장면-${cut.id}`}
+                    fill
+                    sizes='(max-width: 768px) 100vw, 33vw'
+                  />
                 </LinkOverlay>
-              </Box>
+              </AspectRatio>
             </LinkBox>
-          </LazyLoad>
-        ))}
+          )}
+        </For>
       </SimpleGrid>
-      {open && <FilmCutModal open={open} onClose={onClose} cutId={selectedCutId} />}
+
+      <Show when={open}>
+        <FilmCutModal open={open} onClose={onClose}>
+          <FilmCutSlide items={cuts} page={selectedCutId} />
+        </FilmCutModal>
+      </Show>
     </>
   );
 }

@@ -6,6 +6,7 @@ mutation Login($loginInput: LoginInput!) {
     }
     ... on User {
       id
+      isAdmin
       username
     }
   }

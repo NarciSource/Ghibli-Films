@@ -1,6 +1,7 @@
 query me {
   me {
     id
+    isAdmin
     username
     email
     profileImage

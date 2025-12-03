@@ -1,0 +1,19 @@
+query myReviews {
+  myReviews {
+    cutReviews {
+      id
+      contents
+      createdAt
+      updatedAt
+      cut {
+        id
+        src
+        film {
+          id
+          title
+          posterImg
+        }
+      }
+    }
+  }
+}
