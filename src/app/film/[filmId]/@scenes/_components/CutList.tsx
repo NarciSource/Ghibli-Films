@@ -13,10 +13,10 @@ import {
 } from '@chakra-ui/react';
 
 import type { CutsQuery } from '@/graphql/api/operations';
-import FilmCutModal from './FilmCutModal';
-import FilmCutSlide from './FilmCutSlide';
+import CutModal from './CutModal';
+import CutSlide from './CutSlide';
 
-export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
+export default function CutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   const { open, onOpen, onClose } = useDisclosure();
   const [selectedCutId, setSelectedCutId] = useState<number>(0);
   const handleCutSelect = (cutId: number) => {
@@ -46,9 +46,9 @@ export default function FilmCutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
       </SimpleGrid>
 
       <Show when={open}>
-        <FilmCutModal open={open} onClose={onClose}>
-          <FilmCutSlide items={cuts} page={selectedCutId} />
-        </FilmCutModal>
+        <CutModal open={open} onClose={onClose}>
+          <CutSlide items={cuts} page={selectedCutId} />
+        </CutModal>
       </Show>
     </>
   );

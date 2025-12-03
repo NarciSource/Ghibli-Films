@@ -3,23 +3,19 @@ import { Text } from '@chakra-ui/react';
 import { createApolloClient } from '@/apollo/createApolloClient';
 import { CutsDocument } from '@/graphql/api/hooks';
 import type { CutsQuery } from '@/graphql/api/operations';
+import CutList from './_components/CutList';
 
-export default async function FilmCutListLoader({
-  filmId,
-  children,
-}: {
-  filmId: number;
-  children: (cuts: CutsQuery['cuts']) => React.ReactNode;
-}) {
+export default async function FilmCuts({ params }: { params: Promise<{ filmId: string }> }) {
+  const { filmId } = await params;
   const apolloClient = await createApolloClient({});
 
   try {
     const { data } = await apolloClient.query<CutsQuery>({
       query: CutsDocument,
-      variables: { filmId },
+      variables: { filmId: Number(filmId) },
     });
 
-    return <>{children(data.cuts)}</>;
+    return <CutList cuts={data.cuts} />;
   } catch (error) {
     console.error(error);
 

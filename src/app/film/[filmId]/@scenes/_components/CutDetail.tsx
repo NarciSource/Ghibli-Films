@@ -22,9 +22,9 @@ import {
   FilmCutReviewDeleteAlert,
   FilmCutReviewRegisterModal,
 } from '@/app/(personal)/reviews/_components/cut-review';
-import FilmCutVote from './FilmCutVote';
+import CutVote from './CutVote';
 
-export default function FilmCutDetail({ cutId }: { cutId: number }): React.ReactElement {
+export default function CutDetail({ cutId }: { cutId: number }): React.ReactElement {
   const reviewRegisterDialog = useDisclosure();
   const deleteAlert = useDisclosure();
   const { loading, data } = useCutQuery({ variables: { cutId } });
@@ -60,7 +60,7 @@ export default function FilmCutDetail({ cutId }: { cutId: number }): React.React
               <Flex justify='space-between' alignItems='center'>
                 <Heading size='sm'>{cut.id}번째 사진</Heading>
                 <HStack gap={1} alignItems='center'>
-                  <FilmCutVote cutId={cut.id} isVoted={cut.isVoted} votesCount={cut.votesCount} />
+                  <CutVote cutId={cut.id} isVoted={cut.isVoted} votesCount={cut.votesCount} />
 
                   <Button colorPalette='teal' onClick={reviewRegisterDialog.onOpen}>
                     감상 남기기

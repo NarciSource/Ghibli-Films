@@ -1,6 +1,6 @@
 import { CloseButton, Dialog, Portal } from '@chakra-ui/react';
 
-export default function FilmCutModal({
+export default function CutModal({
   open,
   onClose,
   children,

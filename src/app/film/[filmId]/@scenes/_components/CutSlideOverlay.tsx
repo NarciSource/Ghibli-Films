@@ -2,7 +2,7 @@ import { forwardRef, type ReactNode } from 'react';
 import { LuArrowLeft, LuArrowRight } from 'react-icons/lu';
 import { Carousel, IconButton, type IconButtonProps } from '@chakra-ui/react';
 
-export default function FilmCutSlideOverlay({
+export default function CutSlideOverlay({
   slideCount,
   defaultPage,
   children,
