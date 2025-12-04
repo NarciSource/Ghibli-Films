@@ -1,16 +1,13 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { CloseButton, Dialog, Portal } from '@chakra-ui/react';
 
-export default function CutModal({
-  open,
-  onClose,
-  children,
-}: {
-  open: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-}): React.ReactElement {
+export default function CutModal({ children }: { children: React.ReactNode }): React.ReactElement {
+  const router = useRouter();
+
   return (
-    <Dialog.Root lazyMount open={open} onOpenChange={onClose} size='xl'>
+    <Dialog.Root lazyMount open={true} onOpenChange={() => router.back()} size='xl'>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>

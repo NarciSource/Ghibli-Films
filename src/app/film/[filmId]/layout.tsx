@@ -16,14 +16,17 @@ export async function generateStaticParams() {
 export default async function Layout({
   overview,
   scenes,
+  viewer,
 }: {
   overview: React.ReactNode;
   scenes: React.ReactNode;
+  viewer: React.ReactNode;
 }) {
   return (
     <Box px={4} gap={12}>
       {overview}
       {scenes}
+      {viewer}
     </Box>
   );
 }
