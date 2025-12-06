@@ -9,10 +9,13 @@ import CutSlide from './_components/CutSlide';
 
 export default async function Page({
   params,
+  searchParams,
 }: {
   params: Promise<{ filmId: string; cutId: string }>;
+  searchParams: Promise<{ nth?: string }>;
 }) {
-  const { filmId, cutId } = await params;
+  const { filmId } = await params;
+  const { nth } = await searchParams;
   const apolloClient = await createApolloClient({});
 
   try {
@@ -21,15 +24,9 @@ export default async function Page({
       variables: { filmId: Number(filmId) },
     });
 
-    const page = data.cuts.findIndex((cut) => cut.id === Number(cutId));
-
-    if (page === -1) {
-      return <Text>존재하지 않는 장면입니다.</Text>;
-    }
-
     return (
       <CutModal>
-        <CutSlide itemSize={data.cuts.length} page={page}>
+        <CutSlide itemSize={data.cuts.length} page={Number(nth)}>
           {(nth) => <CutDetail cutId={data.cuts[nth].id} />}
         </CutSlide>
       </CutModal>

@@ -13,9 +13,9 @@ export default function CutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   return (
     <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
       <For each={cuts}>
-        {(cut) => (
+        {(cut, nth) => (
           <AspectRatio key={cut.id} ratio={16 / 9} position='relative'>
-            <Link href={`${pathname}/cut/${cut.id}`}>
+            <Link href={{ pathname: `${pathname}/cut/${cut.id}`, query: { nth } }} prefetch={false}>
               <NextImage
                 src={cut.src}
                 alt={`장면-${cut.id}`}
