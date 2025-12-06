@@ -6,9 +6,12 @@ import { usePathname } from 'next/navigation';
 import { AspectRatio, For, SimpleGrid } from '@chakra-ui/react';
 
 import type { CutsQuery } from '@/graphql/api/operations';
+import { useCutsStore } from '../../_store/useCutsStore';
 
 export default function CutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   const pathname = usePathname();
+  // hydrate 데이터 스토어로 저장
+  useCutsStore.setState({ cuts });
 
   return (
     <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
