@@ -14,7 +14,7 @@ export default function CutList({ cuts }: { cuts: CutsQuery['cuts'] }) {
   useCutsStore.setState({ cuts });
 
   return (
-    <SimpleGrid my={4} columns={[1, 2, null, 3]} gap={[2, null, 8]}>
+    <SimpleGrid columns={[1, 2, null, 3]} gap={[2, null, 8]}>
       <For each={cuts}>
         {(cut, nth) => (
           <AspectRatio key={cut.id} ratio={16 / 9} position='relative'>

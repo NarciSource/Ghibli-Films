@@ -1,5 +1,6 @@
-import { Box } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 
+export const dynamicParams = false;
 /**
  * 동적 경로에서 정적 페이지 설정을 위해
  * 빌드 시점에 동적 라우트의 모든 파라미터를 미리 생성.
@@ -23,10 +24,10 @@ export default async function Layout({
   viewer: React.ReactNode;
 }) {
   return (
-    <Box px={4} gap={12}>
+    <Stack px={4} gap={12}>
       {overview}
       {scenes}
       {viewer}
-    </Box>
+    </Stack>
   );
 }
