@@ -1,13 +1,21 @@
-'use server';
-
+import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { Box, For, Heading, Text } from '@chakra-ui/react';
+import { Box, For, Heading } from '@chakra-ui/react';
 
 import { createApolloClient } from '@/apollo/createApolloClient';
 import { MyReviewsDocument } from '@/graphql/api/hooks';
 import type { MyReviewsQuery } from '@/graphql/api/operations';
 import FilmCard from './_components/FilmCard';
 import groupReviewsByFilm from './_lib/groupReviewsByFilm';
+
+export const metadata: Metadata = {
+  title: '나의 감상평 모아보기 | Ghibli Best Cuts',
+  description: '접속한 사용자만 접근 가능',
+  openGraph: {
+    title: '나의 감상평 모아보기 | Ghibli Best Cuts',
+    description: '접속한 사용자만 접근 가능',
+  },
+};
 
 export default async function Reviews() {
   const apolloClient = await createApolloClient({});

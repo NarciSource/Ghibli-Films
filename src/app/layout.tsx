@@ -10,6 +10,11 @@ import ClientProviders from './_providers/ClientProviders';
 export const metadata: Metadata = {
   title: 'Ghibli Best Cuts',
   description: '지브리 명장면 프로젝트',
+  openGraph: {
+    title: 'Ghibli Best Cuts',
+    description: '지브리 명장면 프로젝트',
+    images: [{ url: './thumbnail.png', alt: 'Thumbnail' }],
+  },
 };
 
 export default function RootLayout({

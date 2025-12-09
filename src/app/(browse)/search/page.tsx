@@ -1,10 +1,31 @@
+import type { Metadata } from 'next';
 import { Heading } from '@chakra-ui/react';
 
 import FilmList from '@/app/film/_components/FilmList';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Search({ searchParams }: { searchParams: Promise<{ q: string }> }) {
+type PageParams = Promise<{ q: string }>;
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: PageParams;
+}): Promise<Metadata> {
+  const { q } = await searchParams;
+
+  return {
+    title: `검색결과: ${q} | Ghibli Best Cuts`,
+    description: `검색결과: ${q}`,
+    openGraph: {
+      title: `검색결과: ${q} | Ghibli Best Cuts`,
+      description: `검색결과: ${q}`,
+      images: [{ url: './thumbnail.png', alt: 'Thumbnail' }],
+    },
+  };
+}
+
+export default async function Search({ searchParams }: { searchParams: PageParams }) {
   const { q } = await searchParams;
 
   return (
