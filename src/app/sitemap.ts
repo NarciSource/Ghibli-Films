@@ -6,6 +6,8 @@ import type { FilmsQuery } from '@/graphql/api/operations';
 
 const APP_URL = process.env.APP_URL ?? 'http://localhost:3000';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
   const apolloClient = await createApolloClient({});
 
