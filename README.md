@@ -31,10 +31,11 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 
 ## 스크린샷
 
-| ![films-day](https://github.com/user-attachments/assets/c8bb187b-937d-4e4e-ae0e-43e0739c85ff) | ![films-night](https://github.com/user-attachments/assets/06bdcbb3-b1f4-49a3-af39-0cbdae8af210) |
+| ![films-day](https://github.com/user-attachments/assets/7c071968-0f43-4a72-82f4-d06029c3a3f8) | ![films-night](https://github.com/user-attachments/assets/996ec4fb-bbb3-4b72-88ab-eae7c5980e7b) |
 | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| ![search](https://github.com/user-attachments/assets/dff13592-f1a7-4410-9827-a02f54fc94e9)    | ![scene](https://github.com/user-attachments/assets/4e51b273-0dd5-4ef3-8b9b-2b928cfcc856)       |
-| ![signup](https://github.com/user-attachments/assets/1f0406e6-01bd-466d-a460-13db723dd2c6)    | ![login](https://github.com/user-attachments/assets/3ed7356e-67ff-4a32-90fc-87a89aad838d)       |
+| ![search](https://github.com/user-attachments/assets/59b73f10-650f-486e-8be8-1298c9f7271d)    | ![scene](https://github.com/user-attachments/assets/584f2688-83b0-4ec0-adbb-d45d296090eb)       |
+| ![reviews](https://github.com/user-attachments/assets/22f9634c-69e5-43da-8969-ffbfff6fad0a)   | ![admin](https://github.com/user-attachments/assets/3c824c02-ff8b-4d88-adf3-aec58a15ba36)       |
+| ![signup](https://github.com/user-attachments/assets/304b2852-4ed7-46ff-8760-10fb773deaeb)    | ![login](https://github.com/user-attachments/assets/5c386794-61c3-4fa7-b2ae-e5ea48583607)       |
 
 ## 다이어그램
 
@@ -351,8 +352,8 @@ Ghibli-Films
 
 | 프로젝트 | 저장소                                                                               | 설명                       | 버전   |
 | -------- | ------------------------------------------------------------------------------------ | -------------------------- | ------ |
-| Backend  | [/Ghibli-Films/tree/server](https://github.com/NarciSource/Ghibli-Films/tree/server) | Apollo + Express 기반 서버 | v1.3.0 |
-| Frontend | [/Ghibli-Films/tree/web](https://github.com/NarciSource/Ghibli-Films/tree/web)       | Next.js 클라이언트         | v2.2.0 |
+| Backend  | [/Ghibli-Films/tree/server](https://github.com/NarciSource/Ghibli-Films/tree/server) | Apollo + Express 기반 서버 | v1.4.0 |
+| Frontend | [/Ghibli-Films/tree/web](https://github.com/NarciSource/Ghibli-Films/tree/web)       | Next.js 클라이언트         | v2.6.0 |
 
 ## 실행 방법
 
