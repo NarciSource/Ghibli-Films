@@ -7,7 +7,7 @@ import { CutDocument, useVoteMutation } from '@/graphql/api/hooks';
 import type { CutQuery, CutQueryVariables } from '@/graphql/api/operations';
 import { useIsLoggedIn } from '@/app/_store/useAuthStore';
 
-export default function FilmCutVote({
+export default function CutVote({
   cutId,
   isVoted,
   votesCount,

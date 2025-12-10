@@ -17,6 +17,10 @@ interface FilmDetailProps {
 }
 
 export default function FilmDetail({ film }: FilmDetailProps): React.ReactElement {
+  if (!film) {
+    throw new Error('Film not found');
+  }
+
   return (
     <Flex mt={12} flexDirection={{ base: 'column', md: 'row' }} alignItems='center'>
       <Box w={{ base: '100%', md: '250px' }}>

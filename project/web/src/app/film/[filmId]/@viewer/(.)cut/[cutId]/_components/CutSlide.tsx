@@ -1,15 +1,21 @@
-import { forwardRef, type ReactNode } from 'react';
+import { forwardRef } from 'react';
 import { LuArrowLeft, LuArrowRight } from 'react-icons/lu';
-import { Carousel, IconButton, type IconButtonProps } from '@chakra-ui/react';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  Carousel,
+  type CarouselRootProps,
+  For,
+  IconButton,
+  type IconButtonProps,
+} from '@chakra-ui/react';
 
-export default function FilmCutSlideOverlay({
-  slideCount,
-  defaultPage,
+import LazySlide from './LazySlide';
+
+export default function CutSlide({
   children,
-}: {
-  slideCount: number;
-  defaultPage: number;
-  children: ReactNode;
+  ...props
+}: CarouselRootProps & {
+  children: React.ReactNode;
 }) {
   const actionButtonStyle = {
     top: '50%',
@@ -18,7 +24,7 @@ export default function FilmCutSlideOverlay({
   };
 
   return (
-    <Carousel.Root slideCount={slideCount} defaultPage={defaultPage}>
+    <Carousel.Root {...props}>
       <Carousel.Control justifyContent='center' gap='4'>
         <Carousel.PrevTrigger asChild>
           <ActionButton direction='left' {...actionButtonStyle}>
@@ -26,7 +32,15 @@ export default function FilmCutSlideOverlay({
           </ActionButton>
         </Carousel.PrevTrigger>
 
-        {children}
+        <Carousel.ItemGroup>
+          <For each={Array(props.slideCount).fill(0)}>
+            {(_, index) => (
+              <Carousel.Item key={uuidv4()} index={index}>
+                <LazySlide index={index}>{children}</LazySlide>
+              </Carousel.Item>
+            )}
+          </For>
+        </Carousel.ItemGroup>
 
         <Carousel.NextTrigger asChild>
           <ActionButton direction='right' {...actionButtonStyle}>

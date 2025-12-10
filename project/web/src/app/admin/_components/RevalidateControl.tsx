@@ -48,7 +48,7 @@ export default function RevalidateControl() {
 
 const Refresh = () => (
   <HStack ml={10}>
-    <FaCheck color='green' />
+    <FaCheck color='teal' />
     <Text>갱신 가능</Text>
   </HStack>
 );

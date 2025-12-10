@@ -1,3 +1,27 @@
+## 라우터 구조
+
+```
+Route (app)
+├─ 📁 (browse)
+│  ├─ 📁 (home)
+│  │  └─ ○ /
+│  └─ ƒ /search
+├─ 📁 (authentication)
+│  ├─ ○ /login
+│  └─ ○ /logout
+├─ 📁 (personal)
+│  └─ ƒ /reviews
+├─ ● /film/[filmId]
+│  ├─ ƒ /cut/[cutId]
+│  └─ ƒ /(.)cut/[cutId]
+├─ ƒ /admin
+└─ ○ /sitemap.xml
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+```
+
 ## 폴더 구조
 
 ```
@@ -6,11 +30,12 @@ web
 ├─ biome.json # 린터, 포맷터 통합
 ├─ next.config.ts # Next.js 설정
 ├─ package.json # 패키지 의존성 관리
-└─ tsconfig.json # ts 컴파일러 설정
+├─ tsconfig.json # ts 컴파일러 설정
 ├─ codegen.yml # GraphQL 코드 생성기
 ├─ README.md
 ├─ public
-│  └─ logo.svg
+│  ├─ logo.svg
+│  └─ thumbnail.png
 └─ src
    ├─ apollo # 아폴로 클라이언트 설정
    │  ├─ createApolloCache.ts # 캐시 설정
@@ -52,13 +77,15 @@ web
    ├─ app
    │  ├─ favicon.ico
    │  ├─ globals.css
+   │  ├─ sitemap.ts # 사이트맵
    │  ├─ _providers # 프로바이더
    │  │  ├─ AuthInitializer.tsx
    │  │  └─ ClientProviders.tsx
    │  ├─ _store # 상태 저장소
    │  │  └─ useAuthStore.ts
    │  ├─ _shared # 공용 컴포넌트
-   │  │  └─ Avatar.tsx
+   │  │  ├─ Avatar.tsx
+   │  │  └─ ErrorFallback.tsx
    │  ├─ layout.tsx # 공용 레이아웃
    │  ├─ _layout # 레이아웃 컴포넌트
    │  │  └─ nav
@@ -75,8 +102,10 @@ web
    │  │        ├─ Notification.tsx
    │  │        ├─ NotificationItem.tsx
    │  │        └─ useRealtimeAlarm.ts
+   │  ├─ error.tsx # 에러 페이지
    │  ├─ (browse)
    │  │  ├─ layout.tsx
+   │  │  ├─ loading.tsx
    │  │  ├─ (home) # 기본 페이지
    │  │  │  └─ page.tsx
    │  │  └─ search
@@ -95,6 +124,8 @@ web
    │  │        └─ SignUpForm.tsx
    │  ├─ (personal)
    │  │  └─ reviews
+   │  │     ├─ loading.tsx
+   │  │     ├─ error.tsx
    │  │     ├─ page.tsx
    │  │     ├─ _lib
    │  │     │  └─ groupReviewsByFilm.ts
@@ -113,21 +144,45 @@ web
    │  │  │  ├─ FilmCard.tsx
    │  │  │  └─ FilmList.tsx
    │  │  └─ [filmId]
+   │  │     ├─ layout.tsx
    │  │     ├─ page.tsx
-   │  │     └─ _components
-   │  │        ├─ FilmDetail.tsx
-   │  │        └─ film-cut
-   │  │           ├─ index.ts
-   │  │           ├─ FilmCutList.tsx
-   │  │           ├─ FilmCutListLoader.tsx
-   │  │           ├─ FilmCutModal.tsx
-   │  │           ├─ FilmCutSlide.tsx
-   │  │           ├─ FilmCutSlideOverlay.tsx
-   │  │           ├─ FilmCutSlideItem.tsx
-   │  │           ├─ FilmCutDetail.tsx
-   │  │           └─ FilmCutVote.tsx
+   │  │     ├─ _store
+   │  │     │  └─ useCutsStore.ts
+   │  │     ├─ @overview # 병렬 라우터
+   │  │     │  ├─ default.tsx
+   │  │     │  ├─ loading.tsx
+   │  │     │  ├─ page.tsx
+   │  │     │  └─ _components
+   │  │     │     └─ FilmDetail.tsx
+   │  │     ├─ @scenes
+   │  │     │  ├─ default.tsx
+   │  │     │  ├─ loading.tsx
+   │  │     │  ├─ page.tsx
+   │  │     │  └─ _components
+   │  │     │     └─ CutList.tsx
+   │  │     └─ @viewer
+   │  │        ├─ default.tsx
+   │  │        ├─ loading.tsx
+   │  │        ├─ cut
+   │  │        │  └─ [cutId]
+   │  │        │     └─ page.tsx
+   │  │        ├─ (.)cut # 가로채기 라우터
+   │  │        │  ├─ layout.tsx
+   │  │        │  └─ [cutId]
+   │  │        │     ├─ error.tsx
+   │  │        │     ├─ loading.tsx
+   │  │        │     ├─ page.tsx
+   │  │        │     └─ _components
+   │  │        │        ├─ CutModal.tsx
+   │  │        │        ├─ CutSlide.tsx
+   │  │        │        └─ LazySlide.tsx
+   │  │        └─ _components
+   │  │           ├─ CutDetail.tsx
+   │  │           ├─ CutVote.tsx
+   │  │           └─ Loading.tsx
    │  └─ admin
    │     ├─ page.tsx
+   │     ├─ error.tsx
    │     ├─ _actions # 서버 액션
    │     │  └─ revalidateAction.ts
    │     └─ _components

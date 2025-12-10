@@ -29,7 +29,7 @@ export default function AnimationCheck({
         animationDuration: `${duration}ms`,
       }}
     >
-      <FaCheck color='green' size={24} />
+      <FaCheck color='teal' size={24} />
     </Box>
   );
 }
