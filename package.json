@@ -1,6 +1,6 @@
 {
     "name": "server",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "main": "index.ts",
     "scripts": {
         "dev": "nodemon --watch *.ts --exec ts-node -r tsconfig-paths/register src/index.ts",
@@ -55,5 +55,9 @@
         "nodemon": "^3.1.4",
         "tsc-alias": "^1.8.16",
         "tsconfig-paths": "^4.2.0"
+    },
+    "overrides": {
+        "@types/express": "5.0.3",
+        "@types/express-serve-static-core": "5.0.3"
     }
 }
