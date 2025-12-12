@@ -1,0 +1,27 @@
+FROM node:20-bullseye-slim AS builder
+
+WORKDIR /app
+
+COPY package*.json .
+COPY tsconfig*.json .
+COPY project/web project/web
+
+RUN npm install
+
+RUN npm run build:web
+
+FROM node:20-bullseye-slim AS runner
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/project/web/package*.json ./
+COPY --from=builder /app/project/web/.next ./.next
+COPY --from=builder /app/project/web/public ./public
+
+RUN npm install --production
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
