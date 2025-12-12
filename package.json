@@ -1,36 +1,22 @@
 {
   "name": "ghibli-films",
-  "version": "3.2.0",
+  "version": "3.4.0",
+  "author": "NarciSource",
+  "description": "스튜디오 지브리 영화의 명장면 감상평 서비스 ",
+  "license": "ISC",
+  "keywords": ["graphql", "apollo"],
   "homepage": "https://NarciSource.github.io/Ghibli-Films",
-  "private": true,
-  "workspaces": [
-    "project/*"
-  ],
   "scripts": {
-    "build:server": "npm --workspace server run build",
-    "build:web": "npm --workspace web run build",
-    "start:server": "npm --workspace server run dev",
-    "start:web": "npm --workspace web run start",
-    "format": "prettier --write \"project/{server,web}/**/*.ts\"",
-    "lint": "eslint \"project/{server,web}/**/*.ts\" --fix",
+    "build:server": "npm --prefix project/server run build",
+    "build:web": "npm --prefix project/web run build",
+    "dev:server": "npm --prefix project/server run dev",
+    "dev:web": "npm --prefix project/web run dev",
     "docs": "graphql-codegen",
     "deploy": "gh-pages -d docs"
-  },
-  "keywords": ["graphql", "apollo"],
-  "author": "NarciSource",
-  "license": "ISC",
-  "description": "스튜디오 지브리 영화의 명장면 감상평 서비스 ",
-  "dependencies": {
-    "typescript": "^5.5.3"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^6.0.0",
     "@graphql-codegen/introspection": "^5.0.0",
-    "gh-pages": "^6.3.0",
-    "typescript-eslint": "^8.44.1"
-  },
-  "overrides": {
-    "@types/express": "5.0.3",
-    "@types/express-serve-static-core": "5.0.3"
+    "gh-pages": "^6.3.0"
   }
 }

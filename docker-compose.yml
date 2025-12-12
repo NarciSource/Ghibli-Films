@@ -3,8 +3,8 @@ services:
         image: ghibli-films-server:${SERVER_VERSION}
         container_name: server
         build:
-            context: .
-            dockerfile: Dockerfile.server
+            context: project/server
+            dockerfile: Dockerfile
 
         networks:
             - net
@@ -28,7 +28,7 @@ services:
             - DOMAIN=${WEB_DOMAIN}:${WEB_PORT}
 
         healthcheck:
-            test: ['CMD', 'curl', '-f', 'http://localhost:4000/']
+            test: ["CMD", "curl", "-f", "http://localhost:4000/"]
             interval: 10s
             timeout: 5s
             retries: 5
@@ -36,7 +36,8 @@ services:
     server-bootstrap:
         image: ghibli-films-server:${SERVER_VERSION}
         container_name: server-bootstrap
-        command: ['node', 'dist/scripts/createInitialAdmin.js']
+
+        command: ["node", "dist/scripts/createInitialAdmin.js"]
 
         networks:
             - net
@@ -53,8 +54,8 @@ services:
         image: ghibli-films-web:${WEB_VERSION}
         container_name: web
         build:
-            context: .
-            dockerfile: Dockerfile.web
+            context: project/web
+            dockerfile: Dockerfile
 
         networks:
             - net
