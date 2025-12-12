@@ -3,25 +3,27 @@ FROM node:20-bullseye-slim AS builder
 WORKDIR /app
 
 COPY package*.json .
-COPY tsconfig*.json .
-COPY project/web project/web
 
 RUN npm install
 
-RUN npm run build:web
+COPY tsconfig*.json .
+COPY next.config.ts .
+COPY .env* .
+COPY src ./src
+COPY public ./public
+
+RUN npm run build
 
 FROM node:20-bullseye-slim AS runner
 
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
+WORKDIR /app
 
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/project/web/package*.json ./
-COPY --from=builder /app/project/web/.next ./.next
-COPY --from=builder /app/project/web/public ./public
+ENV NEXT_TELEMETRY_DISABLED=true
 
-RUN npm install --production
+COPY --from=builder /app/.next/standalone .
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
