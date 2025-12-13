@@ -25,7 +25,7 @@ async function main() {
         next();
     }, cookieParser()); // cookie-parser 미들웨어 추가
 
-    app.use(express.static('public')); // 'public' 폴더를 정적 파일 제공 폴더로 설정
+    app.use('/uploads', express.static('uploads')); // 'uploads' 폴더를 정적 파일 제공 폴더로 설정
     app.use(graphqlUploadExpress({ maxFileSize: 1024 * 1000 * 5, maxFiles: 1 })); // graphql-upload 미들웨어 추가
 
     app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' })); // voyager 스키마 다이어그램

@@ -8,7 +8,6 @@ RUN npm install
 
 COPY tsconfig*.json .
 COPY src ./src
-COPY public ./public
 COPY scripts ./scripts
 
 RUN npm run build
@@ -26,7 +25,6 @@ FROM node:20-bullseye-slim AS runner
 WORKDIR /app
 
 COPY --from=builder app/dist ./dist
-COPY --from=builder app/public ./public
 COPY --from=deps app/node_modules ./node_modules 
 
 EXPOSE 4000
