@@ -150,6 +150,7 @@ services:
         volumes:
             - ./cdn/nginx.conf:/etc/nginx/conf.d/default.conf
             - cdn-static:/usr/share/nginx/html/static
+            - cdn-public:/usr/share/nginx/html/public
 volumes:
     rdb-data:
         driver: local
@@ -158,4 +159,6 @@ volumes:
     es-data:
         driver: local
     cdn-static:
+        driver: local
+    cdn-public:
         driver: local

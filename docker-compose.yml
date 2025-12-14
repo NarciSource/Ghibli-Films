@@ -75,6 +75,7 @@ services:
             - APP_API_HOST=http://server:${SERVER_PORT}
         volumes:
             - cdn-static:/app/.next/static
+            - cdn-public:/app/public
 
 include:
     - ./infra/docker-compose.yml
