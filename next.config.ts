@@ -1,7 +1,6 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   output: 'standalone',
   reactCompiler: true,
   experimental: {
@@ -15,6 +14,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  assetPrefix: process.env.NEXT_PUBLIC_CDN_URL ?? '',
 };
 
 export default nextConfig;
