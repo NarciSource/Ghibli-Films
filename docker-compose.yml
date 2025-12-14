@@ -58,6 +58,8 @@ services:
         build:
             context: project/web
             dockerfile: Dockerfile
+            args:
+                - NEXT_PUBLIC_CDN_URL=http://localhost:${CDN_PORT}
 
         networks:
             - net
@@ -71,6 +73,8 @@ services:
             - project/web/.env
         environment:
             - APP_API_HOST=http://server:${SERVER_PORT}
+        volumes:
+            - cdn-static:/app/.next/static
 
 include:
     - ./infra/docker-compose.yml
