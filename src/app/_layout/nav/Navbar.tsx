@@ -11,6 +11,8 @@ import Notification from './notification/Notification';
 import SearchBar from './SearchBar';
 import UserMenu from './userMenu/UserMenu';
 
+const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL ?? '';
+
 export default function Navbar() {
   const isLoggedIn = useIsLoggedIn();
 
@@ -41,7 +43,7 @@ export default function Navbar() {
             asChild
           >
             <NextLink href='/'>
-              <Image src='/logo.svg' alt='logo' width={50} height={50} />
+              <Image src={`${CDN_URL}/logo.svg`} alt='logo' width={50} height={50} />
               <Text as='span' display={{ base: 'none', md: 'inline' }}>
                 Ghibli Best Cuts
               </Text>

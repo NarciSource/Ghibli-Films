@@ -5,6 +5,7 @@ import FilmList from '@/app/film/_components/FilmList';
 
 export const dynamic = 'force-dynamic';
 
+const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL ?? '';
 type PageParams = Promise<{ q: string }>;
 
 export async function generateMetadata({
@@ -20,7 +21,7 @@ export async function generateMetadata({
     openGraph: {
       title: `검색결과: ${q} | Ghibli Best Cuts`,
       description: `검색결과: ${q}`,
-      images: [{ url: './thumbnail.png', alt: 'Thumbnail' }],
+      images: [{ url: `${CDN_URL}/thumbnail.png`, alt: 'Thumbnail' }],
     },
   };
 }
