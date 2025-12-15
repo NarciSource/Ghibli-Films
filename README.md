@@ -18,22 +18,23 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 [![nextjs](https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![zustand](https://img.shields.io/badge/🐻_Zustand-F56D2E?style=flat&logoColor=white)](https://zustand-demo.pmnd.rs/)
 [![chakra ui](https://img.shields.io/badge/Chakra_UI-1BB2A9?style=flat&logo=chakraui&logoColor=white)](https://chakra-ui.com/)  
+[![mysql](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![redis](https://img.shields.io/badge/Redis-FF4438?style=flat&logo=redis&logoColor=white)](https://redis.io/)
 [![elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat&logo=elasticsearch&logoColor=white)](https://www.elastic.co/kr/elasticsearch)
 [![logstash](https://img.shields.io/badge/Logstash-005571?style=flat&logo=logstash&logoColor=white)](https://www.elastic.co/kr/logstash)
-[![kibana](https://img.shields.io/badge/Kibana-005571?style=flat&logo=kibana&logoColor=white)](https://www.elastic.co/kr/kibana)
-[![mysql](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![redis](https://img.shields.io/badge/Redis-FF4438?style=flat&logo=redis&logoColor=white)](https://redis.io/)  
-[![biome](https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white)](https://biomejs.dev/)
-[![typescript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)  
+[![kibana](https://img.shields.io/badge/Kibana-005571?style=flat&logo=kibana&logoColor=white)](https://www.elastic.co/kr/kibana)  
 [![docker-compose](https://img.shields.io/badge/Docker_Compose-2AB4FF.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MjMgNjY1Ij4KICA8cGF0aCBmaWxsPSIjZmNmY2ZjIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00MTggMWMtNiAxLTkgMy0xMyA4LTQgMy00IDMtMTAgMS0xMi02LTYwIDAtNjYgOC01IDYtMTEgNDQtOCA1MGwyMyAxN2M3IDQgNyA2IDIgNy0yMyAzLTM3IDI5LTI5IDUyIDMgOSAzIDktMTAgNi0xOS01LTI0LTYtNDUtNS00NyAwLTg2IDE4LTEwOSA1MGExMzUgMTM1IDAgMCAwLTI0IDY0Yy0zIDI4IDIgNDggMTcgNzJsMjIgMjdjNDAgNDQgNDEgNjYgMyA5MS00NSAzMC0xMDQgMTktMTA2LTIwLTEtMTYgNC0yOSAxNy01MiAxMy0yNCAxNC0zMyAzLTUybDEzLThjMjQtMTIgMjItOSAyMy0zNCAwLTIyIDItMjAtMjMtMzAtMTgtNi0yMC02LTQwLTEtMjggOS00MCAxNC00MSAxOCAwIDItMSAzLTIgMy03IDAtMTQgMTItMTUgMjUtMSAyMSA2IDI5IDMwIDM2IDMwIDkgMzUgMjQgMTkgNDktMzYgNTMtMzIgMTAyIDExIDEyMSAzNSAxNiA3NCAxMyAxMTktOWwxMS01IDMgMzJjMCAzNC00MCAzOC04OSA4bC0xNi0xMGMtNTEtMjktMTAyIDI0LTY2IDcwIDE1IDIwIDQyIDIxIDQ2IDIgMi04IDAtMTEtMTAtMTktMTYtMTItMTctMjQtMi0yNyA1LTEgMjYgOCAyOCAxMmwzNCAyOSAyMCAxMiAyMCA4YzM2IDEzIDgyLTE1IDgyLTUwIDAtMTAgMC0xMCA2LTUgMTAgMTAgMTggMTYgMjMgMTkgNiAzIDYgNCAxIDctNSAyLTUgMi01IDctMSA4IDEgMjkgNCAzMyA0IDcgNjMgNDYgNjkgNDYgMyAwIDQ4LTI1IDUxLTI5IDItMSAzLTM0IDEtMzZsLTE2LTljLTE2LTgtMTYtOC05LTEwIDE5LTcgMzctMjcgNDMtNDdsNS0xYTE2NSAxNjUgMCAwIDAgNjAtMTNjOSAwIDM0LTIyIDQwLTM0bDQtOGM0LTcgNi0yNiA2LTU2IDAtMjkgMS0yNy0xMC0yOS02LTItOC0zLTEzLTgtMzAtMjktNzktMjMtOTYgMTAtMyA3LTMgNy04IDlzLTYgNS01IDE3djE1YzEgMTQgNCAxNiAzNCAyOGwxMiA2YzcgMyA3IDMgMzAtNyA4LTMgOS0zIDkgMS02IDIyLTY0IDQyLTczIDI0YTg3IDg3IDAgMCAwLTYzLTQyYy04IDAtOCAwIDYtMTFhNzM2IDczNiAwIDAgMCA4NS04OWwzLTVjMTktMzEgMjEtNzMgMy0xMDctNy0xNS0yMy0zNS0zNi00OC0zOS0zNi00Ni00Ny0zOC02MiA0LTggMTUtMTcgMjAtMTVhNDUyIDQ1MiAwIDAgMCA1NS0xMmMxMS00IDEzLTUgMTQtMTAgMC00IDItNyA5LTE0IDI0LTI2LTgtODAtNDMtNzFNMjI4IDMzNGMxIDEgMCAxLTEgMS0yMCAwLTI4IDMyLTEyIDQyIDE3IDkgMzctMyAzNy0yMiAwLTctNy0xNy0xMS0xN3YtMWMzLTIgMC0zLTctNGwtNiAxbTU0IDgtNCAxYy0yMiAzLTI1IDM5LTMgNDQgMjQgNSA0MS0yMSAyNS0zOGwtNS0zdi0zYy0xLTItMTQtMy0xMy0xbS00OSAxMjBjLTYgNy05IDE0LTkgMjQgMCA4IDEgMTIgMyA2IDItMTIgOC0yOCAxMy0zM3YtM2MtMSAwLTQgMi03IDZtOTcgNGMwIDIgMjMgMTcgMjcgMTcgMiAwIDEtMy00LTctOS03LTIzLTEzLTIzLTEwbS01NCA2Yy0yMSA1MSAyOSA5NiA3MyA2NyA4LTYgOC03LTEtOC0zOS0zLTYzLTIzLTY2LTU0LTItMTItMy0xMy02LTUiLz4KPC9zdmc+Cg==&style=flat&logoColor=black)](https://docs.docker.com/compose/)
 [![docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)](https://www.docker.com/)
-[![nginx](https://img.shields.io/badge/NGINX-009639?style=flat&logo=nginx&logoColor=white)](https://nginx.org/)
+[![nginx](https://img.shields.io/badge/NGINX-009639?style=flat&logo=nginx&logoColor=white)](https://nginx.org/)  
+[![biome](https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white)](https://biomejs.dev/)
+[![typescript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)  
 
 ## 스크린샷
 
+
 | ![films-day](https://github.com/user-attachments/assets/7c071968-0f43-4a72-82f4-d06029c3a3f8) | ![films-night](https://github.com/user-attachments/assets/996ec4fb-bbb3-4b72-88ab-eae7c5980e7b) |
 | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| ![search](https://github.com/user-attachments/assets/59b73f10-650f-486e-8be8-1298c9f7271d)    | ![scene](https://github.com/user-attachments/assets/584f2688-83b0-4ec0-adbb-d45d296090eb)       |
+| ![scene](https://github.com/user-attachments/assets/584f2688-83b0-4ec0-adbb-d45d296090eb)     | ![search](https://github.com/user-attachments/assets/59b73f10-650f-486e-8be8-1298c9f7271d)      |
 | ![reviews](https://github.com/user-attachments/assets/22f9634c-69e5-43da-8969-ffbfff6fad0a)   | ![admin](https://github.com/user-attachments/assets/3c824c02-ff8b-4d88-adf3-aec58a15ba36)       |
 | ![signup](https://github.com/user-attachments/assets/304b2852-4ed7-46ff-8760-10fb773deaeb)    | ![login](https://github.com/user-attachments/assets/5c386794-61c3-4fa7-b2ae-e5ea48583607)       |
 
@@ -41,7 +42,7 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 
 ### Architecture Diagram
 
-![Architecture Diagram](https://github.com/user-attachments/assets/c2f61824-7a92-4b2b-ad73-032a7bd85f81)
+![Architecture Diagram](https://github.com/user-attachments/assets/d7c6ad10-c954-4055-8d9c-cf06138e70f5)
 
 - 백엔드
     - **Apollo Server**: Express 플러그인으로 GraphQL query, mutation, resolver 처리
@@ -55,6 +56,7 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 - 프론트엔드
     - **Apollo Client**: GraphQL 쿼리/뮤테이션 전송, 클라이언트 캐싱, 데이터 페칭
     - **Nest.js**: SSR, SSG UI 렌더링 및 상태 관리
+    - **CDN** (Nginx 기반): 정적 자산 배포 및 캐싱, 접근 속도 최적화
     - **Chakra UI**: 웹 UI 구성 및 스타일링
 - 데이터 흐름
     1. 클라이언트에서 Apollo Client로 GraphQL 요청 전송
@@ -329,6 +331,8 @@ Ghibli-Films
 ├─ docs
 │  └─ index.html
 ├─ infra # 인프라 관리
+│  ├─ cdn
+│  │  └─ nginx.conf
 │  ├─ rdb/sql # DDL/DML
 │  │  ├─ 01.ddl.sql
 │  │  ├─ 02.directors.sql
@@ -352,8 +356,8 @@ Ghibli-Films
 
 | 프로젝트 | 저장소                                                                               | 설명                       | 버전   |
 | -------- | ------------------------------------------------------------------------------------ | -------------------------- | ------ |
-| Backend  | [/Ghibli-Films/tree/server](https://github.com/NarciSource/Ghibli-Films/tree/server) | Apollo + Express 기반 서버 | v1.4.0 |
-| Frontend | [/Ghibli-Films/tree/web](https://github.com/NarciSource/Ghibli-Films/tree/web)       | Next.js 클라이언트         | v2.6.0 |
+| Backend  | [/Ghibli-Films/tree/server](https://github.com/NarciSource/Ghibli-Films/tree/server) | Apollo + Express 기반 서버 | v1.4.1 |
+| Frontend | [/Ghibli-Films/tree/web](https://github.com/NarciSource/Ghibli-Films/tree/web)       | Next.js 클라이언트         | v2.6.1 |
 
 ## 실행 방법
 
@@ -370,3 +374,4 @@ $ docker-compose up -d
 | graphql schema     | <http://localhost:4000/voyager>⁠ |
 | graphql playground | <http://localhost:4000/graphql>⁠ |
 | elasticsearch ui   | <http://localhost:5601>⁠         |
+| cdn                | <http://localhost:8081>⁠         |
