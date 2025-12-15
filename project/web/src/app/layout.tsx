@@ -7,13 +7,15 @@ import { Toaster } from '@chakra-ui/react/toaster';
 import { Navbar } from './_layout/nav';
 import ClientProviders from './_providers/ClientProviders';
 
+const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL ?? '';
+
 export const metadata: Metadata = {
   title: 'Ghibli Best Cuts',
   description: '지브리 명장면 프로젝트',
   openGraph: {
     title: 'Ghibli Best Cuts',
     description: '지브리 명장면 프로젝트',
-    images: [{ url: './thumbnail.png', alt: 'Thumbnail' }],
+    images: [{ url: `${CDN_URL}/thumbnail.png'`, alt: 'Thumbnail' }],
   },
 };
 

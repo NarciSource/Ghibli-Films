@@ -4,6 +4,8 @@ import { createApolloClient } from '@/apollo/createApolloClient';
 import { FilmDocument } from '@/graphql/api/hooks';
 import type { FilmQuery } from '@/graphql/api/operations';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {

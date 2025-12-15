@@ -2,12 +2,16 @@ FROM node:20-bullseye-slim AS builder
 
 WORKDIR /app
 
+ARG NEXT_PUBLIC_CDN_URL
+ENV NEXT_PUBLIC_CDN_URL=$NEXT_PUBLIC_CDN_URL
+
 COPY package*.json .
 
 RUN npm install
 
 COPY tsconfig*.json .
 COPY next.config.ts .
+COPY .env* .
 COPY src ./src
 COPY public ./public
 
