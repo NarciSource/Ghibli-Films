@@ -8,7 +8,6 @@ RUN npm install
 
 COPY tsconfig*.json .
 COPY src ./src
-COPY public ./public
 COPY scripts ./scripts
 
 RUN npm run build
@@ -25,12 +24,11 @@ FROM node:20-bullseye-slim AS runner
 
 WORKDIR /app
 
-COPY --from=builder app/dist/src ./dist
-COPY --from=builder app/public ./public
+COPY --from=builder app/dist ./dist
 COPY --from=deps app/node_modules ./node_modules 
 
 EXPOSE 4000
 
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/src/index.js"]

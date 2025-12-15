@@ -16,7 +16,7 @@ export default class UploadProfileImageMutationResolver {
         @Arg('file', () => GraphQLUpload) { createReadStream, filename }: FileUpload,
     ): Promise<boolean> {
         const readFileName = verifiedUser?.userId + filename;
-        const filePath = `public/${readFileName}`;
+        const filePath = `uploads/${readFileName}`;
         // 업로드된 파일 읽기 스트림
         const readStream = createReadStream();
         // 파일 저장을 위한 쓰기 스트림
@@ -29,7 +29,7 @@ export default class UploadProfileImageMutationResolver {
                 // 파일 저장 완료
                 .on('finish', () => {
                     // DB에 프로필 사진 경로 저장
-                    User.update({ id: verifiedUser?.userId }, { profileImage: readFileName })
+                    User.update({ id: verifiedUser?.userId }, { profileImage: filePath })
                         .then(() => resolve(true))
                         .catch((error) =>
                             reject(error instanceof Error ? error : new Error(String(error))),
