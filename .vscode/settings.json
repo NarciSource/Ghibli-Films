@@ -3,6 +3,7 @@
         "chakra",
         "ghibli",
         "refreshtoken",
+        "traefik",
         "typeorm"
     ]
 }

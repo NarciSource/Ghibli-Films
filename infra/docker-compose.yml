@@ -151,6 +151,25 @@ services:
             - ./cdn/nginx.conf:/etc/nginx/conf.d/default.conf
             - cdn-static:/usr/share/nginx/html/static
             - cdn-public:/usr/share/nginx/html/public
+
+    gateway:
+        image: traefik:v3.0
+        container_name: gateway
+
+        command:
+            - --configFile=/etc/traefik/traefik.yml
+            - --log.level=DEBUG
+            - --accesslog=true
+
+        networks:
+            - net
+        ports:
+            - ${SERVER_PORT}:80
+
+        volumes:
+            - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+            - ./traefik/dynamic.yml:/etc/traefik/dynamic.yml
+
 volumes:
     rdb-data:
         driver: local

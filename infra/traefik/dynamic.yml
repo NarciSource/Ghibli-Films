@@ -1,0 +1,22 @@
+http:
+  routers:
+    server-router:
+      entryPoints: [web]
+      rule: PathPrefix(`/graphql`)
+      service: server-service
+
+    web-router:
+      rule: PathPrefix(`/`)
+      entryPoints: [web]
+      service: web-service
+
+  services:
+    server-service:
+      loadBalancer:
+        servers:
+          - url: http://server:4000
+
+    web-service:
+      loadBalancer:
+        servers:
+          - url: http://web:3000
