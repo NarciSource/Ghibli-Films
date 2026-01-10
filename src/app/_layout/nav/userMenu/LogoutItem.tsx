@@ -1,7 +1,7 @@
 import { useApolloClient } from '@apollo/client';
+import { useRouter } from 'next/navigation';
 import { Menu } from '@chakra-ui/react';
 
-import { useLogoutMutation } from '@/graphql/api/hooks';
 import { useAuthStore } from '@/app/_store/useAuthStore';
 
 export default function LogoutItem({
@@ -9,13 +9,15 @@ export default function LogoutItem({
 }: {
   children: React.ReactNode;
 }): React.ReactElement {
-  const [logout, { loading: logoutLoading }] = useLogoutMutation();
+  const redirectUri = `${process.env.NEXT_PUBLIC_APP_API_HOST}/oauth2/sign_out?rd=/`;
+
+  const router = useRouter();
   const client = useApolloClient();
   const { setUser } = useAuthStore();
 
   async function onLogoutClick() {
     try {
-      await logout();
+      router.push(redirectUri);
 
       setUser(null);
 
@@ -24,7 +26,7 @@ export default function LogoutItem({
   }
 
   return (
-    <Menu.Item value='logout' cursor='pointer' onClick={onLogoutClick} disabled={logoutLoading}>
+    <Menu.Item value='logout' cursor='pointer' onClick={onLogoutClick}>
       {children}
     </Menu.Item>
   );

@@ -1,12 +1,10 @@
-import NextLink from 'next/link';
 import { Button, Group } from '@chakra-ui/react';
 
 export default function EntryActionButton() {
+  const redirectUri = `${process.env.NEXT_PUBLIC_APP_API_HOST}/oauth2/start?rd=/`;
+
   return (
     <Group>
-      <Button fontSize='sm' fontWeight='400' variant='ghost' asChild>
-        <NextLink href='/login'>로그인</NextLink>
-      </Button>
       <Button
         display={{ base: 'none', md: 'inline-flex' }}
         fontSize='sm'
@@ -14,7 +12,7 @@ export default function EntryActionButton() {
         colorPalette='teal'
         asChild
       >
-        <NextLink href='/signup'>시작하기</NextLink>
+        <a href={redirectUri}>시작하기</a>
       </Button>
     </Group>
   );
