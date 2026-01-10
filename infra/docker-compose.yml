@@ -170,6 +170,27 @@ services:
             - ./traefik/traefik.yml:/etc/traefik/traefik.yml
             - ./traefik/dynamic.yml:/etc/traefik/dynamic.yml
 
+    keycloak:
+        image: quay.io/keycloak/keycloak:26.5.0
+        container_name: keycloak
+
+        command:
+            - start-dev
+            - --import-realm
+
+        networks:
+            - net
+        ports:
+            - ${KEYCLOAK_PORT}:8080
+
+        environment:
+            - KC_BOOTSTRAP_ADMIN_USERNAME=${KEYCLOAK_ADMIN}
+            - KC_BOOTSTRAP_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+            - KC_HTTP_ENABLED=true
+            - KC_DB=dev-file
+        volumes:
+            - ./keycloak:/opt/keycloak/data/import
+
 volumes:
     rdb-data:
         driver: local
