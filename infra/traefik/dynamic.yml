@@ -1,9 +1,29 @@
 http:
+  middlewares:
+    oauth2-auth:
+      forwardAuth:
+        address: http://oauth2-proxy:4180/oauth2/auth
+        trustForwardHeader: true
+        authResponseHeaders:
+          - X-Auth-Request-User
+          - X-Auth-Request-Email
+          - Authorization
+
   routers:
     server-router:
       entryPoints: [web]
       rule: PathPrefix(`/graphql`)
       service: server-service
+
+    oauth2-router:
+      rule: PathPrefix(`/oauth2`)
+      entryPoints: [web]
+      service: oauth2-service
+
+    keycloak-router:
+      entryPoints: [web]
+      rule: PathPrefix(`/auth`)
+      service: keycloak-service
 
     web-router:
       rule: PathPrefix(`/`)
@@ -15,6 +35,16 @@ http:
       loadBalancer:
         servers:
           - url: http://server:4000
+
+    oauth2-service:
+      loadBalancer:
+        servers:
+          - url: http://oauth2-proxy:4180
+
+    keycloak-service:
+      loadBalancer:
+        servers:
+          - url: http://keycloak:8080
 
     web-service:
       loadBalancer:

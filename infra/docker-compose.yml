@@ -188,8 +188,44 @@ services:
             - KC_BOOTSTRAP_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
             - KC_HTTP_ENABLED=true
             - KC_DB=dev-file
+            - KC_PROXY=edge
+            - KC_HOSTNAME=host.docker.internal
+            - KC_HTTP_RELATIVE_PATH=/auth
+            - KC_HOSTNAME_STRICT=true
         volumes:
             - ./keycloak:/opt/keycloak/data/import
+
+    oauth2-proxy:
+        image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0
+        container_name: oauth2-proxy
+        restart: unless-stopped
+
+        networks:
+            - net
+        ports:
+            - 4180:4180
+
+        command:
+            - --provider=keycloak-oidc
+            - --oidc-issuer-url=http://host.docker.internal:4000/auth/realms/dev
+
+            - --client-id=ghibli-client
+            - --client-secret=ghibli-secret
+            - --redirect-url=http://localhost:4000/oauth2/callback
+
+            - --proxy-prefix=/oauth2
+            - --http-address=0.0.0.0:4180
+
+            - --cookie-secret=0123456789abcdef0123456789abcdef
+            - --cookie-secure=false
+            - --email-domain=*
+            - --skip-provider-button=true
+
+            - --reverse-proxy=true
+            - --set-authorization-header=true
+            - --pass-access-token=true
+
+            - --upstream=static://200
 
 volumes:
     rdb-data:
