@@ -54,7 +54,6 @@
   "clients": [
     {
       "clientId": "ghibli-client",
-      "secret": "ghibli-secret",
       "enabled": true,
       "protocol": "openid-connect",
       "publicClient": false,

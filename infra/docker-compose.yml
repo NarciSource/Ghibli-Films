@@ -191,20 +191,24 @@ services:
             - ./keycloak/keycloak.conf:/opt/keycloak/conf/keycloak.conf
 
     oauth2-proxy:
-        image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0
+        image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0-alpine
         container_name: oauth2-proxy
-        restart: unless-stopped
 
-        command:
-            - --config=/etc/oauth2-proxy/config.cfg
+        restart: unless-stopped
+        entrypoint: /entrypoint.sh
 
         networks:
             - net
-        ports:
-            - 4180:4180
+        depends_on:
+            - keycloak
 
+        environment:
+            - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+            - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+            - OAUTH2_PROXY_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
         volumes:
             - ./oauth2-proxy/config.cfg:/etc/oauth2-proxy/config.cfg
+            - ./oauth2-proxy/entrypoint.sh:/entrypoint.sh
 
 volumes:
     rdb-data:
