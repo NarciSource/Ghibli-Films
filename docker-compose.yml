@@ -22,8 +22,8 @@ services:
             - REDIS_HOST=redis
             - REDIS_PORT=6379
             - ELASTIC_HOST=elasticsearch
-            - ELASTIC_HTTP_PORT=9200
-            - DOMAIN=${WEB_DOMAIN}:${WEB_PORT}
+            - ELASTIC_PORT=9200
+            - DOMAIN=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}
         volumes:
             - user-uploads:/app/uploads
 
@@ -58,21 +58,19 @@ services:
             dockerfile: Dockerfile
             args:
                 - NEXT_PUBLIC_CDN_URL=${CDN_DOMAIN}:${CDN_PORT}
-                - NEXT_PUBLIC_APP_API_HOST=${SERVER_DOMAIN}:${SERVER_PORT}
+                - NEXT_PUBLIC_APP_API_HOST=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}
 
         networks:
             - net
         depends_on:
             server:
                 condition: service_healthy
-        ports:
-            - ${WEB_PORT}:3000
 
         env_file:
             - project/web/.env
         environment:
             - APP_API_HOST=http://gateway:80
-            - APP_URL=${WEB_DOMAIN}:${WEB_PORT}
+            - APP_URL=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}
         volumes:
             - cdn-static:/app/.next/static
             - cdn-public:/app/public

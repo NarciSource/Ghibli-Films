@@ -8,7 +8,7 @@ do
     name=$(basename "$template" .json)
     echo "Registering template: $name"
 
-    curl -X PUT "http://${ES_HOST}:${ES_PORT}/_index_template/${name}" \
+    curl -X PUT "http://${ELASTIC_HOST}:${ELASTIC_PORT}/_index_template/${name}" \
         -H "Content-Type: application/json" \
         -d @"$template" | jq .
 
