@@ -10,9 +10,15 @@ http:
           - Authorization
 
   routers:
-    server-router:
+    server-anonymous-router:
+      entryPoints: [web]
+      rule: PathPrefix(`/graphql/anonymous`)
+      service: server-service
+
+    server-authenticated-router:
       entryPoints: [web]
       rule: PathPrefix(`/graphql`)
+      middlewares: [oauth2-auth]
       service: server-service
 
     oauth2-router:
