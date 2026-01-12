@@ -1,7 +1,7 @@
 import type { GraphQLSchema } from 'graphql';
 import { buildSchema, type NonEmptyArray } from 'type-graphql';
 
-import { pubSub } from './pubSub';
+import pubSub from '../subscription/pubSub';
 
 export default async function createSchema(
     // biome-ignore lint/complexity/noBannedTypes: <>

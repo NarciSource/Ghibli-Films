@@ -1,6 +1,6 @@
 import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { CutReview } from '@/entities/CutReview';
 import { User } from '@/entities/User';
 
@@ -21,6 +21,6 @@ export default class ReviewFieldResolver {
         if (!verifiedUser) {
             return false;
         }
-        return cutReview.userId === verifiedUser?.userId;
+        return cutReview.userId === verifiedUser?.id;
     }
 }

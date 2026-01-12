@@ -1,6 +1,6 @@
 import type { MiddlewareFn } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { verifyAccessToken } from '@/auth/tokens';
 import { refreshAccessToken } from './refreshAccessToken';
 

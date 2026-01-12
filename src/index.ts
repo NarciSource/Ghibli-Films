@@ -5,8 +5,7 @@ import 'reflect-metadata';
 dotenv.config();
 
 import { createDB } from '@/db/db-client';
-import registerGraphQLMiddlewares from './apollo/registerMiddlewares';
-import setupApolloServer from './apollo/setupApollo';
+import { registerGraphQLMiddlewares, setupApolloServer } from './apollo';
 import createExpressApp from './express/createExpressApp';
 
 async function bootstrap() {

@@ -1,6 +1,6 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { CutReview } from '@/entities/CutReview';
 import { CutVote } from '@/entities/CutVote';
 import NotificationMutationResolver from '@/resolvers/authenticated/notification/NotificationMutation';
@@ -14,14 +14,9 @@ export default class CreateOrUpdateReviewMutationResolver {
     @UseMiddleware(isAuthenticated)
     async createOrUpdateReview(
         @Arg('cutReviewInput') cutReviewInput: CreateOrUpdateReviewInput,
-        @Ctx() { verifiedUser }: IContext,
+        @Ctx() { verifiedUser: { id: userId } }: IContext,
     ) {
         const { cutId, contents } = cutReviewInput;
-        const { userId } = verifiedUser;
-
-        if (!verifiedUser) {
-            return null;
-        }
 
         // 이전 감상평 조회
         const prevCutReview = await CutReview.findOne({

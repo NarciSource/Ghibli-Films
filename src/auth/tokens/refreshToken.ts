@@ -3,11 +3,11 @@ import type Redis from 'ioredis';
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import type { StringValue } from 'ms';
 
-import type { JwtVerifiedUser } from '@/apollo/IContext';
+import type { JwtVerifiedUser } from '@/apollo/context/IContext';
 import type { User } from '@/entities/User';
 
 export const createRefreshToken = (user: User): string => {
-    const userData: JwtVerifiedUser = { userId: user.id };
+    const userData: JwtVerifiedUser = { id: user.id };
     const refreshToken = jwt.sign(userData, process.env.JWT_REFRESH_SECRET_KEY, {
         expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN as StringValue) ?? '14d',
     });
@@ -21,7 +21,7 @@ export async function verifyRefreshToken(
 ): Promise<JwtVerifiedUser> {
     if (refreshToken) {
         try {
-            const { userId } = jwt.verify(
+            const { id: userId } = jwt.verify(
                 refreshToken,
                 process.env.JWT_REFRESH_SECRET_KEY,
             ) as JwtVerifiedUser;
@@ -29,7 +29,7 @@ export async function verifyRefreshToken(
             const storedRefreshToken = await redis.get(String(userId));
 
             if (storedRefreshToken === refreshToken) {
-                return { userId };
+                return { id: userId };
             } else {
                 throw new AuthenticationError('not matching');
             }

@@ -1,6 +1,6 @@
 import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { CutReview } from '@/entities/CutReview';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
@@ -12,9 +12,9 @@ export default class DeleteReviewMutationResolver {
         @Arg('id', () => Int)
         id: number,
         @Ctx()
-        { verifiedUser }: IContext,
+        { verifiedUser: { id: userId } }: IContext,
     ): Promise<boolean> {
-        const result = await CutReview.delete({ id, userId: verifiedUser.userId });
+        const result = await CutReview.delete({ id, userId });
 
         if (result.affected && result.affected > 0) {
             return true;

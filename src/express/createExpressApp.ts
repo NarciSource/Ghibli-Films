@@ -13,7 +13,6 @@ export default function createExpressApp(): express.Express {
     // 'uploads' 폴더를 정적 파일 제공 폴더로 설정
     app.use('/uploads', express.static('uploads'));
 
-
     // for healthcheck
     app.get('/', (_req, res) => {
         res.status(200).send('Ok');

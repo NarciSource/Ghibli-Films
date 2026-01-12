@@ -1,6 +1,6 @@
 import { Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { User } from '@/entities/User';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
@@ -10,10 +10,10 @@ export default class ReviewsQueryResolver {
     @Query(() => User, { description: '현재 접속자의 리뷰 목록을 조회합니다' })
     async myReviews(
         @Ctx()
-        context: IContext,
+        { verifiedUser: { id } }: IContext,
     ): Promise<User | undefined> {
         const result = await User.findOne({
-            where: { id: context.verifiedUser.userId },
+            where: { id },
             relations: ['cutReviews', 'cutReviews.cut', 'cutReviews.cut.film'],
         });
 

@@ -1,12 +1,11 @@
 import type http from 'node:http';
 import type express from 'express';
-import type { GraphQLSchema } from 'graphql';
 
 import anonymousResolvers from '@/resolvers/anonymous';
 import authenticatedResolvers from '@/resolvers/authenticated';
-import createApolloServer from './createApolloServer';
-import createSchema from './createSchema';
-import createSubscriptionServer from './createSubscriptionServer';
+import createSchema from '../schema/createSchema';
+import createSubscriptionServer from '../subscription/createSubscriptionServer';
+import { mountApolloServer } from './mountApolloServer';
 
 export default async function setupApolloServer(app: express.Express, httpServer: http.Server) {
     // GraphQL 스키마 생성
@@ -27,32 +26,5 @@ export default async function setupApolloServer(app: express.Express, httpServer
         schema: authenticatedSchema,
         path: '/graphql',
         isAnonymous: false,
-    });
-}
-
-interface MountApolloOptions {
-    schema: GraphQLSchema;
-    path: string;
-    isAnonymous: boolean;
-}
-
-export async function mountApolloServer(
-    app: express.Express,
-    { schema, path, isAnonymous }: MountApolloOptions,
-) {
-    // Apollo 서버 생성
-    const apolloServer = createApolloServer(schema, isAnonymous);
-
-    // 서버 시작
-    await apolloServer.start();
-
-    // 미들웨어 적용
-    apolloServer.applyMiddleware({
-        app,
-        path,
-        cors: {
-            origin: [process.env.DOMAIN, 'https://studio.apollographql.com'],
-            credentials: true,
-        },
     });
 }

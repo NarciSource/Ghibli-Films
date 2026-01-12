@@ -2,7 +2,7 @@ import { createWriteStream } from 'node:fs';
 import { type FileUpload, GraphQLUpload } from 'graphql-upload';
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { User } from '@/entities/User';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
@@ -12,10 +12,10 @@ export default class UploadProfileImageMutationResolver {
     @Mutation(() => Boolean)
     async uploadProfileImage(
         @Ctx()
-        { verifiedUser }: IContext,
+        { verifiedUser: { id: userId } }: IContext,
         @Arg('file', () => GraphQLUpload) { createReadStream, filename }: FileUpload,
     ): Promise<boolean> {
-        const readFileName = verifiedUser?.userId + filename;
+        const readFileName = userId + filename;
         const filePath = `uploads/${readFileName}`;
         // 업로드된 파일 읽기 스트림
         const readStream = createReadStream();
@@ -29,7 +29,7 @@ export default class UploadProfileImageMutationResolver {
                 // 파일 저장 완료
                 .on('finish', () => {
                     // DB에 프로필 사진 경로 저장
-                    User.update({ id: verifiedUser?.userId }, { profileImage: filePath })
+                    User.update({ id: userId }, { profileImage: filePath })
                         .then(() => resolve(true))
                         .catch((error) =>
                             reject(error instanceof Error ? error : new Error(String(error))),

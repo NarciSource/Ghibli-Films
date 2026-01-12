@@ -1,6 +1,6 @@
 import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { Cut } from '@/entities/Cut';
 import { CutVote } from '@/entities/CutVote';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
@@ -13,22 +13,18 @@ export default class VoteMutationResolver {
         @Arg('cutId', () => Int)
         cutId: number,
         @Ctx()
-        { verifiedUser }: IContext,
+        { verifiedUser: { id: userId } }: IContext,
     ): Promise<boolean> {
-        if (verifiedUser) {
-            const { userId } = verifiedUser;
-            const alreadyVoted = await CutVote.findOne({
-                where: { cutId, userId },
-            });
+        const alreadyVoted = await CutVote.findOne({
+            where: { cutId, userId },
+        });
 
-            if (alreadyVoted) {
-                await alreadyVoted.remove();
-            } else {
-                const vote = CutVote.create({ cutId, userId });
-                await vote.save();
-            }
-            return true;
+        if (alreadyVoted) {
+            await alreadyVoted.remove();
+        } else {
+            const vote = CutVote.create({ cutId, userId });
+            await vote.save();
         }
-        return false;
+        return true;
     }
 }

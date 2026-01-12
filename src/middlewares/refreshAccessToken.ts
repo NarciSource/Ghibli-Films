@@ -1,4 +1,4 @@
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { createAccessToken } from '@/auth/tokens/accessToken';
 import { createRefreshToken, verifyRefreshToken } from '@/auth/tokens/refreshToken';
 import { setAccessTokenHeader, setRefreshTokenHeader } from '@/auth/transport';
@@ -9,7 +9,7 @@ export async function refreshAccessToken(context: IContext) {
 
     const refreshToken = req.cookies.refreshToken;
 
-    const { userId } = await verifyRefreshToken(refreshToken, redis);
+    const { id: userId } = await verifyRefreshToken(refreshToken, redis);
 
     // 데이터베이스 검사
     const user = await User.findOne({ where: { id: Number(userId) } });
@@ -25,5 +25,5 @@ export async function refreshAccessToken(context: IContext) {
     setAccessTokenHeader(res, newAccessToken);
     setRefreshTokenHeader(res, newRefreshToken);
     // 인증 사용자 갱신
-    context.verifiedUser = { userId };
+    context.verifiedUser = { id: userId };
 }

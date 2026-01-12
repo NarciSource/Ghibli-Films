@@ -1,7 +1,7 @@
 import { Args, Ctx, Query, Resolver } from 'type-graphql';
 import { Not } from 'typeorm';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { CutReview } from '@/entities/CutReview';
 // biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
 import { PaginationArgs } from '../type';
@@ -16,9 +16,9 @@ export default class CutReviewQueryResolver {
         let reviewHistory: CutReview | undefined;
         let realTake = 2;
 
-        if (verifiedUser?.userId) {
+        if (verifiedUser?.id) {
             reviewHistory = await CutReview.findOne({
-                where: { cutId, userId: verifiedUser.userId },
+                where: { cutId, userId: verifiedUser.id },
             });
 
             realTake = 1;

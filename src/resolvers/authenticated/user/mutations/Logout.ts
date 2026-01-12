@@ -1,6 +1,6 @@
 import { Ctx, Mutation, Resolver } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { setAccessTokenHeader, setRefreshTokenHeader } from '@/auth/transport';
 import { User } from '@/entities/User';
 
@@ -9,14 +9,13 @@ export default class LogoutMutationResolver {
     @Mutation(() => Boolean)
     async logout(
         @Ctx()
-        { verifiedUser, res, redis }: IContext,
+        { verifiedUser: { id }, res, redis }: IContext,
     ): Promise<boolean> {
         setAccessTokenHeader(res, '');
         setRefreshTokenHeader(res, '');
 
-        if (verifiedUser) {
-            await redis.del(String(verifiedUser.userId));
-        }
+        await redis.del(String(id));
+
         return true;
     }
 }

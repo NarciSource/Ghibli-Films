@@ -1,6 +1,6 @@
 import { Ctx, FieldResolver, Int, Resolver, Root } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { Cut } from '@/entities/Cut';
 import { Film } from '@/entities/Film';
 
@@ -28,7 +28,7 @@ export default class CutFieldResolver {
     ): Promise<boolean> {
         if (verifiedUser) {
             const votes = await cutVoteLoader.load({ cutId: cut.id });
-            const isUserVoted = votes.some((vote) => vote.userId === verifiedUser.userId);
+            const isUserVoted = votes.some((vote) => vote.userId === verifiedUser.id);
 
             if (isUserVoted) {
                 return true;

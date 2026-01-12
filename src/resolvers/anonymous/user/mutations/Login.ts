@@ -1,7 +1,7 @@
 import argon2 from 'argon2';
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 
-import type IContext from '@/apollo/IContext';
+import type IContext from '@/apollo/context/IContext';
 import { createAccessToken, createRefreshToken } from '@/auth/tokens';
 import { setAccessTokenHeader, setRefreshTokenHeader } from '@/auth/transport';
 import { User } from '@/entities/User';

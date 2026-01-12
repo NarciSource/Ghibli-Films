@@ -5,7 +5,7 @@ import type createLoaders from '@/dataloaders/createLoader';
 import type { User } from '@/entities/User';
 
 export interface JwtVerifiedUser {
-    userId: User['id'];
+    id: User['id'];
 }
 
 export default interface IContext {

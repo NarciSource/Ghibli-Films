@@ -13,13 +13,11 @@ export default class NotificationSubscriptionResolver {
         // 인증된 사용자만 구독 허용
         filter: ({
             payload,
-            context,
+            context: { verifiedUser },
         }: {
             payload: UserPayload;
             context: { verifiedUser: UserPayload };
         }) => {
-            const { verifiedUser } = context;
-
             return payload?.userId === verifiedUser?.userId;
         },
     })

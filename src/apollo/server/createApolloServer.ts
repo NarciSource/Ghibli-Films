@@ -5,8 +5,8 @@ import type { GraphQLSchema } from 'graphql';
 import redis from '@/db/redis-client';
 import { verifyAccessToken } from '@/auth/tokens';
 import createLoaders from '@/dataloaders/createLoader';
-import type IContext from './IContext';
-import type { JwtVerifiedUser } from './IContext';
+import type IContext from '../context/IContext';
+import type { JwtVerifiedUser } from '../context/IContext';
 
 export default function createApolloServer(
     schema: GraphQLSchema,
