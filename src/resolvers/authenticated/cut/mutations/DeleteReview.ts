@@ -1,11 +1,13 @@
-import { Arg, Ctx, Int, Mutation, Resolver } from 'type-graphql';
+import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 
 import type IContext from '@/apollo/IContext';
 import { CutReview } from '@/entities/CutReview';
+import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(CutReview)
 export default class DeleteReviewMutationResolver {
     @Mutation(() => Boolean)
+    @UseMiddleware(isAuthenticated)
     async deleteReview(
         @Arg('id', () => Int)
         id: number,

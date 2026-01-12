@@ -8,10 +8,13 @@ import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 dotenv.config();
 
+
 import createApolloServer from '@/apollo/createApolloServer';
 import createSchema from '@/apollo/createSchema';
 import createSubscriptionServer from '@/apollo/createSubscriptionServer';
 import { createDB } from '@/db/db-client';
+import anonymousResolvers from '@/resolvers/anonymous';
+import authenticatedResolvers from '@/resolvers/authenticated';
 
 async function main() {
     // DB 설정
@@ -34,24 +37,40 @@ async function main() {
         res.status(200).send('Ok'); // for healthcheck
     });
 
-    // Apollo 설정
+    //////// Apollo 설정
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     const httpServer = http.createServer(app); // HTTP 서버 생성
 
-    const schema = await createSchema(); // GraphQL 스키마 생성
+    // GraphQL 스키마 생성
+    const anonymousSchema = await createSchema(anonymousResolvers);
+    const authenticatedSchema = await createSchema(authenticatedResolvers);
 
-    createSubscriptionServer(schema, httpServer); // WebSocket 기반 Subscription 서버 생성
+    // WebSocket 기반 Subscription 서버 생성
+    createSubscriptionServer(authenticatedSchema, httpServer);
 
-    const apolloServer = createApolloServer(schema); // HTTP 기반 서버 생성
-    await apolloServer.start();
+    // HTTP 기반 서버 생성
+    const anonymousApolloServer = createApolloServer(anonymousSchema, true);
+    const authenticatedApolloServer = createApolloServer(authenticatedSchema, false);
+    await anonymousApolloServer.start();
+    await authenticatedApolloServer.start();
 
-    apolloServer.applyMiddleware({
+    anonymousApolloServer.applyMiddleware({
         app,
+        path: '/graphql/anonymous',
         cors: {
             origin: [process.env.DOMAIN, 'https://studio.apollographql.com'],
             credentials: true,
         },
     }); // CORS 설정
+
+    authenticatedApolloServer.applyMiddleware({
+        app,
+        path: '/graphql',
+        cors: {
+            origin: [process.env.DOMAIN, 'https://studio.apollographql.com'],
+            credentials: true,
+        },
+    });
 
     // HTTP 서버 리스닝
     httpServer.listen(process.env.PORT || 4000, () => {

@@ -20,20 +20,11 @@ export const createDB = async (): Promise<DataSource> => {
                 password: process.env.MYSQL_PASSWORD,
                 logging: process.env.NODE_ENV !== 'production',
                 synchronize: false,
-                entities: [
-                    Director,
-                    Film,
-                    Cut,
-                    User,
-                    CutVote,
-                    CutReview,
-                    Notification,
-                ],
+                entities: [Director, Film, Cut, User, CutVote, CutReview, Notification],
             });
 
             await dataSource.initialize(); // ← 핵심
             return dataSource;
-
         } catch {
             console.log(`DB not ready (attempt ${i + 1}/10)`);
 

@@ -8,12 +8,19 @@ import createLoaders from '@/dataloaders/createLoader';
 import type IContext from './IContext';
 import type { JwtVerifiedUser } from './IContext';
 
-export default function createApolloServer(schema: GraphQLSchema): ApolloServer {
+export default function createApolloServer(
+    schema: GraphQLSchema,
+    isAnonymous: boolean,
+): ApolloServer {
     return new ApolloServer({
         // 생성된 스키마와 그에 연결되어있는 리졸버를 통해 GraphQL 서버를 구성
         schema,
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
         context: ({ req, res }: IContext) => {
+            if (isAnonymous) {
+                return { req, res, redis, loaders: createLoaders() };
+            }
+
             // context에 인증값 추가
             let verified: JwtVerifiedUser;
             try {
