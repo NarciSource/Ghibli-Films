@@ -1,84 +1,44 @@
 import http from 'node:http';
-import 'reflect-metadata';
-import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import express from 'express';
-import { graphqlUploadExpress } from 'graphql-upload';
-import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
+import 'reflect-metadata';
 
 dotenv.config();
 
-
-import createApolloServer from '@/apollo/createApolloServer';
-import createSchema from '@/apollo/createSchema';
-import createSubscriptionServer from '@/apollo/createSubscriptionServer';
 import { createDB } from '@/db/db-client';
-import anonymousResolvers from '@/resolvers/anonymous';
-import authenticatedResolvers from '@/resolvers/authenticated';
+import registerGraphQLMiddlewares from './apollo/registerMiddlewares';
+import setupApolloServer from './apollo/setupApollo';
+import createExpressApp from './express/createExpressApp';
 
-async function main() {
+async function bootstrap() {
     // DB 설정
     await createDB();
 
     // Express 설정
-    const app = express();
+    const app = createExpressApp();
 
-    app.use((_req, res, next) => {
-        res.setHeader('Referrer-Policy', 'no-referrer');
-        next();
-    }, cookieParser()); // cookie-parser 미들웨어 추가
+    // HTTP 서버 생성
+    const httpServer = http.createServer(app);
 
-    app.use('/uploads', express.static('uploads')); // 'uploads' 폴더를 정적 파일 제공 폴더로 설정
-    app.use(graphqlUploadExpress({ maxFileSize: 1024 * 1000 * 5, maxFiles: 1 })); // graphql-upload 미들웨어 추가
+    // GraphQL 미들웨어 추가
+    registerGraphQLMiddlewares(app);
 
-    app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' })); // voyager 스키마 다이어그램
+    // Apollo 서버 설정
+    await setupApolloServer(app, httpServer);
 
-    app.get('/', (_req, res) => {
-        res.status(200).send('Ok'); // for healthcheck
-    });
+    // HTTP 서버 시작
+    startHttpServer(httpServer);
+}
 
-    //////// Apollo 설정
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    const httpServer = http.createServer(app); // HTTP 서버 생성
-
-    // GraphQL 스키마 생성
-    const anonymousSchema = await createSchema(anonymousResolvers);
-    const authenticatedSchema = await createSchema(authenticatedResolvers);
-
-    // WebSocket 기반 Subscription 서버 생성
-    createSubscriptionServer(authenticatedSchema, httpServer);
-
-    // HTTP 기반 서버 생성
-    const anonymousApolloServer = createApolloServer(anonymousSchema, true);
-    const authenticatedApolloServer = createApolloServer(authenticatedSchema, false);
-    await anonymousApolloServer.start();
-    await authenticatedApolloServer.start();
-
-    anonymousApolloServer.applyMiddleware({
-        app,
-        path: '/graphql/anonymous',
-        cors: {
-            origin: [process.env.DOMAIN, 'https://studio.apollographql.com'],
-            credentials: true,
-        },
-    }); // CORS 설정
-
-    authenticatedApolloServer.applyMiddleware({
-        app,
-        path: '/graphql',
-        cors: {
-            origin: [process.env.DOMAIN, 'https://studio.apollographql.com'],
-            credentials: true,
-        },
-    });
-
+function startHttpServer(httpServer: http.Server) {
     // HTTP 서버 리스닝
-    httpServer.listen(process.env.PORT || 4000, () => {
+    const PORT = process.env.PORT || 4000;
+
+    httpServer.listen(PORT, () => {
         if (process.env.NODE_ENV !== 'production') {
             console.log(`
-                server started on => http://localhost:4000
-                graphql playground => http://localhost:4000/graphql
-                graphql schema => http://localhost:4000/voyager
+                server started on => http://localhost:${PORT}
+                graphql playground => http://localhost:${PORT}/graphql
+                graphql schema => http://localhost:${PORT}/voyager
             `);
         } else {
             console.log(`Production server Started...`);
@@ -86,4 +46,7 @@ async function main() {
     });
 }
 
-main().catch((err) => console.error(err));
+bootstrap().catch((err) => {
+    console.error('Server bootstrap failed', err);
+    process.exit(1);
+});
