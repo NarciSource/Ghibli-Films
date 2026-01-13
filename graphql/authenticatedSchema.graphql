@@ -1,0 +1,301 @@
+input CreateOrUpdateReviewInput {
+    """
+    감상평 내용
+    """
+    contents: String!
+
+    """
+    명장면 번호
+    """
+    cutId: Int!
+}
+
+"""
+명장면
+"""
+type Cut {
+    """
+    감상평
+    """
+    cutReviews: CutReview!
+
+    """
+    좋아요
+    """
+    cutVotes: Film!
+
+    """
+    영화
+    """
+    film: Film!
+
+    """
+    영화 아이디
+    """
+    filmId: Int!
+
+    """
+    명장면 고유 아이디
+    """
+    id: Int!
+
+    """
+    좋아요 확인
+    """
+    isVoted: Boolean!
+
+    """
+    명장면 사진 주소
+    """
+    src: String!
+
+    """
+    좋아요 수
+    """
+    votesCount: Int!
+}
+
+"""
+감상평
+"""
+type CutReview {
+    """
+    감상평 내용
+    """
+    contents: String!
+
+    """
+    생성 일자
+    """
+    createdAt: String!
+
+    """
+    명장면
+    """
+    cut: Cut!
+
+    """
+    명장면 번호
+    """
+    cutId: Int!
+
+    """
+    감상평 고유 아이디
+    """
+    id: Int!
+
+    """
+    유저가 작성한 리뷰인지 여부
+    """
+    isMine: Boolean!
+
+    """
+    수정 일자
+    """
+    updatedAt: String!
+
+    """
+    유저
+    """
+    user: User!
+}
+
+"""
+좋아요
+"""
+type CutVote {
+    """
+    명장면
+    """
+    cut: Cut!
+
+    """
+    유저
+    """
+    user: User!
+}
+
+"""
+감독
+"""
+type Director {
+    """
+    감독 고유 아이디
+    """
+    id: Int!
+
+    """
+    감독 이름
+    """
+    name: String!
+}
+
+"""
+영화
+"""
+type Film {
+    """
+    영화 줄거리 및 설명
+    """
+    description: String!
+
+    """
+    제작자
+    """
+    director: Director!
+
+    """
+    영화 장르
+    """
+    genre: String!
+
+    """
+    영화 고유 아이디
+    """
+    id: Int!
+
+    """
+    포스터 이미지 URL
+    """
+    posterImg: String!
+
+    """
+    개봉일
+    """
+    releaseDate: String!
+
+    """
+    영화 러닝 타임, minute
+    """
+    runningTime: Float!
+
+    """
+    영화 부제목
+    """
+    subtitle: String
+
+    """
+    영화 제목
+    """
+    title: String!
+}
+
+type Mutation {
+    createNotification(text: String!, userId: Int!): Notification!
+    createOrUpdateReview(cutReviewInput: CreateOrUpdateReviewInput!): CutReview
+    deleteReview(id: Int!): Boolean!
+    logout: Boolean!
+    uploadProfileImage(file: Upload!): Boolean!
+    vote(cutId: Int!): Boolean!
+}
+
+"""
+알림
+"""
+type Notification {
+    """
+    작성 날짜
+    """
+    createdAt: String!
+
+    """
+    알림 고유 아이디
+    """
+    id: Int!
+
+    """
+    알림 메시지
+    """
+    text: String!
+
+    """
+    수정 날짜
+    """
+    updatedAt: String!
+
+    """
+    유저
+    """
+    user: User!
+}
+
+type Query {
+    """
+    현재 접속자의 정보를 조회합니다.
+    """
+    me: User
+
+    """
+    현재 접속자의 리뷰 목록을 조회합니다
+    """
+    myReviews: User!
+
+    """
+    세션에 해당되는 유저의 모든 알림을 가져옵니다.
+    """
+    notifications: [Notification!]!
+}
+
+type Subscription {
+    newNotification: Notification!
+}
+
+"""
+The `Upload` scalar type represents a file upload.
+"""
+scalar Upload
+
+"""
+유저
+"""
+type User {
+    """
+    생성일자
+    """
+    createdAt: String!
+
+    """
+    감상평
+    """
+    cutReviews: [CutReview!]!
+
+    """
+    좋아요
+    """
+    cutVotes: [CutVote!]!
+
+    """
+    유저 이메일
+    """
+    email: String!
+
+    """
+    식별자
+    """
+    id: Int!
+
+    """
+    관리자
+    """
+    isAdmin: Boolean!
+
+    """
+    알림
+    """
+    notifications: [Notification!]!
+
+    """
+    유저 프로필 사진 경로
+    """
+    profileImage: String
+
+    """
+    수정일자
+    """
+    updatedAt: String!
+
+    """
+    유저 이름
+    """
+    username: String!
+}

@@ -6,6 +6,7 @@
         "dev": "nodemon --watch *.ts --exec ts-node -r tsconfig-paths/register src/index.ts",
         "build": "tsc && tsc-alias",
         "bundle": "zip server.zip -r dist package.json",
+        "codegen": "graphql-codegen --config codegen.yml",
         "start": "node dist/index.js",
         "format": "biome format --write"
     },
@@ -46,6 +47,7 @@
         "@babel/preset-env": "^7.25.4",
         "@babel/register": "^7.24.6",
         "@biomejs/biome": "^2.3.8",
+        "@graphql-codegen/cli": "^6.0.0",
         "@types/cookie-parser": "^1.4.9",
         "@types/graphql-upload": "^8.0.7",
         "@types/ioredis": "^5.0.0",
