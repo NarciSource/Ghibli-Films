@@ -1,4 +1,4 @@
-import { createApolloClient } from '@/apollo/createApolloClient';
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { CutsDocument } from '@/graphql/anonymous/api/hooks';
 import type { CutsQuery } from '@/graphql/anonymous/api/operations';
 import CutList from './_components/CutList';

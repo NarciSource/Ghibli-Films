@@ -3,9 +3,9 @@ import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 
 import type { PaginatedFilms } from '@/graphql/anonymous/api/type';
 
-export const createApolloCache = async (
+export default async function createApolloCache(
   initialApolloState: NormalizedCacheObject = {},
-): Promise<InMemoryCache> => {
+): Promise<InMemoryCache> {
   const cache = new InMemoryCache({
     typePolicies: {
       Query: {
@@ -41,4 +41,4 @@ export const createApolloCache = async (
   }
 
   return cache;
-};
+}

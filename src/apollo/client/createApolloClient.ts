@@ -1,9 +1,8 @@
 import { ApolloClient, type NormalizedCacheObject } from '@apollo/client';
 
-import { createApolloCache } from './createApolloCache';
-import { createLink } from './createApolloLink';
-
-type ClientKind = 'anonymous' | 'authenticated';
+import createApolloLink from '../link/createApolloLink';
+import type { ClientKind } from './ClientContext';
+import createApolloCache from './createApolloCache';
 
 /**
  * @param initialApolloState
@@ -14,33 +13,33 @@ type ClientKind = 'anonymous' | 'authenticated';
  *   - 전달하지 않으면 클라이언트는 빈 캐시 상태로 시작하여,
  *     첫 렌더링 시 useQuery가 네트워크 요청.
  */
-export const createApolloClient = async ({
+export default async function createApolloClient({
   state,
   kind = 'authenticated',
 }: {
   state?: NormalizedCacheObject;
   kind?: ClientKind;
-}): Promise<ApolloClient<NormalizedCacheObject>> => {
+}): Promise<ApolloClient<NormalizedCacheObject>> {
+  const isServer = typeof window === 'undefined';
+
+  const client = kind === 'anonymous' ? anonymousClient : authenticatedClient;
+
+  if (client) return client;
+
+  const apolloClient = new ApolloClient({
+    link: await createApolloLink({ kind, isServer }),
+    // SSR 캐시를 hydrate
+    cache: await createApolloCache(state),
+  });
+
   if (kind === 'anonymous') {
-    if (!anonymousClient) {
-      anonymousClient = new ApolloClient({
-        link: await createLink(true),
-        cache: await createApolloCache(state),
-      });
-    }
-    return anonymousClient;
+    anonymousClient = apolloClient;
+  } else {
+    authenticatedClient = apolloClient;
   }
 
-  if (!authenticatedClient) {
-    authenticatedClient = new ApolloClient({
-      // 요청 타입에 따라 각 Link로 분기
-      link: await createLink(false),
-      // SSR 캐시를 hydrate
-      cache: await createApolloCache(state),
-    });
-  }
-  return authenticatedClient;
-};
+  return apolloClient;
+}
 
 // 싱글톤
 export let authenticatedClient: ApolloClient<NormalizedCacheObject>;

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { authenticatedClient } from '@/apollo/createApolloClient';
+import { authenticatedClient } from '@/apollo/client/createApolloClient';
 import { CutDocument } from '@/graphql/anonymous/api/hooks';
 import type { CutQuery } from '@/graphql/anonymous/api/operations';
 import CutDetail from '../../_components/CutDetail';

@@ -1,4 +1,4 @@
-import { createApolloClient } from '@/apollo/createApolloClient';
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { FilmDocument } from '@/graphql/anonymous/api/hooks';
 import type { FilmQuery } from '@/graphql/anonymous/api/operations';
 import FilmDetail from './_components/FilmDetail';

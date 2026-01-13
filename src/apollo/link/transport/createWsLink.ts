@@ -10,4 +10,6 @@ const wsLink = new GraphQLWsLink(
   }),
 );
 
-export default wsLink;
+export default function createWsLink() {
+  return wsLink;
+}

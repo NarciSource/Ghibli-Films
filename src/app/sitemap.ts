@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next/types';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { FilmsDocument } from '@/graphql/anonymous/api/hooks';
 import type { FilmsQuery } from '@/graphql/anonymous/api/operations';
 

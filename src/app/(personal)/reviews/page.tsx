@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { Box, For, Heading } from '@chakra-ui/react';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { MyReviewsDocument } from '@/graphql/authenticated/api/hooks';
 import type { MyReviewsQuery } from '@/graphql/authenticated/api/operations';
 import FilmCard from './_components/FilmCard';

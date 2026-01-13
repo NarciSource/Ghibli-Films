@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { MeDocument } from '@/graphql/authenticated/api/hooks';
 import type { MeQuery } from '@/graphql/authenticated/api/operations';
 import RevalidateControl from './_components/RevalidateControl';

@@ -3,7 +3,7 @@
 import { type ApolloClient, ApolloProvider, type NormalizedCacheObject } from '@apollo/client';
 import { useEffect, useState } from 'react';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
+import createApolloClient from '../client/createApolloClient';
 
 export default function Hydrate({
   children,

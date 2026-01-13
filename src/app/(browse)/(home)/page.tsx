@@ -1,6 +1,6 @@
 import { Heading } from '@chakra-ui/react';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { ApolloHydrate, dehydrate } from '@/apollo/hydrate';
 import { FilmsDocument } from '@/graphql/anonymous/api/hooks';
 import type { FilmsQuery } from '@/graphql/anonymous/api/operations';
