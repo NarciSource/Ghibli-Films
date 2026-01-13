@@ -1,12 +1,14 @@
 overwrite: true
-schema: "http://localhost:4000/graphql"
-documents: "src/**/*.graphql"
 generates:
-  src/graphql/api/type.ts:
+  src/graphql/authenticated/api/type.ts:
+    schema: ../server/graphql/authenticatedSchema.graphql
+    documents: src/graphql/authenticated/**/*.graphql
     plugins:
       - typescript
 
-  src/graphql/api/operations.ts:
+  src/graphql/authenticated/api/operations.ts:
+    schema: ../server/graphql/authenticatedSchema.graphql
+    documents: src/graphql/authenticated/**/*.graphql
     plugins:
       - typescript-operations
     preset: import-types
@@ -14,7 +16,35 @@ generates:
       typesPath: ./type
       importTypesNamespace: Types
 
-  src/graphql/api/hooks.ts:
+  src/graphql/authenticated/api/hooks.ts:
+    schema: ../server/graphql/authenticatedSchema.graphql
+    documents: src/graphql/authenticated/**/*.graphql
+    plugins:
+      - typescript-react-apollo
+    preset: import-types
+    presetConfig:
+      typesPath: ./operations
+      importTypesNamespace: Ops
+
+  src/graphql/anonymous/api/type.ts:
+    schema: ../server/graphql/anonymousSchema.graphql
+    documents: src/graphql/anonymous/**/*.graphql
+    plugins:
+      - typescript
+
+  src/graphql/anonymous/api/operations.ts:
+    schema: ../server/graphql/anonymousSchema.graphql
+    documents: src/graphql/anonymous/**/*.graphql
+    plugins:
+      - typescript-operations
+    preset: import-types
+    presetConfig:
+      typesPath: ./type
+      importTypesNamespace: Types
+
+  src/graphql/anonymous/api/hooks.ts:
+    schema: ../server/graphql/anonymousSchema.graphql
+    documents: src/graphql/anonymous/**/*.graphql
     plugins:
       - typescript-react-apollo
     preset: import-types
