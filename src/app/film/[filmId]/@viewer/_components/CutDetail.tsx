@@ -18,7 +18,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { useCutQuery } from '@/graphql/api/hooks';
+import { useCutQuery } from '@/graphql/anonymous/api/hooks';
 import {
   FilmCutReview,
   FilmCutReviewDeleteAlert,

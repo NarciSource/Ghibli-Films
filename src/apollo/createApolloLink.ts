@@ -9,8 +9,32 @@ import {
   serverHttpUploadLink,
   wsLink,
 } from './middleware';
+import {
+  clientHttpAnonymousUploadLink,
+  serverHttpAnonymousUploadLink,
+} from './middleware/httpUploadLink';
 
-export async function createLink() {
+export async function createLink(isAnonymous: boolean) {
+  if (isAnonymous) {
+    const httpUploadLink =
+      typeof window !== 'undefined' ? clientHttpAnonymousUploadLink : serverHttpAnonymousUploadLink;
+
+    const splitLink = split(
+      ({ query }) => {
+        const definition = getMainDefinition(query);
+
+        return (
+          definition.kind === Kind.OPERATION_DEFINITION &&
+          definition.operation === OperationTypeNode.SUBSCRIPTION
+        );
+      },
+      from([]),
+      from([errorLink, httpUploadLink]),
+    );
+
+    return splitLink;
+  }
+
   const httpUploadLink =
     typeof window !== 'undefined' ? clientHttpUploadLink : serverHttpUploadLink;
 

@@ -1,7 +1,7 @@
 import { Box, FileUpload, Flex, Text } from '@chakra-ui/react';
 
-import { useUploadProfileImageMutation } from '@/graphql/api/hooks';
-import type { MeQuery } from '@/graphql/api/operations';
+import { useUploadProfileImageMutation } from '@/graphql/authenticated/api/hooks';
+import type { MeQuery } from '@/graphql/authenticated/api/operations';
 import Avatar from '@/app/_shared/Avatar';
 
 export default function ProfileImageItem({

@@ -6,8 +6,8 @@ import { Box, Button, Field, Fieldset, Input, Separator, Stack } from '@chakra-u
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 import { toaster } from '@chakra-ui/react/toaster';
 
-import { useSignUpMutation } from '@/graphql/api/hooks';
-import type { SignUpMutationVariables } from '@/graphql/api/operations';
+import { useSignUpMutation } from '@/graphql/anonymous/api/hooks';
+import type { SignUpMutationVariables } from '@/graphql/anonymous/api/operations';
 
 export default function SignUpForm(): React.ReactElement {
   const [signUp, { loading }] = useSignUpMutation();

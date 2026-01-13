@@ -3,8 +3,9 @@ import { Button, Text } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 import { toaster } from '@chakra-ui/react/toaster';
 
-import { CutDocument, useVoteMutation } from '@/graphql/api/hooks';
-import type { CutQuery, CutQueryVariables } from '@/graphql/api/operations';
+import { CutDocument } from '@/graphql/anonymous/api/hooks';
+import type { CutQuery, CutQueryVariables } from '@/graphql/anonymous/api/operations';
+import { useVoteMutation } from '@/graphql/authenticated/api/hooks';
 import { useIsLoggedIn } from '@/app/_store/useAuthStore';
 
 export default function CutVote({

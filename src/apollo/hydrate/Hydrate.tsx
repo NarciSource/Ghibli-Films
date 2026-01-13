@@ -17,7 +17,7 @@ export default function Hydrate({
   useEffect(() => {
     let mounted = true;
 
-    createApolloClient({ state }).then((client) => {
+    createApolloClient({ state, kind: 'anonymous' }).then((client) => {
       if (mounted) setClient(client);
     });
 

@@ -3,6 +3,8 @@ import { ApolloClient, type NormalizedCacheObject } from '@apollo/client';
 import { createApolloCache } from './createApolloCache';
 import { createLink } from './createApolloLink';
 
+type ClientKind = 'anonymous' | 'authenticated';
+
 /**
  * @param initialApolloState
  *   - 서버에서 SSR로 GraphQL 데이터를 미리 가져온 후,
@@ -14,19 +16,32 @@ import { createLink } from './createApolloLink';
  */
 export const createApolloClient = async ({
   state,
+  kind = 'authenticated',
 }: {
   state?: NormalizedCacheObject;
+  kind?: ClientKind;
 }): Promise<ApolloClient<NormalizedCacheObject>> => {
-  if (!apolloClient) {
-    apolloClient = new ApolloClient({
+  if (kind === 'anonymous') {
+    if (!anonymousClient) {
+      anonymousClient = new ApolloClient({
+        link: await createLink(true),
+        cache: await createApolloCache(state),
+      });
+    }
+    return anonymousClient;
+  }
+
+  if (!authenticatedClient) {
+    authenticatedClient = new ApolloClient({
       // 요청 타입에 따라 각 Link로 분기
-      link: await createLink(),
+      link: await createLink(false),
       // SSR 캐시를 hydrate
       cache: await createApolloCache(state),
     });
   }
-  return apolloClient;
+  return authenticatedClient;
 };
 
 // 싱글톤
-export let apolloClient: ApolloClient<NormalizedCacheObject>;
+export let authenticatedClient: ApolloClient<NormalizedCacheObject>;
+export let anonymousClient: ApolloClient<NormalizedCacheObject>;

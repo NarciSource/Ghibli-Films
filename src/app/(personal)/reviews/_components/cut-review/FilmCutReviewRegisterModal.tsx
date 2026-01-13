@@ -2,12 +2,10 @@ import { useForm } from 'react-hook-form';
 import { Button, CloseButton, Dialog, Field, Portal, Textarea } from '@chakra-ui/react';
 import { toaster } from '@chakra-ui/react/toaster';
 
-import { CutDocument, useCreateOrUpdateReviewMutation } from '@/graphql/api/hooks';
-import type {
-  CreateOrUpdateReviewMutationVariables,
-  CutQuery,
-  CutQueryVariables,
-} from '@/graphql/api/operations';
+import { CutDocument } from '@/graphql/anonymous/api/hooks';
+import type { CutQuery, CutQueryVariables } from '@/graphql/anonymous/api/operations';
+import { useCreateOrUpdateReviewMutation } from '@/graphql/authenticated/api/hooks';
+import type { CreateOrUpdateReviewMutationVariables } from '@/graphql/authenticated/api/operations';
 
 export default function FilmCutReviewRegisterModal({
   cutId,

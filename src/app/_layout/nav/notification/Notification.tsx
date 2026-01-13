@@ -13,7 +13,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { useNotificationsQuery } from '@/graphql/api/hooks';
+import { useNotificationsQuery } from '@/graphql/authenticated/api/hooks';
 import NotificationItem from './NotificationItem';
 import useRealtimeAlarm from './useRealtimeAlarm';
 

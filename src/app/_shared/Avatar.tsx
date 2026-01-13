@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { Avatar as ChakraAvatar } from '@chakra-ui/react';
 
-import type { MeQuery } from '@/graphql/api/operations';
+import type { MeQuery } from '@/graphql/authenticated/api/operations';
 
 type RenameKey<T, OldKey extends keyof T, NewKey extends string> = {
   [K in keyof T as K extends OldKey ? NewKey : K]: T[K];

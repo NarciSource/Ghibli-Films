@@ -17,3 +17,15 @@ export const serverHttpUploadLink = createUploadLink({
   fetch,
   credentials: 'include',
 });
+
+export const clientHttpAnonymousUploadLink = createUploadLink({
+  uri: `${clientHttpUri}/graphql/anonymous`,
+  fetch,
+  credentials: 'include', // 자격 증명 모드, 쿠키 전송
+});
+
+export const serverHttpAnonymousUploadLink = createUploadLink({
+  uri: `${serverHttpUri}/graphql/anonymous`,
+  fetch,
+  credentials: 'include',
+});

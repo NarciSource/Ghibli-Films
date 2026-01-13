@@ -3,8 +3,8 @@ import { cookies } from 'next/headers';
 import { Box, For, Heading } from '@chakra-ui/react';
 
 import { createApolloClient } from '@/apollo/createApolloClient';
-import { MyReviewsDocument } from '@/graphql/api/hooks';
-import type { MyReviewsQuery } from '@/graphql/api/operations';
+import { MyReviewsDocument } from '@/graphql/authenticated/api/hooks';
+import type { MyReviewsQuery } from '@/graphql/authenticated/api/operations';
 import FilmCard from './_components/FilmCard';
 import groupReviewsByFilm from './_lib/groupReviewsByFilm';
 

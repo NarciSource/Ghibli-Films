@@ -1,11 +1,11 @@
 import { createApolloClient } from '@/apollo/createApolloClient';
-import { CutsDocument } from '@/graphql/api/hooks';
-import type { CutsQuery } from '@/graphql/api/operations';
+import { CutsDocument } from '@/graphql/anonymous/api/hooks';
+import type { CutsQuery } from '@/graphql/anonymous/api/operations';
 import CutList from './_components/CutList';
 
 export default async function FilmCuts({ params }: { params: Promise<{ filmId: string }> }) {
   const { filmId } = await params;
-  const apolloClient = await createApolloClient({});
+  const apolloClient = await createApolloClient({ kind: 'anonymous' });
 
   const { data } = await apolloClient.query<CutsQuery>({
     query: CutsDocument,

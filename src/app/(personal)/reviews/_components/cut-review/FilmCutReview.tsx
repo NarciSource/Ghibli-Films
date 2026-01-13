@@ -2,7 +2,7 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { Box, Flex, HStack, IconButton, Separator, Show, Text } from '@chakra-ui/react';
 import { Tooltip } from '@chakra-ui/react/tooltip';
 
-import type { CutReview, User } from '@/graphql/api/type';
+import type { CutReview, User } from '@/graphql/authenticated/api/type';
 import Avatar from '@/app/_shared/Avatar';
 
 type FilmCutReviewProps = {

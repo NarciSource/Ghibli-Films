@@ -16,6 +16,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  /** The `Upload` scalar type represents a file upload. */
   Upload: { input: any; output: any };
 };
 
@@ -86,13 +87,6 @@ export type Director = {
   name: Scalars['String']['output'];
 };
 
-/** 필드 에러 타입 */
-export type FieldError = {
-  __typename?: 'FieldError';
-  field: Scalars['String']['output'];
-  message: Scalars['String']['output'];
-};
-
 /** 영화 */
 export type Film = {
   __typename?: 'Film';
@@ -116,22 +110,12 @@ export type Film = {
   title: Scalars['String']['output'];
 };
 
-export type LoginInput = {
-  emailOrUsername: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
-/** 로그인 반환 데이터 */
-export type LoginResponse = FieldError | User;
-
 export type Mutation = {
   __typename?: 'Mutation';
   createNotification: Notification;
   createOrUpdateReview?: Maybe<CutReview>;
   deleteReview: Scalars['Boolean']['output'];
-  login: LoginResponse;
   logout: Scalars['Boolean']['output'];
-  signUp: User;
   uploadProfileImage: Scalars['Boolean']['output'];
   vote: Scalars['Boolean']['output'];
 };
@@ -147,14 +131,6 @@ export type MutationCreateOrUpdateReviewArgs = {
 
 export type MutationDeleteReviewArgs = {
   id: Scalars['Int']['input'];
-};
-
-export type MutationLoginArgs = {
-  loginInput: LoginInput;
-};
-
-export type MutationSignUpArgs = {
-  signUpInput: SignUpInput;
 };
 
 export type MutationUploadProfileImageArgs = {
@@ -180,63 +156,14 @@ export type Notification = {
   user: User;
 };
 
-/** 페이지네이션 */
-export type PaginatedFilms = {
-  __typename?: 'PaginatedFilms';
-  /** 커서 */
-  cursor?: Maybe<Scalars['Int']['output']>;
-  /** 영화 리스트 */
-  films: Array<Film>;
-};
-
 export type Query = {
   __typename?: 'Query';
-  /** 특정 장면을 조회합니다. */
-  cut?: Maybe<Cut>;
-  /** 장면의 감상평을 조회합니다. */
-  cutReviews: Array<CutReview>;
-  /** 장면 목록을 조회합니다. */
-  cuts: Array<Cut>;
-  /** 특정 영화를 상세히 조회합니다. */
-  film?: Maybe<Film>;
-  /** 영화 목록을 페이지네이션하여 조회합니다. */
-  films: PaginatedFilms;
   /** 현재 접속자의 정보를 조회합니다. */
   me?: Maybe<User>;
   /** 현재 접속자의 리뷰 목록을 조회합니다 */
   myReviews: User;
   /** 세션에 해당되는 유저의 모든 알림을 가져옵니다. */
   notifications: Array<Notification>;
-};
-
-export type QueryCutArgs = {
-  cutId: Scalars['Int']['input'];
-};
-
-export type QueryCutReviewsArgs = {
-  cutId: Scalars['Int']['input'];
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: Scalars['Int']['input'];
-};
-
-export type QueryCutsArgs = {
-  filmId: Scalars['Int']['input'];
-};
-
-export type QueryFilmArgs = {
-  filmId: Scalars['Int']['input'];
-};
-
-export type QueryFilmsArgs = {
-  cursor?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type SignUpInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  username: Scalars['String']['input'];
 };
 
 export type Subscription = {

@@ -6,9 +6,9 @@ import { Box, Button, Field, Fieldset, Input, Separator, Stack } from '@chakra-u
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 import { toaster } from '@chakra-ui/react/toaster';
 
-import { useLoginMutation } from '@/graphql/api/hooks';
-import type { LoginMutationVariables } from '@/graphql/api/operations';
-import type { FieldError, User } from '@/graphql/api/type';
+import { useLoginMutation } from '@/graphql/anonymous/api/hooks';
+import type { LoginMutationVariables } from '@/graphql/anonymous/api/operations';
+import type { FieldError, User } from '@/graphql/anonymous/api/type';
 import { useAuthStore } from '@/app/_store/useAuthStore';
 
 export default function LoginForm(): React.ReactElement {

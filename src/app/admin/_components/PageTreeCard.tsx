@@ -3,7 +3,7 @@
 import { LuFolder } from 'react-icons/lu';
 import { createTreeCollection, TreeView, type TreeViewNodeState } from '@chakra-ui/react';
 
-import { useFilmsQuery } from '@/graphql/api/hooks';
+import { useFilmsQuery } from '@/graphql/anonymous/api/hooks';
 import PageTreeCardItem, { type Node, PageMode } from './PageTreeCardItem';
 
 export default function PageTreeCard() {
