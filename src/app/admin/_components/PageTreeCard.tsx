@@ -53,14 +53,6 @@ function getCollection() {
           ],
         },
         {
-          name: '(authentication)',
-          path: '/',
-          children: [
-            { name: 'login', path: '/login', mode: PageMode.static },
-            { name: 'signup', path: '/signup', mode: PageMode.static },
-          ],
-        },
-        {
           name: '(personal)',
           path: '/',
           children: [{ name: 'reviews', path: '/reviews', mode: PageMode.dynamic }],
