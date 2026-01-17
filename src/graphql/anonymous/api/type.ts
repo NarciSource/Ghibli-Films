@@ -78,13 +78,6 @@ export type Director = {
   name: Scalars['String']['output'];
 };
 
-/** 필드 에러 타입 */
-export type FieldError = {
-  __typename?: 'FieldError';
-  field: Scalars['String']['output'];
-  message: Scalars['String']['output'];
-};
-
 /** 영화 */
 export type Film = {
   __typename?: 'Film';
@@ -106,28 +99,6 @@ export type Film = {
   subtitle?: Maybe<Scalars['String']['output']>;
   /** 영화 제목 */
   title: Scalars['String']['output'];
-};
-
-export type LoginInput = {
-  emailOrUsername: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
-/** 로그인 반환 데이터 */
-export type LoginResponse = FieldError | User;
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  login: LoginResponse;
-  signUp: User;
-};
-
-export type MutationLoginArgs = {
-  loginInput: LoginInput;
-};
-
-export type MutationSignUpArgs = {
-  signUpInput: SignUpInput;
 };
 
 /** 알림 */
@@ -190,12 +161,6 @@ export type QueryFilmsArgs = {
   cursor?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type SignUpInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  username: Scalars['String']['input'];
 };
 
 /** 유저 */

@@ -24,10 +24,6 @@ export type DeleteReviewMutationVariables = Types.Exact<{
 
 export type DeleteReviewMutation = { __typename?: 'Mutation'; deleteReview: boolean };
 
-export type LogoutMutationVariables = Types.Exact<{ [key: string]: never }>;
-
-export type LogoutMutation = { __typename?: 'Mutation'; logout: boolean };
-
 export type UploadProfileImageMutationVariables = Types.Exact<{
   file: Types.Scalars['Upload']['input'];
 }>;

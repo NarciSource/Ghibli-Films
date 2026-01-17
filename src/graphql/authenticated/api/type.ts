@@ -115,14 +115,13 @@ export type Mutation = {
   createNotification: Notification;
   createOrUpdateReview?: Maybe<CutReview>;
   deleteReview: Scalars['Boolean']['output'];
-  logout: Scalars['Boolean']['output'];
   uploadProfileImage: Scalars['Boolean']['output'];
   vote: Scalars['Boolean']['output'];
 };
 
 export type MutationCreateNotificationArgs = {
   text: Scalars['String']['input'];
-  userId: Scalars['Int']['input'];
+  userId: Scalars['Float']['input'];
 };
 
 export type MutationCreateOrUpdateReviewArgs = {

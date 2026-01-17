@@ -1,32 +1,5 @@
 import type * as Types from './type';
 
-export type LoginMutationVariables = Types.Exact<{
-  loginInput: Types.LoginInput;
-}>;
-
-export type LoginMutation = {
-  __typename?: 'Mutation';
-  login:
-    | { __typename?: 'FieldError'; field: string; message: string }
-    | { __typename?: 'User'; id: number; isAdmin: boolean; username: string };
-};
-
-export type SignUpMutationVariables = Types.Exact<{
-  signUpInput: Types.SignUpInput;
-}>;
-
-export type SignUpMutation = {
-  __typename?: 'Mutation';
-  signUp: {
-    __typename?: 'User';
-    email: string;
-    username: string;
-    createdAt: string;
-    updatedAt: string;
-    id: number;
-  };
-};
-
 export type CutQueryVariables = Types.Exact<{
   cutId: Types.Scalars['Int']['input'];
 }>;
