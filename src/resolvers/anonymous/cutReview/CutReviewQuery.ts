@@ -4,7 +4,7 @@ import { Not } from 'typeorm';
 import type IContext from '@/apollo/context/IContext';
 import { CutReview } from '@/entities/CutReview';
 // biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
-import { PaginationArgs } from '../type';
+import { PaginationArgs } from './type';
 
 @Resolver(CutReview)
 export default class CutReviewQueryResolver {

@@ -8,8 +8,8 @@ import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(User)
 export default class UploadProfileImageMutationResolver {
-    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
+    @UseMiddleware(isAuthenticated)
     async uploadProfileImage(
         @Ctx()
         { verifiedUser: { id: userId } }: IContext,

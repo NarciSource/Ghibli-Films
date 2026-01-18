@@ -5,10 +5,10 @@ import { CutReview } from '@/entities/CutReview';
 import { User } from '@/entities/User';
 
 @Resolver(CutReview)
-export default class ReviewFieldResolver {
+export default class CutReviewFieldResolver {
     @FieldResolver(() => User, { description: '유저' })
-    async user(@Root() cutReview: CutReview): Promise<User> {
-        return await User.findOne({ where: { id: cutReview.userId } });
+    async user(@Root() { userId: id }: CutReview): Promise<User> {
+        return User.findOne({ where: { id } });
     }
 
     @FieldResolver(() => Boolean, { description: '유저가 작성한 리뷰인지 여부' })
@@ -18,9 +18,6 @@ export default class ReviewFieldResolver {
         @Ctx()
         { verifiedUser }: IContext,
     ): boolean {
-        if (!verifiedUser) {
-            return false;
-        }
         return cutReview.userId === verifiedUser?.id;
     }
 }

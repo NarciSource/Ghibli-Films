@@ -1,22 +1,27 @@
 import type { NonEmptyArray } from 'type-graphql';
 
-import CutFieldResolver from './cut/fields/Cut';
-import ReviewFieldResolver from './cut/fields/Review';
-import CutQueryResolver from './cut/queries/Cut';
-import CutReviewQueryResolver from './cut/queries/Review';
-import FilmFieldResolver from './film/FilmField';
+import CutFieldResolver from '../fields/Cut';
+import CutReviewFieldResolver from '../fields/CutReview';
+import FilmFieldResolver from '../fields/Film';
+import CutQueryResolver from './cut/CutQuery';
+import CutsQueryResolver from './cut/CutsQuery';
+import CutReviewQueryResolver from './cutReview/CutReviewQuery';
 import FilmQueryResolver from './film/FilmQuery';
-import LoginMutationResolver from './user/mutations/Login';
-import SignupMutationResolver from './user/mutations/SignUp';
+import FilmsQueryResolver from './film/FilmsQuery';
+import LoginMutationResolver from './user/LoginMutation';
+import SignupMutationResolver from './user/SignUpMutation';
 
 export default [
-    FilmQueryResolver,
     FilmFieldResolver,
+    FilmQueryResolver,
+    FilmsQueryResolver,
 
-    CutQueryResolver,
-    CutReviewQueryResolver,
     CutFieldResolver,
-    ReviewFieldResolver,
+    CutQueryResolver,
+    CutsQueryResolver,
+
+    CutReviewFieldResolver,
+    CutReviewQueryResolver,
 
     LoginMutationResolver,
     SignupMutationResolver,

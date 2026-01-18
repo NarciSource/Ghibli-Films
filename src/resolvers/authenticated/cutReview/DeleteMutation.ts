@@ -5,10 +5,10 @@ import { CutReview } from '@/entities/CutReview';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(CutReview)
-export default class DeleteReviewMutationResolver {
+export default class DeleteCutReviewMutationResolver {
     @Mutation(() => Boolean)
     @UseMiddleware(isAuthenticated)
-    async deleteReview(
+    async deleteCutReview(
         @Arg('id', () => Int)
         id: number,
         @Ctx()

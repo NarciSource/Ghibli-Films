@@ -6,7 +6,7 @@ import { CutVote } from '@/entities/CutVote';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(Cut)
-export default class VoteMutationResolver {
+export default class VoteCutMutationResolver {
     @Mutation(() => Boolean)
     @UseMiddleware(isAuthenticated)
     async vote(

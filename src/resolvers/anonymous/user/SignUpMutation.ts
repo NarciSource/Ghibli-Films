@@ -3,7 +3,7 @@ import { Arg, Mutation, Resolver } from 'type-graphql';
 
 import { User } from '@/entities/User';
 // biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
-import { SignUpInput } from '../type';
+import { SignUpInput } from './type';
 
 @Resolver(User)
 export default class SignupMutationResolver {

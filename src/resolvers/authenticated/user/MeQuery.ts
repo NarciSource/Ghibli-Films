@@ -5,18 +5,13 @@ import { User } from '@/entities/User';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(User)
-export default class ReviewsQueryResolver {
+export default class MeQueryResolver {
+    @Query(() => User, { nullable: true, description: '현재 접속자의 정보를 조회합니다.' })
     @UseMiddleware(isAuthenticated)
-    @Query(() => User, { description: '현재 접속자의 리뷰 목록을 조회합니다' })
-    async myReviews(
+    async me(
         @Ctx()
         { verifiedUser: { id } }: IContext,
     ): Promise<User | undefined> {
-        const result = await User.findOne({
-            where: { id },
-            relations: ['cutReviews', 'cutReviews.cut', 'cutReviews.cut.film'],
-        });
-
-        return result;
+        return User.findOne({ where: { id } });
     }
 }

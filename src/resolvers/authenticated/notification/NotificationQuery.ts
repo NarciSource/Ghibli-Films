@@ -10,8 +10,10 @@ export default class NotificationQueryResolver {
         description: '세션에 해당되는 유저의 모든 알림을 가져옵니다.',
     })
     @UseMiddleware(isAuthenticated)
-    async notifications(@Ctx() { verifiedUser: { id: userId } }: IContext): Promise<Notification[]> {
-        return await Notification.find({
+    async notifications(
+        @Ctx() { verifiedUser: { id: userId } }: IContext,
+    ): Promise<Notification[]> {
+        return Notification.find({
             where: { userId },
             order: { createdAt: 'DESC' },
         });

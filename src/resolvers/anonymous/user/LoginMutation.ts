@@ -6,7 +6,7 @@ import { createAccessToken, createRefreshToken } from '@/auth/tokens';
 import { setAccessTokenHeader, setRefreshTokenHeader } from '@/auth/transport';
 import { User } from '@/entities/User';
 // biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
-import { LoginInput, LoginResponse } from '../type';
+import { LoginInput, LoginResponse } from './type';
 
 @Resolver(User)
 export default class LoginMutationResolver {

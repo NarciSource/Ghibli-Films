@@ -8,7 +8,7 @@ import { Film } from '@/entities/Film';
 export default class CutFieldResolver {
     @FieldResolver(() => Film, { nullable: true, description: '영화' })
     async film(@Root() cut: Cut): Promise<Film> {
-        return await Film.findOne({ where: { id: cut.filmId } });
+        return Film.findOne({ where: { id: cut.filmId } });
     }
 
     @FieldResolver(() => Int, { description: '좋아요 수' })

@@ -6,14 +6,14 @@ import { CutVote } from '@/entities/CutVote';
 import NotificationMutationResolver from '@/resolvers/authenticated/notification/NotificationMutation';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
 // biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
-import { CreateOrUpdateReviewInput } from '../type';
+import { CreateOrUpdateCutReviewInput } from './type';
 
 @Resolver(CutReview)
-export default class CreateOrUpdateReviewMutationResolver {
+export default class CreateOrUpdateCutReviewMutationResolver {
     @Mutation(() => CutReview, { nullable: true })
     @UseMiddleware(isAuthenticated)
-    async createOrUpdateReview(
-        @Arg('cutReviewInput') cutReviewInput: CreateOrUpdateReviewInput,
+    async createOrUpdateCutReview(
+        @Arg('cutReviewInput') cutReviewInput: CreateOrUpdateCutReviewInput,
         @Ctx() { verifiedUser: { id: userId } }: IContext,
     ) {
         const { cutId, contents } = cutReviewInput;
