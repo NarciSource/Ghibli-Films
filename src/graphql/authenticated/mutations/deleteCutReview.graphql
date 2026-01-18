@@ -1,0 +1,3 @@
+mutation deleteCutReview($deleteCutReviewId: Int!) {
+  deleteCutReview(id: $deleteCutReviewId)
+}

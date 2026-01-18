@@ -65,7 +65,7 @@ export default function CutDetail({ cutId }: { cutId: number }): React.ReactElem
               <Flex justify='space-between' alignItems='center'>
                 <Heading size='sm'>{cut.id}번째 사진</Heading>
                 <HStack gap={1} alignItems='center'>
-                  <CutVote cutId={cut.id} isVoted={cut.isVoted} votesCount={cut.votesCount} />
+                  <CutVote cutId={cut.id} votesCount={cut.votesCount} />
 
                   <Button colorPalette='teal' onClick={reviewRegisterDialog.onOpen}>
                     감상 남기기

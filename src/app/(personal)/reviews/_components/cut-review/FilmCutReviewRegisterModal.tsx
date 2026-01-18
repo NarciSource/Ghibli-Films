@@ -4,8 +4,8 @@ import { toaster } from '@chakra-ui/react/toaster';
 
 import { CutDocument } from '@/graphql/anonymous/api/hooks';
 import type { CutQuery, CutQueryVariables } from '@/graphql/anonymous/api/operations';
-import { useCreateOrUpdateReviewMutation } from '@/graphql/authenticated/api/hooks';
-import type { CreateOrUpdateReviewMutationVariables } from '@/graphql/authenticated/api/operations';
+import { useCreateOrUpdateCutReviewMutation } from '@/graphql/authenticated/api/hooks';
+import type { CreateOrUpdateCutReviewMutationVariables } from '@/graphql/authenticated/api/operations';
 
 export default function FilmCutReviewRegisterModal({
   cutId,
@@ -20,12 +20,13 @@ export default function FilmCutReviewRegisterModal({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateOrUpdateReviewMutationVariables>({
+  } = useForm<CreateOrUpdateCutReviewMutationVariables>({
     defaultValues: { cutReviewInput: { cutId } },
   });
 
-  const [mutation, { loading }] = useCreateOrUpdateReviewMutation();
-  function onSubmit(formData: CreateOrUpdateReviewMutationVariables) {
+  const [mutation, { loading }] = useCreateOrUpdateCutReviewMutation();
+
+  function onSubmit(formData: CreateOrUpdateCutReviewMutationVariables) {
     mutation({
       variables: formData,
       update: (cache, fetchResult) => {
@@ -36,13 +37,13 @@ export default function FilmCutReviewRegisterModal({
         });
 
         if (currentCut?.cutReviews)
-          if (fetchResult.data?.createOrUpdateReview) {
+          if (fetchResult.data?.createOrUpdateCutReview) {
             const isEdited = currentCut.cutReviews.some(
-              (review) => review.id === fetchResult.data?.createOrUpdateReview?.id,
+              (review) => review.id === fetchResult.data?.createOrUpdateCutReview?.id,
             );
             // 수정된 리뷰가 존재할 경우 해당 리뷰 캐시 데이터 삭제
             if (isEdited) {
-              cache.evict({ id: `CutReview:${fetchResult.data?.createOrUpdateReview?.id}` });
+              cache.evict({ id: `CutReview:${fetchResult.data?.createOrUpdateCutReview?.id}` });
             }
 
             // 쿼리 캐시 데이터 덮어쓰기
@@ -52,7 +53,10 @@ export default function FilmCutReviewRegisterModal({
                 ...currentCut,
                 cutReviews: isEdited
                   ? [...currentCut.cutReviews]
-                  : [fetchResult.data.createOrUpdateReview, ...currentCut.cutReviews.slice(0, 1)],
+                  : [
+                      fetchResult.data.createOrUpdateCutReview,
+                      ...currentCut.cutReviews.slice(0, 1),
+                    ],
               },
               variables: { cutId },
             });

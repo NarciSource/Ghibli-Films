@@ -1,12 +1,12 @@
 import type * as Types from './type';
 
-export type CreateOrUpdateReviewMutationVariables = Types.Exact<{
-  cutReviewInput: Types.CreateOrUpdateReviewInput;
+export type CreateOrUpdateCutReviewMutationVariables = Types.Exact<{
+  cutReviewInput: Types.CreateOrUpdateCutReviewInput;
 }>;
 
-export type CreateOrUpdateReviewMutation = {
+export type CreateOrUpdateCutReviewMutation = {
   __typename?: 'Mutation';
-  createOrUpdateReview?: {
+  createOrUpdateCutReview?: {
     __typename?: 'CutReview';
     id: number;
     contents: string;
@@ -18,11 +18,11 @@ export type CreateOrUpdateReviewMutation = {
   } | null;
 };
 
-export type DeleteReviewMutationVariables = Types.Exact<{
-  deleteReviewId: Types.Scalars['Int']['input'];
+export type DeleteCutReviewMutationVariables = Types.Exact<{
+  deleteCutReviewId: Types.Scalars['Int']['input'];
 }>;
 
-export type DeleteReviewMutation = { __typename?: 'Mutation'; deleteReview: boolean };
+export type DeleteCutReviewMutation = { __typename?: 'Mutation'; deleteCutReview: boolean };
 
 export type UploadProfileImageMutationVariables = Types.Exact<{
   file: Types.Scalars['Upload']['input'];

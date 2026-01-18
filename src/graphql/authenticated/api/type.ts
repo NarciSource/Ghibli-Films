@@ -20,7 +20,7 @@ export type Scalars = {
   Upload: { input: any; output: any };
 };
 
-export type CreateOrUpdateReviewInput = {
+export type CreateOrUpdateCutReviewInput = {
   /** 감상평 내용 */
   contents: Scalars['String']['input'];
   /** 명장면 번호 */
@@ -113,22 +113,22 @@ export type Film = {
 export type Mutation = {
   __typename?: 'Mutation';
   createNotification: Notification;
-  createOrUpdateReview?: Maybe<CutReview>;
-  deleteReview: Scalars['Boolean']['output'];
+  createOrUpdateCutReview?: Maybe<CutReview>;
+  deleteCutReview: Scalars['Boolean']['output'];
   uploadProfileImage: Scalars['Boolean']['output'];
   vote: Scalars['Boolean']['output'];
 };
 
 export type MutationCreateNotificationArgs = {
   text: Scalars['String']['input'];
-  userId: Scalars['Float']['input'];
+  userId: Scalars['Int']['input'];
 };
 
-export type MutationCreateOrUpdateReviewArgs = {
-  cutReviewInput: CreateOrUpdateReviewInput;
+export type MutationCreateOrUpdateCutReviewArgs = {
+  cutReviewInput: CreateOrUpdateCutReviewInput;
 };
 
-export type MutationDeleteReviewArgs = {
+export type MutationDeleteCutReviewArgs = {
   id: Scalars['Int']['input'];
 };
 
