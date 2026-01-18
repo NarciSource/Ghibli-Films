@@ -1,17 +1,15 @@
-import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 
 import type IContext from '@/apollo/context/IContext';
 import { CutReview } from '@/entities/CutReview';
 import { CutVote } from '@/entities/CutVote';
 import NotificationMutationResolver from '@/resolvers/authenticated/notification/NotificationMutation';
-import { isAuthenticated } from '@/middlewares/isAuthenticated';
 // biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
 import { CreateOrUpdateCutReviewInput } from './type';
 
 @Resolver(CutReview)
 export default class CreateOrUpdateCutReviewMutationResolver {
     @Mutation(() => CutReview, { nullable: true })
-    @UseMiddleware(isAuthenticated)
     async createOrUpdateCutReview(
         @Arg('cutReviewInput') cutReviewInput: CreateOrUpdateCutReviewInput,
         @Ctx() { verifiedUser: { id: userId } }: IContext,

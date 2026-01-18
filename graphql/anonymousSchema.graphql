@@ -119,14 +119,6 @@ type Director {
 }
 
 """
-필드 에러 타입
-"""
-type FieldError {
-    field: String!
-    message: String!
-}
-
-"""
 영화
 """
 type Film {
@@ -174,21 +166,6 @@ type Film {
     영화 제목
     """
     title: String!
-}
-
-input LoginInput {
-    emailOrUsername: String!
-    password: String!
-}
-
-"""
-로그인 반환 데이터
-"""
-union LoginResponse = FieldError | User
-
-type Mutation {
-    login(loginInput: LoginInput!): LoginResponse!
-    signUp(signUpInput: SignUpInput!): User!
 }
 
 """
@@ -261,12 +238,6 @@ type Query {
     영화 목록을 페이지네이션하여 조회합니다.
     """
     films(cursor: Int = 1, limit: Int = 6, search: String): PaginatedFilms!
-}
-
-input SignUpInput {
-    email: String!
-    password: String!
-    username: String!
 }
 
 """

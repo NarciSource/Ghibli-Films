@@ -8,8 +8,6 @@ import CutsQueryResolver from './cut/CutsQuery';
 import CutReviewQueryResolver from './cutReview/CutReviewQuery';
 import FilmQueryResolver from './film/FilmQuery';
 import FilmsQueryResolver from './film/FilmsQuery';
-import LoginMutationResolver from './user/LoginMutation';
-import SignupMutationResolver from './user/SignUpMutation';
 
 export default [
     FilmFieldResolver,
@@ -22,9 +20,6 @@ export default [
 
     CutReviewFieldResolver,
     CutReviewQueryResolver,
-
-    LoginMutationResolver,
-    SignupMutationResolver,
 
     // biome-ignore lint/complexity/noBannedTypes: <>
 ] as NonEmptyArray<Function>;

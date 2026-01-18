@@ -184,7 +184,6 @@ type Mutation {
     createNotification(text: String!, userId: Int!): Notification!
     createOrUpdateCutReview(cutReviewInput: CreateOrUpdateCutReviewInput!): CutReview
     deleteCutReview(id: Int!): Boolean!
-    logout: Boolean!
     uploadProfileImage(file: Upload!): Boolean!
     vote(cutId: Int!): Boolean!
 }

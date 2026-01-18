@@ -3,7 +3,6 @@ import { ApolloServer } from 'apollo-server-express';
 import type { GraphQLSchema } from 'graphql';
 
 import redis from '@/db/redis-client';
-import { verifyAccessToken } from '@/auth/tokens';
 import createLoaders from '@/dataloaders/createLoader';
 import type IContext from '../context/IContext';
 import type { JwtVerifiedUser } from '../context/IContext';
@@ -23,11 +22,7 @@ export default function createApolloServer(
 
             // context에 인증값 추가
             let verified: JwtVerifiedUser;
-            try {
-                verified = verifyAccessToken(req.cookies.accessToken);
-            } catch {
-                verified = null;
-            }
+
             return { req, res, verifiedUser: verified, redis, loaders: createLoaders() };
         },
     });

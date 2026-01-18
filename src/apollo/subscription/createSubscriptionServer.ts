@@ -4,8 +4,6 @@ import { execute, type GraphQLSchema, subscribe } from 'graphql';
 import { useServer } from 'graphql-ws/use/ws';
 import { WebSocketServer } from 'ws';
 
-import { verifyAccessToken } from '@/auth/tokens';
-
 export default function createSubscriptionServer(schema: GraphQLSchema, server: http.Server) {
     const wsServer = new WebSocketServer({
         server, // 동일한 http.Server에 붙이기
@@ -23,9 +21,7 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
 
                 const accessToken = cookies.accessToken;
 
-                const verifiedUser = verifyAccessToken(accessToken);
-
-                return { verifiedUser };
+                return null;
             },
             onConnect: () => {
                 console.log('Client connected for subscriptions');

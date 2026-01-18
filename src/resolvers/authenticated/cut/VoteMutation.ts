@@ -1,14 +1,12 @@
-import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Ctx, Int, Mutation, Resolver } from 'type-graphql';
 
 import type IContext from '@/apollo/context/IContext';
 import { Cut } from '@/entities/Cut';
 import { CutVote } from '@/entities/CutVote';
-import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(Cut)
 export default class VoteCutMutationResolver {
     @Mutation(() => Boolean)
-    @UseMiddleware(isAuthenticated)
     async vote(
         @Arg('cutId', () => Int)
         cutId: number,

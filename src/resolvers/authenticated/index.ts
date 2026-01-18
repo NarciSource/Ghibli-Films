@@ -9,7 +9,6 @@ import DeleteCutReviewMutationResolver from './cutReview/DeleteMutation';
 import NotificationMutationResolver from './notification/NotificationMutation';
 import NotificationQueryResolver from './notification/NotificationQuery';
 import NotificationSubscriptionResolver from './notification/NotificationSubscription';
-import LogoutMutationResolver from './user/Logout';
 import MeQueryResolver from './user/MeQuery';
 import MyReviewsQueryResolver from './user/MyReviewsQuery';
 import UploadProfileImageMutationResolver from './user/UploadProfileImageMutation';
@@ -26,7 +25,6 @@ export default [
 
     MeQueryResolver,
     MyReviewsQueryResolver,
-    LogoutMutationResolver,
     UploadProfileImageMutationResolver,
 
     NotificationQueryResolver,

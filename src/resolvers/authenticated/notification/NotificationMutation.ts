@@ -1,12 +1,10 @@
-import { Arg, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Int, Mutation, Resolver } from 'type-graphql';
 
 import pubSub from '@/apollo/subscription/pubSub';
 import { Notification } from '@/entities/Notification';
-import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 @Resolver(Notification)
 export default class NotificationMutationResolver {
-    @UseMiddleware(isAuthenticated)
     @Mutation(() => Notification)
     async createNotification(
         @Arg('userId', () => Int)
