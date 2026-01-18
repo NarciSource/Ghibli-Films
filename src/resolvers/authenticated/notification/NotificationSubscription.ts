@@ -1,10 +1,7 @@
 import { Resolver, Root, Subscription } from 'type-graphql';
 
+import type IContext from '@/apollo/context/IContext';
 import { Notification } from '@/entities/Notification';
-
-interface UserPayload {
-    userId: string;
-}
 
 @Resolver(Notification)
 export default class NotificationSubscriptionResolver {
@@ -15,10 +12,10 @@ export default class NotificationSubscriptionResolver {
             payload,
             context: { verifiedUser },
         }: {
-            payload: UserPayload;
-            context: { verifiedUser: UserPayload };
+            payload: { userId: number };
+            context: IContext;
         }) => {
-            return payload?.userId === verifiedUser?.userId;
+            return payload?.userId === verifiedUser?.id;
         },
     })
     newNotification(@Root() notification: Notification): Notification {

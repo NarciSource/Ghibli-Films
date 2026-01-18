@@ -6,15 +6,14 @@ import createApolloServer from './createApolloServer';
 interface MountApolloOptions {
     schema: GraphQLSchema;
     path: string;
-    isAnonymous: boolean;
 }
 
 export async function mountApolloServer(
     app: express.Express,
-    { schema, path, isAnonymous }: MountApolloOptions,
+    { schema, path }: MountApolloOptions,
 ) {
     // Apollo 서버 생성
-    const apolloServer = createApolloServer(schema, isAnonymous);
+    const apolloServer = createApolloServer(schema);
 
     // 서버 시작
     await apolloServer.start();

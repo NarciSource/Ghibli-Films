@@ -1,8 +1,11 @@
 import type http from 'node:http';
-import { parse } from 'cookie';
 import { execute, type GraphQLSchema, subscribe } from 'graphql';
 import { useServer } from 'graphql-ws/use/ws';
 import { WebSocketServer } from 'ws';
+
+import { resolveVerifiedUser } from '@/auth/resolveVerifiedUser';
+import type IContext from '../context/IContext';
+import type { WsContext } from '../context/WsContext';
 
 export default function createSubscriptionServer(schema: GraphQLSchema, server: http.Server) {
     const wsServer = new WebSocketServer({
@@ -16,12 +19,16 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
             schema,
             execute,
             subscribe,
-            context: (ctx) => {
-                const cookies = getCookieFromRawHeaders(ctx.extra.request.rawHeaders);
+            context: async ({ extra: { request: req } }: WsContext): Promise<IContext> => {
+                const sub = req.headers['x-auth-request-user'] as string | undefined;
+                const email = req.headers['x-auth-request-email'] as string | undefined;
 
-                const accessToken = cookies.accessToken;
+                const verifiedUser = await resolveVerifiedUser({ sub, email });
 
-                return null;
+                return {
+                    req,
+                    verifiedUser,
+                };
             },
             onConnect: () => {
                 console.log('Client connected for subscriptions');
@@ -32,12 +39,4 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
         },
         wsServer,
     );
-}
-
-function getCookieFromRawHeaders(rawHeaders: string[]) {
-    const cookieIndex = rawHeaders.findIndex((h) => h.toLowerCase() === 'cookie');
-    if (cookieIndex === -1) return {};
-
-    const cookieHeader = rawHeaders[cookieIndex + 1] || '';
-    return parse(cookieHeader);
 }

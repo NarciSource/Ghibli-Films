@@ -19,12 +19,10 @@ export default async function setupApolloServer(app: express.Express, httpServer
     await mountApolloServer(app, {
         schema: anonymousSchema,
         path: '/graphql/anonymous',
-        isAnonymous: true,
     });
 
     await mountApolloServer(app, {
         schema: authenticatedSchema,
         path: '/graphql',
-        isAnonymous: false,
     });
 }
