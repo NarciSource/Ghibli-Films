@@ -3,6 +3,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Box, For, Show, SimpleGrid, Skeleton } from '@chakra-ui/react';
 
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { useFilmsQuery } from '@/graphql/anonymous/api/hooks';
 import { useInfiniteScroll } from '../_hooks/useInfiniteScroll';
 import FilmCard from './FilmCard';
@@ -10,7 +11,9 @@ import FilmCard from './FilmCard';
 export default function FilmList({ search }: { search?: string }): React.ReactElement {
   // 데이터 패칭
   const LIMIT = 6;
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
   const { data, loading, error, fetchMore } = useFilmsQuery({
+    client: apolloClient,
     variables: { limit: LIMIT, cursor: 1, search },
   });
 

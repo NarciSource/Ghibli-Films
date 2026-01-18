@@ -13,13 +13,13 @@ import createApolloCache from './createApolloCache';
  *   - 전달하지 않으면 클라이언트는 빈 캐시 상태로 시작하여,
  *     첫 렌더링 시 useQuery가 네트워크 요청.
  */
-export default async function createApolloClient({
+export default function createApolloClient({
   state,
   kind = 'authenticated',
 }: {
   state?: NormalizedCacheObject;
   kind?: ClientKind;
-}): Promise<ApolloClient<NormalizedCacheObject>> {
+}): ApolloClient<NormalizedCacheObject> {
   const isServer = typeof window === 'undefined';
 
   const client = kind === 'anonymous' ? anonymousClient : authenticatedClient;
@@ -27,9 +27,9 @@ export default async function createApolloClient({
   if (client) return client;
 
   const apolloClient = new ApolloClient({
-    link: await createApolloLink({ kind, isServer }),
+    link: createApolloLink({ kind, isServer }),
     // SSR 캐시를 hydrate
-    cache: await createApolloCache(state),
+    cache: createApolloCache(state),
   });
 
   if (kind === 'anonymous') {

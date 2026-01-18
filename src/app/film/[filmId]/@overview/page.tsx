@@ -5,7 +5,7 @@ import FilmDetail from './_components/FilmDetail';
 
 export default async function FilmOverview({ params }: { params: Promise<{ filmId: string }> }) {
   const { filmId } = await params;
-  const apolloClient = await createApolloClient({ kind: 'anonymous' });
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
 
   const {
     data: { film },

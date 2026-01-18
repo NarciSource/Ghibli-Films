@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminPage() {
-  const apolloClient = await createApolloClient({});
+  const apolloClient = createApolloClient({ kind: 'authenticated' });
   const cookie = await cookies();
 
   const { data } = await apolloClient.query<MeQuery>({

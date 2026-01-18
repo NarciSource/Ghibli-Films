@@ -18,6 +18,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { useCutQuery } from '@/graphql/anonymous/api/hooks';
 import {
   FilmCutReview,
@@ -29,7 +30,9 @@ import CutVote from './CutVote';
 export default function CutDetail({ cutId }: { cutId: number }): React.ReactElement {
   const reviewRegisterDialog = useDisclosure();
   const deleteAlert = useDisclosure();
-  const { loading, data } = useCutQuery({ variables: { cutId } });
+
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
+  const { loading, data } = useCutQuery({ client: apolloClient, variables: { cutId } });
 
   return (
     <Show

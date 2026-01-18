@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ filmId: string }>;
 }): Promise<Metadata> {
   const { filmId } = await params;
-  const apolloClient = await createApolloClient({ kind: 'anonymous' });
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
 
   const {
     data: { film },

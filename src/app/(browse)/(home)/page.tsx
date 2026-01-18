@@ -11,7 +11,7 @@ const isBuild = process.env.NEXT_PHASE === 'phase-production-build';
 export default async function Home() {
   const LIMIT = 6;
   // 서버에서 초기 데이터 요청
-  const apolloClient = await createApolloClient({ kind: 'anonymous' });
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
 
   // 빌드 후 패치
   if (!isBuild) {

@@ -8,7 +8,7 @@ import errorLink from './middleware/errorLink';
 import createHttpLink from './transport/createHttpLink';
 import createWsLink from './transport/createWsLink';
 
-export default async function createApolloLink({ kind, isServer }: ClientContext) {
+export default function createApolloLink({ kind, isServer }: ClientContext) {
   const isAnonymous = kind === 'anonymous';
 
   const httpLink = createHttpLink({ kind, isServer });

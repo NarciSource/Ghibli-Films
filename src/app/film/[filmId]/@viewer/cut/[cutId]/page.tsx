@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { authenticatedClient } from '@/apollo/client/createApolloClient';
+import createApolloClient from '@/apollo/client/createApolloClient';
 import { CutDocument } from '@/graphql/anonymous/api/hooks';
 import type { CutQuery } from '@/graphql/anonymous/api/operations';
 import CutDetail from '../../_components/CutDetail';
@@ -9,10 +9,11 @@ type PageParams = Promise<{ cutId: string }>;
 
 export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
   const { cutId } = await params;
+  const apolloClient = createApolloClient({ kind: 'authenticated' });
 
   const {
     data: { cut },
-  } = await authenticatedClient.query<CutQuery>({
+  } = await apolloClient.query<CutQuery>({
     query: CutDocument,
     variables: { cutId: Number(cutId) },
   });
