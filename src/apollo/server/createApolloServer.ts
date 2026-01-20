@@ -3,6 +3,7 @@ import { ApolloServer } from 'apollo-server-express';
 import type { GraphQLSchema } from 'graphql';
 
 import redis from '@/db/redis-client';
+import { resolveIdentityFromRequest } from '@/auth/resolveIdentityFromRequest';
 import { resolveVerifiedUser } from '@/auth/resolveVerifiedUser';
 import createLoaders from '@/dataloaders/createLoader';
 import type IContext from '../context/IContext';
@@ -13,10 +14,9 @@ export default function createApolloServer(schema: GraphQLSchema): ApolloServer 
         schema,
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
         context: async ({ req, res }): Promise<IContext> => {
-            const sub = req.headers['x-auth-request-user'] as string | undefined;
-            const email = req.headers['x-auth-request-email'] as string | undefined;
+            const identity = resolveIdentityFromRequest(req);
 
-            const verifiedUser = await resolveVerifiedUser({ sub, email });
+            const verifiedUser = await resolveVerifiedUser(identity);
 
             return {
                 req,

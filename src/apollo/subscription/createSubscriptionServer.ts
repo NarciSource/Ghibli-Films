@@ -3,6 +3,7 @@ import { execute, type GraphQLSchema, subscribe } from 'graphql';
 import { useServer } from 'graphql-ws/use/ws';
 import { WebSocketServer } from 'ws';
 
+import { resolveIdentityFromRequest } from '@/auth/resolveIdentityFromRequest';
 import { resolveVerifiedUser } from '@/auth/resolveVerifiedUser';
 import type IContext from '../context/IContext';
 import type { WsContext } from '../context/WsContext';
@@ -20,10 +21,9 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
             execute,
             subscribe,
             context: async ({ extra: { request: req } }: WsContext): Promise<IContext> => {
-                const sub = req.headers['x-auth-request-user'] as string | undefined;
-                const email = req.headers['x-auth-request-email'] as string | undefined;
+                const identity = resolveIdentityFromRequest(req);
 
-                const verifiedUser = await resolveVerifiedUser({ sub, email });
+                const verifiedUser = await resolveVerifiedUser(identity);
 
                 return {
                     req,

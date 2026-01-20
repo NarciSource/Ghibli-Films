@@ -1,11 +1,7 @@
 import { User } from '@/entities/User';
+import type { IdentityInput } from './IdentityInput';
 
-export interface ResolveUserInput {
-    sub?: string;
-    email?: string;
-}
-
-export async function resolveVerifiedUser({ sub, email }: ResolveUserInput) {
+export async function resolveVerifiedUser({ sub, username, email }: IdentityInput) {
     if (!sub) {
         return undefined;
     }
@@ -17,8 +13,7 @@ export async function resolveVerifiedUser({ sub, email }: ResolveUserInput) {
         user = User.create({
             sub,
             email,
-            isAdmin: false,
-            username: email ? email.split('@')[0] : 'Unnamed',
+            username,
         });
         await user.save();
     }
