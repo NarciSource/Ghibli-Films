@@ -10,6 +10,26 @@
       "protocol": "openid-connect"
     },
     {
+      "name": "username",
+      "protocol": "openid-connect",
+      "protocolMappers": [
+        {
+          "name": "username",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "username",
+            "claim.name": "preferred_username",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
       "name": "email",
       "protocol": "openid-connect",
       "protocolMappers": [
@@ -61,6 +81,7 @@
       "standardFlowEnabled": true,
       "defaultClientScopes": [
         "profile",
+        "username",
         "email",
         "roles",
         "audience"
