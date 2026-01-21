@@ -4,6 +4,18 @@
   "verifyEmail": false,
   "registrationAllowed": true,
   "resetPasswordAllowed": false,
+  "roles": {
+    "client": {
+      "ghibli-client": [
+        {
+          "name": "user"
+        },
+        {
+          "name": "admin"
+        }
+      ]
+    }
+  },
   "clientScopes": [
     {
       "name": "profile",
@@ -51,7 +63,25 @@
     },
     {
       "name": "roles",
-      "protocol": "openid-connect"
+      "protocol": "openid-connect",
+      "protocolMappers": [
+        {
+          "name": "client-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "clientId": "ghibli-client",
+            "rolePrefix": "",
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "multivalued": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "false",
+            "userinfo.token.claim": "false"
+          }
+        }
+      ]
     },
     {
       "name": "audience",
@@ -93,12 +123,37 @@
   ],
   "users": [
     {
+      "username": "admin",
+      "enabled": true,
+      "email": "admin@example.com",
+      "emailVerified": true,
+      "firstName": "admin",
+      "lastName": "admin",
+      "clientRoles": {
+        "ghibli-client": [
+          "admin"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "pswd",
+          "temporary": false
+        }
+      ]
+    },
+    {
       "username": "test-user",
       "enabled": true,
       "email": "test@example.com",
       "emailVerified": true,
       "firstName": "Test",
       "lastName": "User",
+      "clientRoles": {
+        "ghibli-client": [
+          "user"
+        ]
+      },
       "credentials": [
         {
           "type": "password",
