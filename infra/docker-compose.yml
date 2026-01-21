@@ -180,13 +180,37 @@ services:
 
         networks:
             - net
+        depends_on:
+            - keycloak-db
 
         environment:
+            - KC_DB=mysql
+            - KC_DB_URL_HOST=keycloak-db
+            - KC_DB_URL_PORT=3306
+            - KC_DB_URL_DATABASE=${KEYCLOAK_DB_DATABASE}
+            - KC_DB_USERNAME=${KEYCLOAK_DB_USERNAME}
+            - KC_DB_PASSWORD=${KEYCLOAK_DB_PASSWORD}
+
             - KC_BOOTSTRAP_ADMIN_USERNAME=${KEYCLOAK_ADMIN}
             - KC_BOOTSTRAP_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
         volumes:
             - ./keycloak/realm-dev.json:/opt/keycloak/data/import/realm-dev.json
             - ./keycloak/keycloak.conf:/opt/keycloak/conf/keycloak.conf
+
+    keycloak-db:
+        image: mysql:9.4.0
+        container_name: keycloak-db
+
+        networks:
+            - net
+        ports:
+            - ${KEYCLOAK_DB_PORT}:3306
+
+        environment:
+            - MYSQL_DATABASE=${KEYCLOAK_DB_DATABASE}
+            - MYSQL_USER=${KEYCLOAK_DB_USERNAME}
+            - MYSQL_PASSWORD=${KEYCLOAK_DB_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=root
 
     oauth2-proxy:
         image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0-alpine
