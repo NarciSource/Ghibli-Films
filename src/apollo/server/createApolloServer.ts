@@ -16,7 +16,7 @@ export default function createApolloServer(schema: GraphQLSchema): ApolloServer 
         context: async ({ req, res }): Promise<IContext> => {
             const identity = resolveIdentityFromRequest(req);
 
-            const verifiedUser = await resolveVerifiedUser(identity);
+            const verifiedUser = identity ? await resolveVerifiedUser(identity) : null;
 
             return {
                 req,

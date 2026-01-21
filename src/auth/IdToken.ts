@@ -9,4 +9,5 @@ export interface IdToken {
 
     email?: string;
     preferred_username?: string;
+    roles?: string[];
 }

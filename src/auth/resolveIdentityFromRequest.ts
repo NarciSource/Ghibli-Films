@@ -14,9 +14,12 @@ export function resolveIdentityFromRequest(req: {
 
     if (!decoded?.sub) return undefined;
 
+    const roles = decoded.roles ?? [];
+
     return {
         sub: decoded.sub,
         username: decoded.preferred_username,
         email: decoded.email,
+        isAdmin: roles.includes('admin'),
     };
 }

@@ -23,7 +23,7 @@ export default function createSubscriptionServer(schema: GraphQLSchema, server: 
             context: async ({ extra: { request: req } }: WsContext): Promise<IContext> => {
                 const identity = resolveIdentityFromRequest(req);
 
-                const verifiedUser = await resolveVerifiedUser(identity);
+                const verifiedUser = identity ? await resolveVerifiedUser(identity) : null;
 
                 return {
                     req,
