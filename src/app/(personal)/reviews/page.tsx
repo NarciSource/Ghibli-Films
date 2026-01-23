@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
+import { headers } from 'next/headers';
 import { Box, For, Heading } from '@chakra-ui/react';
 
 import createApolloClient from '@/apollo/client/createApolloClient';
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function Reviews() {
   const apolloClient = createApolloClient({ kind: 'authenticated' });
-  const cookie = await cookies();
+  const cookie = (await headers()).get('cookie') ?? '';
 
   const { data } = await apolloClient.query<MyReviewsQuery>({
     query: MyReviewsDocument,
