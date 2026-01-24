@@ -1,158 +1,5 @@
 services:
-    rdb:
-        image: mysql:9.4.0
-        container_name: mysql-container
-
-        networks:
-            - net
-        ports:
-            - ${MYSQL_PORT}:3306
-
-        environment:
-            - LC_ALL=C.UTF-8
-            - MYSQL_DATABASE=${MYSQL_DATABASE}
-            - MYSQL_USERNAME=${MYSQL_USERNAME}
-            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        volumes:
-            - rdb-data:/var/lib/mysql
-            - ./rdb/sql:/docker-entrypoint-initdb.d
-
-        healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-            start_period: 10s
-
-    redis:
-        image: redis:8.2.1
-        container_name: redis-container
-
-        networks:
-            - net
-        ports:
-            - ${REDIS_PORT}:6379
-
-        volumes:
-            - redis-data:/data
-
-        healthcheck:
-            test: ["CMD", "redis-cli", "ping"]
-            interval: 10s
-            retries: 5
-            start_period: 10s
-
-    elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
-        container_name: elasticsearch-container
-
-        command: >
-            bash -c '
-              elasticsearch-plugin install --batch analysis-nori;
-              /usr/local/bin/docker-entrypoint.sh elasticsearch
-            '
-
-        networks:
-            - net
-        ports:
-            - ${ELASTIC_PORT}:9200
-
-        environment:
-            - discovery.type=single-node
-            - xpack.ml.enabled=false
-            - xpack.security.enabled=false
-            - ES_JAVA_OPTS=-Xms512m -Xmx512m
-            - ELASTIC_USERNAME=${ELASTIC_USERNAME}
-            - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-        volumes:
-            - es-data:/usr/share/elasticsearch/data
-
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
-            interval: 10s
-            retries: 100
-            start_period: 60s
-
-    elasticsearch-init:
-        image: alpine:3.20
-        container_name: elasticsearch-init
-
-        entrypoint: >
-            sh -c "
-                apk add --no-cache curl gettext jq;
-                echo 'Register index templates';
-                sh ./init/create_index_templates.sh;"
-
-        networks:
-            - net
-        depends_on:
-            elasticsearch:
-                condition: service_healthy
-
-        environment:
-            - ELASTIC_HOST=elasticsearch
-            - ELASTIC_PORT=9200
-        volumes:
-            - ./elasticsearch:/init
-
-    logstash:
-        image: docker.elastic.co/logstash/logstash:8.12.0
-        container_name: logstash-container
-
-        networks:
-            - net
-        depends_on:
-            elasticsearch:
-                condition: service_healthy
-        ports:
-            - ${LOGSTASH_PORT}:5044
-
-        environment:
-            - LS_JAVA_OPTS=-Xms512m -Xmx512m
-            - PIPELINE_BATCH_SIZE=50
-            - PIPELINE_WORKERS=2
-            - MYSQL_HOST=rdb
-            - MYSQL_PORT=3306
-            - MYSQL_DATABASE=${MYSQL_DATABASE}
-            - MYSQL_USERNAME=${MYSQL_USERNAME}
-            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-            - ELASTIC_HOST=elasticsearch
-            - ELASTIC_PORT=9200
-        volumes:
-            - ./logstash/mysql-connector-j-9.4.0.jar:/usr/share/logstash/logstash-core/lib/jars/mysql-connector-java.jar
-            - ./logstash/sync_rdb_to_es.conf:/usr/share/logstash/pipeline/sync_rdb_to_es.conf
-
-    kibana:
-        image: docker.elastic.co/kibana/kibana:8.12.0
-        container_name: kibana-container
-
-        networks:
-            - net
-        depends_on:
-            elasticsearch:
-                condition: service_healthy
-        ports:
-            - ${KIBANA_PORT}:5601
-
-        environment:
-            - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-            - NODE_OPTIONS=--max-old-space-size=1024
-
-    cdn:
-        image: nginx:alpine
-        container_name: cdn
-
-        ports:
-            - ${CDN_PORT}:80
-
-        volumes:
-            - ./cdn/nginx.conf:/etc/nginx/conf.d/default.conf
-            - cdn-static:/usr/share/nginx/html/static
-            - cdn-public:/usr/share/nginx/html/public
-
-    gateway:
+    traefik:
         image: traefik:v3.0
         container_name: gateway
 
@@ -172,12 +19,58 @@ services:
             - traefik.http.routers.traefik.service=api@internal
 
         volumes:
-            - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+            - ./gateway/traefik.yml:/etc/traefik/traefik.yml
             - /var/run/docker.sock:/var/run/docker.sock:ro # 실행 중인 Docker 컨테이너와 라벨을 관찰
+
+    cdn:
+        image: nginx:alpine
+        container_name: cdn
+
+        ports:
+            - ${CDN_PORT}:80
+
+        volumes:
+            - ./cdn/nginx.conf:/etc/nginx/conf.d/default.conf
+            - cdn-static:/usr/share/nginx/html/static
+            - cdn-public:/usr/share/nginx/html/public
+
+    oauth2-proxy:
+        image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0-alpine
+        container_name: auth-gateway
+
+        restart: unless-stopped
+        entrypoint: /entrypoint.sh
+
+        networks:
+            - net
+        labels:
+            - traefik.enable=true
+
+            # oauth2 라우팅
+            - traefik.http.routers.oauth2.rule=PathPrefix(`/oauth2`)
+            - traefik.http.routers.oauth2.entrypoints=web
+            - traefik.http.services.oauth2.loadbalancer.server.port=4180
+
+            # forwardAuth middleware 정의
+            - traefik.http.middlewares.oauth2-auth.forwardauth.address=http://oauth2-proxy:4180/oauth2/auth
+            - traefik.http.middlewares.oauth2-auth.forwardauth.trustforwardheader=true
+            - traefik.http.middlewares.oauth2-auth.forwardauth.authresponseheaders=Authorization
+        depends_on:
+            - keycloak
+
+        environment:
+            - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+            - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+            - OAUTH2_PROXY_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
+            - OAUTH2_PROXY_REDIRECT_URL=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}/oauth2/callback
+            - OAUTH2_PROXY_OIDC_ISSUER_URL=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}/auth/realms/dev
+        volumes:
+            - ./oauth2-proxy/config.cfg:/etc/oauth2-proxy/config.cfg
+            - ./oauth2-proxy/entrypoint.sh:/entrypoint.sh
 
     keycloak:
         image: quay.io/keycloak/keycloak:26.5.0
-        container_name: keycloak
+        container_name: identity-provider
 
         command:
             - start-dev
@@ -211,7 +104,7 @@ services:
 
     keycloak-db:
         image: mysql:9.4.0
-        container_name: keycloak-db
+        container_name: identity-provider-db
 
         networks:
             - net
@@ -224,39 +117,146 @@ services:
             - MYSQL_PASSWORD=${KEYCLOAK_DB_PASSWORD}
             - MYSQL_ROOT_PASSWORD=root
 
-    oauth2-proxy:
-        image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0-alpine
-        container_name: oauth2-proxy
-
-        restart: unless-stopped
-        entrypoint: /entrypoint.sh
+    rdb:
+        image: mysql:9.4.0
+        container_name: rdb
 
         networks:
             - net
-        labels:
-            - traefik.enable=true
-
-            # oauth2 라우팅
-            - traefik.http.routers.oauth2.rule=PathPrefix(`/oauth2`)
-            - traefik.http.routers.oauth2.entrypoints=web
-            - traefik.http.services.oauth2.loadbalancer.server.port=4180
-
-            # forwardAuth middleware 정의
-            - traefik.http.middlewares.oauth2-auth.forwardauth.address=http://oauth2-proxy:4180/oauth2/auth
-            - traefik.http.middlewares.oauth2-auth.forwardauth.trustforwardheader=true
-            - traefik.http.middlewares.oauth2-auth.forwardauth.authresponseheaders=Authorization
-        depends_on:
-            - keycloak
+        ports:
+            - ${MYSQL_PORT}:3306
 
         environment:
-            - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
-            - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
-            - OAUTH2_PROXY_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
-            - OAUTH2_PROXY_REDIRECT_URL=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}/oauth2/callback
-            - OAUTH2_PROXY_OIDC_ISSUER_URL=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}/auth/realms/dev
+            - LC_ALL=C.UTF-8
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USERNAME=${MYSQL_USERNAME}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
-            - ./oauth2-proxy/config.cfg:/etc/oauth2-proxy/config.cfg
-            - ./oauth2-proxy/entrypoint.sh:/entrypoint.sh
+            - rdb-data:/var/lib/mysql
+            - ./rdb/sql:/docker-entrypoint-initdb.d
+
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
+
+    redis:
+        image: redis:8.2.1
+        container_name: cache
+
+        networks:
+            - net
+        ports:
+            - ${REDIS_PORT}:6379
+
+        volumes:
+            - redis-data:/data
+
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            retries: 5
+            start_period: 10s
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+        container_name: search-engine
+
+        command: >
+            bash -c '
+              elasticsearch-plugin install --batch analysis-nori;
+              /usr/local/bin/docker-entrypoint.sh elasticsearch
+            '
+
+        networks:
+            - net
+        ports:
+            - ${ELASTIC_PORT}:9200
+
+        environment:
+            - discovery.type=single-node
+            - xpack.ml.enabled=false
+            - xpack.security.enabled=false
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
+            - ELASTIC_USERNAME=${ELASTIC_USERNAME}
+            - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+        volumes:
+            - es-data:/usr/share/elasticsearch/data
+
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+            interval: 10s
+            retries: 100
+            start_period: 60s
+
+    elasticsearch-init:
+        image: alpine:3.20
+        container_name: search-template-init
+
+        entrypoint: >
+            sh -c "
+                apk add --no-cache curl gettext jq;
+                echo 'Register index templates';
+                sh ./init/create_index_templates.sh;"
+
+        networks:
+            - net
+        depends_on:
+            elasticsearch:
+                condition: service_healthy
+
+        environment:
+            - ELASTIC_HOST=elasticsearch
+            - ELASTIC_PORT=9200
+        volumes:
+            - ./elasticsearch:/init
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:8.12.0
+        container_name: search-engine-dashboard
+
+        networks:
+            - net
+        depends_on:
+            elasticsearch:
+                condition: service_healthy
+        ports:
+            - ${KIBANA_PORT}:5601
+
+        environment:
+            - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+            - NODE_OPTIONS=--max-old-space-size=1024
+
+    logstash:
+        image: docker.elastic.co/logstash/logstash:8.12.0
+        container_name: etl-pipeline
+
+        networks:
+            - net
+        depends_on:
+            elasticsearch:
+                condition: service_healthy
+        ports:
+            - ${LOGSTASH_PORT}:5044
+
+        environment:
+            - LS_JAVA_OPTS=-Xms512m -Xmx512m
+            - PIPELINE_BATCH_SIZE=50
+            - PIPELINE_WORKERS=2
+            - MYSQL_HOST=rdb
+            - MYSQL_PORT=3306
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USERNAME=${MYSQL_USERNAME}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - ELASTIC_HOST=elasticsearch
+            - ELASTIC_PORT=9200
+        volumes:
+            - ./logstash/mysql-connector-j-9.4.0.jar:/usr/share/logstash/logstash-core/lib/jars/mysql-connector-java.jar
+            - ./logstash/sync_rdb_to_es.conf:/usr/share/logstash/pipeline/sync_rdb_to_es.conf
 
 volumes:
     rdb-data:
