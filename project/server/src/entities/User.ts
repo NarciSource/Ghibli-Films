@@ -20,6 +20,9 @@ export class User extends BaseEntity {
     @Field(() => Int, { description: '식별자' })
     id!: number;
 
+    @Column({ unique: true, comment: 'Keycloak sub 클레임' })
+    sub: string;
+
     @Column({ default: false, comment: '관리자' })
     @Field({ description: '관리자' })
     isAdmin: boolean = false;
@@ -31,9 +34,6 @@ export class User extends BaseEntity {
     @Column({ unique: true, comment: '유저 이름' })
     @Field({ description: '유저 이메일' })
     email: string;
-
-    @Column({ comment: '유저 비밀번호' })
-    password: string;
 
     @Column({ comment: '유저 프로필 사진 경로', nullable: true })
     @Field({ description: '유저 프로필 사진 경로', nullable: true })

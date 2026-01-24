@@ -1,0 +1,28 @@
+import { Arg, Ctx, Int, Mutation, Resolver } from 'type-graphql';
+
+import type IContext from '@/apollo/context/IContext';
+import { Cut } from '@/entities/Cut';
+import { CutVote } from '@/entities/CutVote';
+
+@Resolver(Cut)
+export default class VoteCutMutationResolver {
+    @Mutation(() => Boolean)
+    async vote(
+        @Arg('cutId', () => Int)
+        cutId: number,
+        @Ctx()
+        { verifiedUser: { id: userId } }: IContext,
+    ): Promise<boolean> {
+        const alreadyVoted = await CutVote.findOne({
+            where: { cutId, userId },
+        });
+
+        if (alreadyVoted) {
+            await alreadyVoted.remove();
+        } else {
+            const vote = CutVote.create({ cutId, userId });
+            await vote.save();
+        }
+        return true;
+    }
+}

@@ -1,0 +1,44 @@
+import { Args, Ctx, Query, Resolver } from 'type-graphql';
+import { Not } from 'typeorm';
+
+import type IContext from '@/apollo/context/IContext';
+import { CutReview } from '@/entities/CutReview';
+// biome-ignore lint/style/useImportType: <GraphQL schema generation requires runtime class import>
+import { PaginationArgs } from './type';
+
+@Resolver(CutReview)
+export default class CutReviewQueryResolver {
+    @Query(() => [CutReview], { description: '장면의 감상평을 조회합니다.' })
+    async cutReviews(
+        @Args() { skip, cutId }: PaginationArgs,
+        @Ctx() { verifiedUser }: IContext,
+    ): Promise<CutReview[]> {
+        let reviewHistory: CutReview | undefined;
+        let realTake = 2;
+
+        if (verifiedUser?.id) {
+            reviewHistory = await CutReview.findOne({
+                where: { cutId, userId: verifiedUser.id },
+            });
+
+            realTake = 1;
+        }
+
+        const reviews = await CutReview.find({
+            where: reviewHistory
+                ? {
+                      cutId,
+                      id: Not(reviewHistory.id),
+                  }
+                : { cutId },
+            skip,
+            take: realTake,
+            order: { createdAt: 'DESC' },
+        });
+
+        if (reviewHistory) {
+            return [reviewHistory, ...reviews];
+        }
+        return reviews;
+    }
+}
