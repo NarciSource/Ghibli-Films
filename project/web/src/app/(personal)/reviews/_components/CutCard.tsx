@@ -3,7 +3,7 @@
 import NextImage from 'next/image';
 import { AspectRatio, Box, For, Stack, useDisclosure } from '@chakra-ui/react';
 
-import type { Cut, CutReview } from '@/graphql/api/type';
+import type { Cut, CutReview } from '@/graphql/anonymous/api/type';
 import { FilmCutReview, FilmCutReviewDeleteAlert, FilmCutReviewRegisterModal } from './cut-review';
 
 export default function CutCard({

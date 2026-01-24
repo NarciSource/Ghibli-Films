@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
+import { headers } from 'next/headers';
 import { Box, For, Heading } from '@chakra-ui/react';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
-import { MyReviewsDocument } from '@/graphql/api/hooks';
-import type { MyReviewsQuery } from '@/graphql/api/operations';
+import createApolloClient from '@/apollo/client/createApolloClient';
+import { MyReviewsDocument } from '@/graphql/authenticated/api/hooks';
+import type { MyReviewsQuery } from '@/graphql/authenticated/api/operations';
 import FilmCard from './_components/FilmCard';
 import groupReviewsByFilm from './_lib/groupReviewsByFilm';
 
@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Reviews() {
-  const apolloClient = await createApolloClient({});
-  const cookie = await cookies();
+  const apolloClient = createApolloClient({ kind: 'authenticated' });
+  const cookie = (await headers()).get('cookie') ?? '';
 
   const { data } = await apolloClient.query<MyReviewsQuery>({
     query: MyReviewsDocument,

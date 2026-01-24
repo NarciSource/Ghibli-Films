@@ -1,7 +1,7 @@
 import type React from 'react';
 import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react';
 
-import { useDeleteReviewMutation } from '@/graphql/api/hooks';
+import { useDeleteCutReviewMutation } from '@/graphql/authenticated/api/hooks';
 
 export default function FilmCutReviewDeleteAlert({
   target,
@@ -12,12 +12,12 @@ export default function FilmCutReviewDeleteAlert({
   isOpen: boolean;
   onClose: () => void;
 }): React.ReactElement {
-  const [deleteReview] = useDeleteReviewMutation();
+  const [deleteReview] = useDeleteCutReviewMutation();
 
   async function handleDelete() {
     if (target) {
       await deleteReview({
-        variables: { deleteReviewId: target.id },
+        variables: { deleteCutReviewId: target.id },
         update: (cache) => {
           cache.evict({ id: `CutReview:${target.id}` });
         },

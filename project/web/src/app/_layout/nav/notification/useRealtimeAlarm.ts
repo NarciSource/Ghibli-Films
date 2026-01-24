@@ -2,10 +2,10 @@ import { type Reference, useSubscription } from '@apollo/client';
 import type { AsStoreObject } from '@apollo/client/utilities';
 import { createToaster } from '@chakra-ui/react';
 
-import { apolloClient } from '@/apollo/createApolloClient';
-import { NewNotificationDocument } from '@/graphql/api/hooks';
-import type { NewNotificationSubscription } from '@/graphql/api/operations';
-import type { Notification } from '@/graphql/api/type';
+import { authenticatedClient } from '@/apollo/client/createApolloClient';
+import { NewNotificationDocument } from '@/graphql/authenticated/api/hooks';
+import type { NewNotificationSubscription } from '@/graphql/authenticated/api/operations';
+import type { Notification } from '@/graphql/authenticated/api/type';
 
 export default function useRealtimeAlarm() {
   const toaster = createToaster({ placement: 'top-end' });
@@ -25,7 +25,7 @@ export default function useRealtimeAlarm() {
       });
 
       // 캐시 수동 업데이트
-      apolloClient.cache.modify({
+      authenticatedClient.cache.modify({
         fields: {
           notifications(
             existing: readonly (Reference | AsStoreObject<Partial<Notification>>)[] = [],

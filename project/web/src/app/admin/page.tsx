@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
+import { headers } from 'next/headers';
 import { Heading, SimpleGrid } from '@chakra-ui/react';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
-import { MeDocument } from '@/graphql/api/hooks';
-import type { MeQuery } from '@/graphql/api/operations';
+import createApolloClient from '@/apollo/client/createApolloClient';
+import { MeDocument } from '@/graphql/authenticated/api/hooks';
+import type { MeQuery } from '@/graphql/authenticated/api/operations';
 import RevalidateControl from './_components/RevalidateControl';
 
 export const metadata: Metadata = {
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminPage() {
-  const apolloClient = await createApolloClient({});
-  const cookie = await cookies();
+  const apolloClient = createApolloClient({ kind: 'authenticated' });
+  const cookie = (await headers()).get('cookie') ?? '';
 
   const { data } = await apolloClient.query<MeQuery>({
     query: MeDocument,

@@ -2,12 +2,10 @@ import { useForm } from 'react-hook-form';
 import { Button, CloseButton, Dialog, Field, Portal, Textarea } from '@chakra-ui/react';
 import { toaster } from '@chakra-ui/react/toaster';
 
-import { CutDocument, useCreateOrUpdateReviewMutation } from '@/graphql/api/hooks';
-import type {
-  CreateOrUpdateReviewMutationVariables,
-  CutQuery,
-  CutQueryVariables,
-} from '@/graphql/api/operations';
+import { anonymousClient } from '@/apollo/client/createApolloClient';
+import { CutDocument } from '@/graphql/anonymous/api/hooks';
+import { useCreateOrUpdateCutReviewMutation } from '@/graphql/authenticated/api/hooks';
+import type { CreateOrUpdateCutReviewMutationVariables } from '@/graphql/authenticated/api/operations';
 
 export default function FilmCutReviewRegisterModal({
   cutId,
@@ -22,43 +20,19 @@ export default function FilmCutReviewRegisterModal({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateOrUpdateReviewMutationVariables>({
+  } = useForm<CreateOrUpdateCutReviewMutationVariables>({
     defaultValues: { cutReviewInput: { cutId } },
   });
 
-  const [mutation, { loading }] = useCreateOrUpdateReviewMutation();
-  function onSubmit(formData: CreateOrUpdateReviewMutationVariables) {
+  const [mutation, { loading }] = useCreateOrUpdateCutReviewMutation();
+
+  function onSubmit(formData: CreateOrUpdateCutReviewMutationVariables) {
     mutation({
       variables: formData,
-      update: (cache, fetchResult) => {
-        // 쿼리 캐시 데이터 조회
-        const currentCut = cache.readQuery<CutQuery, CutQueryVariables>({
-          query: CutDocument,
-          variables: { cutId },
+      update: () => {
+        anonymousClient.refetchQueries({
+          include: [CutDocument],
         });
-
-        if (currentCut?.cutReviews)
-          if (fetchResult.data?.createOrUpdateReview) {
-            const isEdited = currentCut.cutReviews.some(
-              (review) => review.id === fetchResult.data?.createOrUpdateReview?.id,
-            );
-            // 수정된 리뷰가 존재할 경우 해당 리뷰 캐시 데이터 삭제
-            if (isEdited) {
-              cache.evict({ id: `CutReview:${fetchResult.data?.createOrUpdateReview?.id}` });
-            }
-
-            // 쿼리 캐시 데이터 덮어쓰기
-            cache.writeQuery<CutQuery, CutQueryVariables>({
-              query: CutDocument,
-              data: {
-                ...currentCut,
-                cutReviews: isEdited
-                  ? [...currentCut.cutReviews]
-                  : [fetchResult.data.createOrUpdateReview, ...currentCut.cutReviews.slice(0, 1)],
-              },
-              variables: { cutId },
-            });
-          }
       },
     })
       .then(onClose)

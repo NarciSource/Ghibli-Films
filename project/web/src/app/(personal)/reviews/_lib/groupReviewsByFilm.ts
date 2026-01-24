@@ -1,5 +1,5 @@
-import type { MyReviewsQuery } from '@/graphql/api/operations';
-import type { Cut, CutReview, Film } from '@/graphql/api/type';
+import type { MyReviewsQuery } from '@/graphql/authenticated/api/operations';
+import type { Cut, CutReview, Film } from '@/graphql/authenticated/api/type';
 import defaultDict from '@/shared/util/defaultDict';
 
 export default function groupReviewsByFilm(cutReviews: MyReviewsQuery['myReviews']['cutReviews']) {

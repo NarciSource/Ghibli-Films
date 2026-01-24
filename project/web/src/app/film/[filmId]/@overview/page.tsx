@@ -1,11 +1,11 @@
-import { createApolloClient } from '@/apollo/createApolloClient';
-import { FilmDocument } from '@/graphql/api/hooks';
-import type { FilmQuery } from '@/graphql/api/operations';
+import createApolloClient from '@/apollo/client/createApolloClient';
+import { FilmDocument } from '@/graphql/anonymous/api/hooks';
+import type { FilmQuery } from '@/graphql/anonymous/api/operations';
 import FilmDetail from './_components/FilmDetail';
 
 export default async function FilmOverview({ params }: { params: Promise<{ filmId: string }> }) {
   const { filmId } = await params;
-  const apolloClient = await createApolloClient({});
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
 
   const {
     data: { film },

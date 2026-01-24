@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import type { FilmQuery } from '@/graphql/api/operations';
+import type { FilmQuery } from '@/graphql/anonymous/api/operations';
 
 interface FilmDetailProps {
   film?: FilmQuery['film'];

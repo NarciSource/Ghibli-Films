@@ -1,15 +1,15 @@
 import type { MetadataRoute } from 'next/types';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
-import { FilmsDocument } from '@/graphql/api/hooks';
-import type { FilmsQuery } from '@/graphql/api/operations';
+import createApolloClient from '@/apollo/client/createApolloClient';
+import { FilmsDocument } from '@/graphql/anonymous/api/hooks';
+import type { FilmsQuery } from '@/graphql/anonymous/api/operations';
 
 const APP_URL = process.env.APP_URL ?? 'http://localhost:3000';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
-  const apolloClient = await createApolloClient({});
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
 
   const {
     data: { films },

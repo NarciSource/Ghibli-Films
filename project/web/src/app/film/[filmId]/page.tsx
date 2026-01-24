@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
-import { createApolloClient } from '@/apollo/createApolloClient';
-import { FilmDocument } from '@/graphql/api/hooks';
-import type { FilmQuery } from '@/graphql/api/operations';
+import createApolloClient from '@/apollo/client/createApolloClient';
+import { FilmDocument } from '@/graphql/anonymous/api/hooks';
+import type { FilmQuery } from '@/graphql/anonymous/api/operations';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ filmId: string }>;
 }): Promise<Metadata> {
   const { filmId } = await params;
-  const apolloClient = await createApolloClient({});
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
 
   const {
     data: { film },

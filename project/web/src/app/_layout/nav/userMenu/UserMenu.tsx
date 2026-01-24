@@ -14,7 +14,7 @@ import {
   Show,
 } from '@chakra-ui/react';
 
-import type { MeQuery } from '@/graphql/api/operations';
+import type { MeQuery } from '@/graphql/authenticated/api/operations';
 import Avatar from '@/app/_shared/Avatar';
 import { useAuthStore } from '@/app/_store/useAuthStore';
 import LogoutItem from './LogoutItem';

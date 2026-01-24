@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AspectRatio, For, SimpleGrid } from '@chakra-ui/react';
 
-import type { CutsQuery } from '@/graphql/api/operations';
+import type { CutsQuery } from '@/graphql/anonymous/api/operations';
 import { useCutsStore } from '../../_store/useCutsStore';
 
 export default function CutList({ cuts }: { cuts: CutsQuery['cuts'] }) {

@@ -11,7 +11,7 @@ import {
   Splitter,
 } from '@chakra-ui/react';
 
-import type { Cut, CutReview, Film } from '@/graphql/api/type';
+import type { Cut, CutReview, Film } from '@/graphql/anonymous/api/type';
 import CutCard from './CutCard';
 
 export default function FilmCard({

@@ -1,11 +1,11 @@
 import { InMemoryCache, type NormalizedCacheObject } from '@apollo/client';
 import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 
-import type { PaginatedFilms } from '@/graphql/api/type';
+import type { PaginatedFilms } from '@/graphql/anonymous/api/type';
 
-export const createApolloCache = async (
+export default function createApolloCache(
   initialApolloState: NormalizedCacheObject = {},
-): Promise<InMemoryCache> => {
+): InMemoryCache {
   const cache = new InMemoryCache({
     typePolicies: {
       Query: {
@@ -27,10 +27,10 @@ export const createApolloCache = async (
 
   if (typeof window !== 'undefined') {
     // 캐시를 영속화: localStorage와 동기화
-    await persistCache({
+    persistCache({
       cache,
       storage: new LocalStorageWrapper(window.localStorage),
-    });
+    }).catch(console.error);
   }
 
   // 이전 캐시 상태를 추출
@@ -41,4 +41,4 @@ export const createApolloCache = async (
   }
 
   return cache;
-};
+}

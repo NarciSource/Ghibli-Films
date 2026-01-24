@@ -3,7 +3,8 @@
 import { LuFolder } from 'react-icons/lu';
 import { createTreeCollection, TreeView, type TreeViewNodeState } from '@chakra-ui/react';
 
-import { useFilmsQuery } from '@/graphql/api/hooks';
+import createApolloClient from '@/apollo/client/createApolloClient';
+import { useFilmsQuery } from '@/graphql/anonymous/api/hooks';
 import PageTreeCardItem, { type Node, PageMode } from './PageTreeCardItem';
 
 export default function PageTreeCard() {
@@ -35,7 +36,8 @@ export default function PageTreeCard() {
 }
 
 function getCollection() {
-  const { data } = useFilmsQuery();
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
+  const { data } = useFilmsQuery({ client: apolloClient });
 
   const collection = createTreeCollection<Node>({
     nodeToValue: (node) => node.name,
@@ -50,14 +52,6 @@ function getCollection() {
           children: [
             { name: 'home', path: '/', mode: PageMode.static },
             { name: 'search', path: '/search', mode: PageMode.dynamic },
-          ],
-        },
-        {
-          name: '(authentication)',
-          path: '/',
-          children: [
-            { name: 'login', path: '/login', mode: PageMode.static },
-            { name: 'signup', path: '/signup', mode: PageMode.static },
           ],
         },
         {

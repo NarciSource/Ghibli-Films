@@ -18,7 +18,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { useCutQuery } from '@/graphql/api/hooks';
+import createApolloClient from '@/apollo/client/createApolloClient';
+import { useCutQuery } from '@/graphql/anonymous/api/hooks';
 import {
   FilmCutReview,
   FilmCutReviewDeleteAlert,
@@ -29,7 +30,9 @@ import CutVote from './CutVote';
 export default function CutDetail({ cutId }: { cutId: number }): React.ReactElement {
   const reviewRegisterDialog = useDisclosure();
   const deleteAlert = useDisclosure();
-  const { loading, data } = useCutQuery({ variables: { cutId } });
+
+  const apolloClient = createApolloClient({ kind: 'anonymous' });
+  const { loading, data } = useCutQuery({ client: apolloClient, variables: { cutId } });
 
   return (
     <Show
@@ -62,7 +65,7 @@ export default function CutDetail({ cutId }: { cutId: number }): React.ReactElem
               <Flex justify='space-between' alignItems='center'>
                 <Heading size='sm'>{cut.id}번째 사진</Heading>
                 <HStack gap={1} alignItems='center'>
-                  <CutVote cutId={cut.id} isVoted={cut.isVoted} votesCount={cut.votesCount} />
+                  <CutVote cutId={cut.id} votesCount={cut.votesCount} />
 
                   <Button colorPalette='teal' onClick={reviewRegisterDialog.onOpen}>
                     감상 남기기

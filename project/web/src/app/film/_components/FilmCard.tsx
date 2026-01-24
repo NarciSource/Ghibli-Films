@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import { AspectRatio, Box, Heading, LinkBox, LinkOverlay, Stack, Text } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react/color-mode';
 
-import type { FilmsQuery } from '@/graphql/api/operations';
+import type { FilmsQuery } from '@/graphql/anonymous/api/operations';
 
 interface FilmCardProps {
   film: FilmsQuery['films']['films'][0];
