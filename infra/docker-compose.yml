@@ -158,17 +158,22 @@ services:
 
         command:
             - --configFile=/etc/traefik/traefik.yml
-            - --log.level=DEBUG
-            - --accesslog=true
 
         networks:
             - net
         ports:
             - ${PUBLIC_BASE_PORT}:80
+        labels:
+            - traefik.enable=true
+
+            # Traefik 대시보드 라우팅
+            - traefik.http.routers.traefik.rule=PathPrefix(`/dashboard`)
+            - traefik.http.routers.traefik.entrypoints=web
+            - traefik.http.routers.traefik.service=api@internal
 
         volumes:
             - ./traefik/traefik.yml:/etc/traefik/traefik.yml
-            - ./traefik/dynamic.yml:/etc/traefik/dynamic.yml
+            - /var/run/docker.sock:/var/run/docker.sock:ro # 실행 중인 Docker 컨테이너와 라벨을 관찰
 
     keycloak:
         image: quay.io/keycloak/keycloak:26.5.0
@@ -180,6 +185,13 @@ services:
 
         networks:
             - net
+        labels:
+            - traefik.enable=true
+
+            # Keycloak 라우팅
+            - traefik.http.routers.keycloak.rule=PathPrefix(`/auth`)
+            - traefik.http.routers.keycloak.entrypoints=web
+            - traefik.http.services.keycloak.loadbalancer.server.port=8080
         depends_on:
             - keycloak-db
 
@@ -221,6 +233,18 @@ services:
 
         networks:
             - net
+        labels:
+            - traefik.enable=true
+
+            # oauth2 라우팅
+            - traefik.http.routers.oauth2.rule=PathPrefix(`/oauth2`)
+            - traefik.http.routers.oauth2.entrypoints=web
+            - traefik.http.services.oauth2.loadbalancer.server.port=4180
+
+            # forwardAuth middleware 정의
+            - traefik.http.middlewares.oauth2-auth.forwardauth.address=http://oauth2-proxy:4180/oauth2/auth
+            - traefik.http.middlewares.oauth2-auth.forwardauth.trustforwardheader=true
+            - traefik.http.middlewares.oauth2-auth.forwardauth.authresponseheaders=Authorization
         depends_on:
             - keycloak
 

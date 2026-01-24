@@ -8,13 +8,26 @@ services:
 
         networks:
             - net
+        ports:
+            - ${SERVER_PORT}:4000
+        labels:
+            # anonymous 라우터
+            - traefik.enable=true
+            - traefik.http.routers.server-anonymous.rule=PathPrefix(`/graphql/anonymous`)
+            - traefik.http.routers.server-anonymous.entrypoints=web
+            - traefik.http.routers.server-anonymous.service=server
+
+            # authenticated 라우터
+            - traefik.http.routers.server-authenticated.rule=PathPrefix(`/graphql`)
+            - traefik.http.routers.server-authenticated.entrypoints=web
+            - traefik.http.routers.server-authenticated.middlewares=oauth2-auth@docker
+            - traefik.http.routers.server-authenticated.service=server
+            - traefik.http.services.server.loadbalancer.server.port=4000
         depends_on:
             rdb:
                 condition: service_healthy
             redis:
                 condition: service_healthy
-        ports:
-            - ${SERVER_PORT}:4000
 
         env_file:
             - project/server/.env
@@ -47,6 +60,13 @@ services:
 
         networks:
             - net
+        labels:
+            - traefik.enable=true
+
+            # 웹 라우팅
+            - traefik.http.routers.web.rule=PathPrefix(`/`)
+            - traefik.http.routers.web.entrypoints=web
+            - traefik.http.services.web.loadbalancer.server.port=3000
         depends_on:
             server:
                 condition: service_healthy

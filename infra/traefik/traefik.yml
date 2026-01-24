@@ -1,16 +1,22 @@
+# 외부 요청을 수신 엔트리포인트
 entryPoints:
   web:
     address: :80
 
+# 컨테이너의 생성/중지/라벨 변경을 실시간으로 감지
 providers:
-  file:
-    filename: /etc/traefik/dynamic.yml
+  docker:
+    endpoint: unix:///var/run/docker.sock # Docker 데몬과 통신하기 위한 소켓 경로
+    watch: true # 라우팅 설정을 동적으로 갱신
+    exposedByDefault: false # traefik.enable=true 라벨이 있는 서비스만 라우팅 대상
 
+# Traefik 내부 로그 설정
 log:
   level: DEBUG
 
+# HTTP 접근 로그 활성화
 accessLog: {}
 
+# Traefik 내부 API 및 대시보드 활성화
 api:
   dashboard: true
-  insecure: true
