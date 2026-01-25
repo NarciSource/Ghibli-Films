@@ -1,6 +1,11 @@
 {
   "realm": "dev",
+  "displayName": "Ghibli Best Cuts",
   "enabled": true,
+  "loginTheme": "keycloakify-ghibli",
+  "internationalizationEnabled": true,
+  "supportedLocales": ["en", "ko"],
+  "defaultLocale": "ko",
   "verifyEmail": false,
   "registrationAllowed": true,
   "resetPasswordAllowed": false,
