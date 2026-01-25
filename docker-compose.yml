@@ -80,11 +80,24 @@ services:
             - cdn-static:/app/.next/static
             - cdn-public:/app/public
 
+    keycloak-theme-build:
+        image: ghibli-films-keycloak-theme:${KEYCLOAK_THEME_VERSION}
+        container_name: keycloak-theme-build
+        build:
+            context: project/keycloak-theme
+            dockerfile: Dockerfile
+        command: sh -c "echo Build complete"
+
+        volumes:
+            - keycloak-themes:/app/dist_keycloak
+
 include:
     - ./infra/docker-compose.yml
 
 volumes:
     user-uploads:
+        driver: local
+    keycloak-themes:
         driver: local
 
 networks:

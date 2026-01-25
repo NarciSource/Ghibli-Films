@@ -87,6 +87,7 @@ services:
             - traefik.http.services.keycloak.loadbalancer.server.port=8080
         depends_on:
             - keycloak-db
+            - keycloak-theme-build
 
         environment:
             - KC_DB=mysql
@@ -101,6 +102,7 @@ services:
         volumes:
             - ./keycloak/realm-dev.json:/opt/keycloak/data/import/realm-dev.json
             - ./keycloak/keycloak.conf:/opt/keycloak/conf/keycloak.conf
+            - keycloak-themes:/opt/keycloak/providers
 
     keycloak-db:
         image: mysql:9.4.0

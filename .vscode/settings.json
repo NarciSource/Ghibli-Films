@@ -3,6 +3,7 @@
         "chakra",
         "ghibli",
         "healthcheck",
+        "keycloakify",
         "refreshtoken",
         "traefik",
         "typeorm"
