@@ -38,7 +38,6 @@ services:
         image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0-alpine
         container_name: auth-gateway
 
-        restart: unless-stopped
         entrypoint: /entrypoint.sh
 
         networks:
@@ -73,7 +72,7 @@ services:
         container_name: identity-provider
 
         command:
-            - start-dev
+            - start
             - --import-realm
 
         networks:
@@ -90,6 +89,8 @@ services:
             - keycloak-theme-build
 
         environment:
+            - KC_HOSTNAME=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}/auth
+
             - KC_DB=mysql
             - KC_DB_URL_HOST=keycloak-db
             - KC_DB_URL_PORT=3306
