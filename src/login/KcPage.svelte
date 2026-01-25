@@ -10,7 +10,14 @@
 
   const { i18n } = useI18n({ kcContext });
 
-  const classes = {} satisfies { [key in ClassKey]?: string };
+  const classes = {
+    kcBodyClass: 'no-padding',
+    kcLoginClass: 'login-pf-page kc-root',
+    kcHeaderWrapperClass: 'kc-header',
+    kcButtonPrimaryClass: 'kc-btn-primary',
+    kcFormCardClass: 'card-pf kc-form-card',
+  } satisfies { [key in ClassKey]?: string };
+
   const doMakeUserConfirmPassword = true;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,3 +40,38 @@
     {doMakeUserConfirmPassword}
   ></Page>
 {/await}
+
+<style>
+  :global(.no-padding) {
+    padding: 0 !important;
+  }
+
+  :global(.kc-root) {
+    min-height: 100vh;
+    background: white;
+    align-items: center;
+  }
+
+  :global(.kc-header) {
+    color: #27272a;
+    font-weight: 700;
+  }
+
+  :global(.kc-form-card) {
+    max-width: 300px;
+    border-color: #0d9488;
+  }
+
+  :global(.kc-btn-primary) {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #0d9488; /* teal-600 */
+    color: white;
+    border-radius: 0.5rem;
+    border: none;
+  }
+
+  :global(.kc-btn-primary:hover) {
+    background-color: #3fa59b;
+  }
+</style>
