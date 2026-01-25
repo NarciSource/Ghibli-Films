@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     svelte(),
     keycloakify({
-      themeName: 'keycloakify-starter-svelte',
+      themeName: 'keycloakify-ghibli',
       accountThemeImplementation: 'none',
     }),
   ],
