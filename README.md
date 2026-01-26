@@ -1,30 +1,238 @@
-## 구현 사항
+## 다이어그램
 
-### 토큰 저장 방식의 보안적 재설계
+### GraphQL Schema Diagram
 
-#### 인증 방식 비교
+> GraphQL Voyager는 GraphQL 스키마를 시각적으로 탐색하고 구조를 이해할 수 있도록 돕는 정적/인터랙티브 시각화 도구  
+> 타입과 타입 간 참조를 그래프 형태로 표현
 
-| 인증 방식 | 저장 위치 | 장점 | 단점 / 보안 문제 | 사용 이유 / 특징 |
-| --- | --- | --- | --- | --- |
-| **쿠키 기반<br>(세션 쿠키)** | 쿠키 | - 브라우저가 자동으로 서버에 전송<br>- 서버에서 세션 관리 가능 | - XSS 공격 시 JS로 쿠키 탈취 가능<br>- 다른 도메인에서 접근 가능<br>- 세션 탈취 위험<br>- CSRF 공격 가능 | - 전통적 방식<br>- 서버 중심 인증<br>- 취약점 존재 |
-| **로컬스토리지 기반<br>(JWT)** | localStorage | - SPA 친화적<br>- 서버 상태 관리 불필요<br>- 프론트에서 토큰 갱신 제어 가능 | - XSS 공격 시 토큰 탈취 가능<br>- 민감정보 노출 위험 | - SPA와 stateless JWT 환경에 맞춰 편의성 강조<br>- 보안 취약 |
-| **쿠키 기반<br>(JWT + HttpOnly 쿠키)** | Secure 쿠키 + HttpOnly | - BFF 친화적<br>- 서버 상태 최소화 가능<br>- XSS 공격 안전<br>- CSRF 보호 가능 | - CORS/서브도메인 설정 필요<br>- 클라이언트에서 토큰 직접 접근 불가<br>- 갱신 로직 필요 | - 로컬스토리지 사용 후 보안 문제로 회귀 |
-| **OIDC 기반 인증<br>(Keycloak + OAuth2-Proxy)** ✅ | **인증 프록시 내부 세션** | - OIDC 표준 준수<br>- 브라우저에 토큰 미노출<br>- XSS에 강함<br>- 중앙 인증/인가 가능 | - 인프라 복잡도 증가<br>- 프록시 구성 필요 | - 보안 최우선<br>- SPA/MSA에 적합한 권장 구조 |
+| [![voyager](https://github.com/user-attachments/assets/f6981b18-d39a-449d-a7d2-97598ebf481f)](https://narcisource.github.io/Ghibli-Films/) |
+| ------------------------------------------------------------------------------------------------------------------------------------------ |
+| [GraphQL Voyager 바로가기](https://narcisource.github.io/Ghibli-Films/)                                                                    |
 
-#### 보안 관점에서의 주요 차이
-| 항목 | JWT + HttpOnly 쿠키 | OIDC 기반 인증 ✅ |
-| --- | --- | --- |
-| 토큰 노출 범위 | 브라우저 쿠키에 JWT 저장<br>(JS 접근 불가) | 브라우저에는 **프록시 세션 쿠키만 저장**<br>OIDC 토큰은 프록시 내부에만 존재 |
-| 브라우저 JS 접근 | 불가 (HttpOnly) | 불가 (HttpOnly) |
-| 애플리케이션 서버의 토큰 인식 | **직접 토큰 검증 필요** | **토큰 자체를 알 필요 없음** |
-| 토큰 검증 주체 | 애플리케이션 서버 | oauth2-proxy |
-| 인가 정책 위치 | 애플리케이션 코드 | IdP(Keycloak) + OAuth2-Proxy |
-| 로그아웃 처리 | 애플리케이션별 구현 | 프록시 + IdP 기반 중앙 제어 |
-| 토큰 회전/만료 | 애플리케이션 책임 | IdP 책임 (프록시는 위임) |
-| 아키텍처 친화성 | BFF 친화적 | Gateway / Zero Trust / MSA 친화적 |
-| 보안 경계 | 앱 내부에 인증 로직 포함 | **인증 경계가 앱 외부로 분리** |
+```mermaid
+classDiagram
+    direction LR
+
+    %% 타입 %%
+    class Cut {
+      +film : Film
+      +filmId : Int!
+      +id : Int!
+      +isVoted : Boolean!
+      +src : String!
+      +votesCount : Int!
+    }
+    class CutReview {
+      +contents : String!
+      +createdAt : String!
+      +cutId : Int!
+      +id : Int!
+      +isMine : Boolean!
+      +updatedAt : String!
+      +user : User!
+    }
+    class Director {
+      +id : Int!
+      +name : String!
+    }
+    class FieldError {
+      +field : String!
+      +message : String!
+    }
+    class Film {
+      +description : String!
+      +director : Director!
+      +directorId : Int!
+      +genre : String!
+      +id : Int!
+      +posterImg : String!
+      +releaseDate : String!
+      +runningTime : Float!
+      +subtitle : String
+      +title : String!
+    }
+    class Mutation:::root {
+      +createNotification : Notification!
+      +createOrUpdateReview : CutReview
+      +deleteReview : Boolean!
+      +refreshAccessToken : RefreshAccessTokenResponse
+      +uploadProfileImage : Boolean!
+      +vote : Boolean!
+    }
+    class Notification {
+      +createdAt : String!
+      +id : Int!
+      +text : String!
+      +updatedAt : String!
+      +userId : Int!
+    }
+    class PaginatedFilms {
+      +cursor : Int
+      +films : [Film!]!
+    }
+    class Query:::root {
+      +cut : Cut
+      +cutReviews : [CutReview!]!
+      +cuts : [Cut!]!
+      +film : Film
+      +films : PaginatedFilms!
+      +me : User
+      +notifications : [Notification!]!
+    }
+    class Subscription:::root {
+      +newNotification : Notification!
+    }
+    class User {
+      +createdAt : String!
+      +email : String!
+      +id : Int!
+      +profileImage : String
+      +updatedAt : String!
+      +username : String!
+    }
+
+    %% 관계 %%
+    Cut --> Film
+    CutReview --> User
+    Film --> Director
+    PaginatedFilms --> Film
+    Query --> Cut
+    Query --> CutReview
+    Query --> PaginatedFilms
+    Query --> Film
+    Query --> User
+    Query --> Notification
+    Mutation --> Notification
+    Mutation --> User
+    Mutation --> CutReview
+    Subscription --> Notification
+
+    %% 스타일링 %%
+    classDef root fill:#EEE
+```
+
+### Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    direction LR
+
+    FILM {
+        int id PK
+        int directorId FK
+        string title
+        string subtitle
+        string genre
+        int runningTime
+        string description
+        string posterImg
+        string releaseDate
+    }
+
+    CUT {
+        int id PK
+        int filmId FK
+        string src
+    }
+
+    CUT_REVIEW {
+        int id PK
+        int cutId FK
+        int userId FK
+        string contents
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    CUT_VOTE {
+        int userId PK, FK
+        int cutId PK, FK
+    }
+
+    USER {
+        int id PK
+        string username
+        string email
+        string password
+        string profileImage
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    DIRECTOR {
+        int id PK
+        string name
+    }
+
+    %% 관계 정의
+    DIRECTOR ||--o{ FILM : "directs"
+
+    FILM ||--o{ CUT : "has"
+
+    USER ||--o{ CUT_REVIEW : "writes"
+    USER ||--o{ CUT_VOTE : "votes"
+
+    CUT ||--o{ CUT_REVIEW : "has"
+    CUT ||--o{ CUT_VOTE : "has"
+```
+
+| 테이블         | 설명                                                               | 관계                            |
+| -------------- | ------------------------------------------------------------------ | ------------------------------- |
+| **FILM**       | 영화 정보 테이블 (제목, 감독, 장르, 상영시간, 포스터, 개봉년도 등) |
+| **CUT**        | 영화의 명장면 테이블 (영화ID, 사진URL)                             | FILM과 1:N 관계                 |
+| **CUT_REVIEW** | 명장면 감상평 테이블 (명장면ID, 사용자ID, 감상평)                  | CUT과 USER와 각각 N:1 관계      |
+| **CUT_VOTE**   | 명장면 투표 저장 테이블 (명장면ID, 사용자ID)                       | CUT과 USER의 다대다 관계 테이블 |
+| **USER**       | 사용자 정보 테이블 (유저이름, 비밀번호)                            |
+| **DIRECTOR**   | 감독 정보 테이블                                                   |
+
+### Comparison Flowchart
+
+```mermaid
+flowchart LR
+    subgraph REST
+        rest_client[Client] -->|GET /film/:id| rest_api[REST API]
+        rest_client -->|GET /cut/:id/reviews| rest_api
+        rest_client -->|GET /review/:id/user| rest_api
+        rest_api --> db[(Database)]
+    end
+
+    subgraph GraphQL
+        graph_client[Client] -->|"POST /graphql {film{cuts{reviews{user}}}}"| graph_api[GraphQL API]
+        graph_api --> db
+    end
+```
+
+| REST                                      | GraphQL                                                    |
+| ----------------------------------------- | ---------------------------------------------------------- |
+| 여러 엔드포인트 호출 필요                 | 단일 엔드포인트(/graphql)에서 요청 처리                    |
+| 오버페칭/언더페칭 발생                    | 클라이언트가 원하는 데이터 구조를 직접 정의                |
+| 요청 횟수가 늘어나 네트워크 효율 하락     | 한 번의 요청으로 필요한 데이터만 가져와 응답 사이즈를 감소 |
+| 역방향 탐색을 하려면 별도 엔드포인트 필요 | 그래프 모델 기반으로 양방향 탐색의 자유로움                |
+
+GraphQL 쿼리 예시
+
+```js
+{
+  film(id: 1) {
+    title
+    cuts {
+      votesCount
+      reviews {
+        contents
+        user {
+          username
+          email
+        }
+      }
+    }
+  }
+}
+```
 
 ## 폴더 구조
+
+<details>
+<summary>열기</summary>
 
 ```
 server
@@ -115,3 +323,5 @@ server
    └─ utils
       └─ parseBearerToken.ts
 ```
+
+</details>
