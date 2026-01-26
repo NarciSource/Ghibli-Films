@@ -1,11 +1,15 @@
 # 스튜디오 지브리 영화의 명장면 감상평 서비스
 
-**GraphQL** 학습을 목적으로 제작된 웹 서비스.
-REST API의 오버페칭/언더페칭 문제를 해결하기 위해 GraphQL을 도입하고, Apollo + Express를 기반으로 구현.  
-또한, Elastic Stack(Elasticsearch, Logstash, Kibana) 을 도입하여 MySQL 데이터를 실시간으로 동기화하고,  
-Elasticsearch 기반의 고성능 검색 기능과 Kibana를 통한 데이터 시각화 및 분석 환경을 제공.
+**GraphQL** 학습을 목적으로 제작된 웹 서비스로,  
+REST API의 오버페칭/언더페칭 문제를 해결하기 위해 GraphQL을 도입하고 Apollo + Express 기반으로 구현하였다.  
+서비스 아키텍처에는 Traefik, OAuth2-Proxy, Keycloak을 추가하여 인증/인가를 프록시 레이어에서 처리하고,  
+애플리케이션 서버는 토큰 검증에 집중할 수 있도록 설계하였다.  
 
-_GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수)에서 제공하는 [🔗예제 프로젝트](https://github.com/hwasurr/graphql-book-fullstack-project)를 바탕으로 함.
+또한 Elastic Stack(Elasticsearch, Logstash, Kibana)을 도입하여 MySQL 데이터를 실시간으로 동기화하고,  
+Elasticsearch 기반의 고성능 검색 기능과 Kibana를 통한 데이터 시각화 및 분석 환경을 제공함으로써  
+학습 목적뿐만 아니라 실제 운영 환경에서도 데이터 분석과 모니터링이 가능하도록 구성하였다.
+
+> 초기 베이스: _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수)에서 제공하는 [🔗예제 프로젝트](https://github.com/hwasurr/graphql-book-fullstack-project)
 
 ## 기술스택
 
@@ -40,14 +44,16 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | ![scene](https://github.com/user-attachments/assets/584f2688-83b0-4ec0-adbb-d45d296090eb)     | ![search](https://github.com/user-attachments/assets/59b73f10-650f-486e-8be8-1298c9f7271d)      |
 | ![reviews](https://github.com/user-attachments/assets/22f9634c-69e5-43da-8969-ffbfff6fad0a)   | ![admin](https://github.com/user-attachments/assets/3c824c02-ff8b-4d88-adf3-aec58a15ba36)       |
-| ![signup](https://github.com/user-attachments/assets/304b2852-4ed7-46ff-8760-10fb773deaeb)    | ![login](https://github.com/user-attachments/assets/5c386794-61c3-4fa7-b2ae-e5ea48583607)       |
+| ![login](https://github.com/user-attachments/assets/8e1b3447-6333-498b-9695-7af240723ede)     | ![signup](https://github.com/user-attachments/assets/32ccecbb-5958-47c0-ad3f-0decd75b9c04)      |
 
-## 다이어그램
+## 아키텍처
 
-### Architecture Diagram
+![Architecture Diagram](https://github.com/user-attachments/assets/a2e4b2d6-d78d-4d96-a468-47f80ab0a284)
 
-![Architecture Diagram](https://github.com/user-attachments/assets/d7c6ad10-c954-4055-8d9c-cf06138e70f5)
-
+- 인프라
+    - **Traefik**: 인그레스/리버스 프록시, 라우팅 관리, 컨테이너 이벤트 감지 기반 동적 라우팅
+    - **OAuth2-Proxy**: 프록시 레벨에서 인증/인가 처리, Keycloak과 연동, 애플리케이션 서버는 토큰 검증 불필요
+    - **Keycloak**: 중앙 인증 서버(IdP), 사용자 관리, OIDC 기반 토큰 발급
 - 백엔드
     - **Apollo Server**: Express 플러그인으로 GraphQL query, mutation, resolver 처리
     - **Express**: 웹 서버 및 미들웨어 관리
@@ -64,10 +70,15 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
     - **Chakra UI**: 웹 UI 구성 및 스타일링
 - 데이터 흐름
     1. 클라이언트에서 Apollo Client로 GraphQL 요청 전송
-    2. Apollo Server + Express에서 요청 처리 후 비즈니스 로직 실행
-    3. MySQL/Elasticsearch/Redis에서 필요한 데이터 조회 또는 저장
+    2. 요청은 Traefik → OAuth2-Proxy → Apollo Server로 전달
+        - OAuth2-Proxy가 Keycloak과 연동해 사용자 인증/인가 확인
+        - 인증된 요청만 백엔드로 전달
+    3. Apollo Server + Express에서 요청 처리 후 비즈니스 로직 실행
+    4. MySQL/Elasticsearch/Redis에서 필요한 데이터 조회 또는 저장
         1. MySQL에 저장된 데이터는 Logstash 파이프라인을 통해 수집·정제되어 Elasticsearch로 동기화
-    4. 서버에서 처리된 데이터를 GraphQL Response로 클라이언트에 반환
+    5. 서버에서 처리된 데이터를 GraphQL Response로 클라이언트에 반환
+    6. 클라이언트에서 Apollo Client가 데이터 수신 후 렌더링
+    7. 정적 자산(CSS, JS, 이미지 등)은 CDN에서 빠르게 제공
 
 ## 서브 프로젝트
 
@@ -75,7 +86,7 @@ _GraphQL과 타입스크립트로 개발하는 웹 서비스_ (저자: 강화수
 | -------------- | ---------------------------------------------------------------------------------------------------- | -------------------------- | ------ |
 | Backend        | [/Ghibli-Films/tree/server](https://github.com/NarciSource/Ghibli-Films/tree/server)                 | Apollo + Express 기반 서버 | v1.5.0 |
 | Frontend       | [/Ghibli-Films/tree/web](https://github.com/NarciSource/Ghibli-Films/tree/web)                       | Next.js 클라이언트         | v2.7.0 |
-| Keycloak-theme | [/Ghibli-Films/tree/keycloak-theme](https://github.com/NarciSource/Ghibli-Films/tree/keycloak-theme) | Keycloak 테마              | -      |
+| Keycloak-theme | [/Ghibli-Films/tree/keycloak-theme](https://github.com/NarciSource/Ghibli-Films/tree/keycloak-theme) | Keycloak 테마              | v1.0.0 |
 | Infra          | [/Ghibli-Films/tree/main/infra](https://github.com/NarciSource/Ghibli-Films/tree/main/infra)         | 인프라 관리                | -      |
 
 ## 폴더 구조
