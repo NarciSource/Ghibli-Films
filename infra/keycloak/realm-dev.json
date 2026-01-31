@@ -122,7 +122,7 @@
         "audience"
       ],
       "redirectUris": [
-        "http://host.docker.internal:8080/oauth2/callback"
+        "http://localhost:8080/oauth2/callback"
       ]
     }
   ],

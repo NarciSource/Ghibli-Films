@@ -148,13 +148,13 @@ $ docker-compose up -d
 
 ## 접속 안내
 
-| 환경               | URL                                          |
-| ------------------ | -------------------------------------------- |
-| web                | <http://host.docker.internal:8080/>          |
-| traefik dashboard  | <http://host.docker.internal:8080/dashboard> |
-| keycloak admin     | <http://host.docker.internal:8080/auth>      |
-| server healthcheck | <http://localhost:4000>                      |
-| graphql schema     | <http://localhost:4000/voyager>⁠             |
-| graphql playground | <http://localhost:4000/graphql>⁠             |
-| elasticsearch ui   | <http://localhost:5601>⁠                     |
-| cdn                | <http://localhost:8081>⁠                     |
+| 환경               | URL                               |
+| ------------------ | --------------------------------- |
+| web                | <http://localhost:8080>           |
+| cdn                | <http://localhost:8081>⁠          |
+| server healthcheck | <http://localhost:4000>           |
+| graphql schema     | <http://localhost:4000/voyager>⁠  |
+| graphql playground | <http://localhost:4000/graphql>⁠  |
+| traefik dashboard  | <http://localhost:8080/dashboard> |
+| keycloak admin     | <http://localhost:8080/auth>      |
+| elasticsearch ui   | <http://localhost:5601>⁠          |

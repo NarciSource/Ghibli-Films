@@ -58,11 +58,11 @@ services:
             - keycloak
 
         environment:
+            - PUBLIC_BASE_DOMAIN=${PUBLIC_BASE_DOMAIN}
+            - PUBLIC_BASE_PORT=${PUBLIC_BASE_PORT}
             - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
             - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
             - OAUTH2_PROXY_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
-            - OAUTH2_PROXY_REDIRECT_URL=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}/oauth2/callback
-            - OAUTH2_PROXY_OIDC_ISSUER_URL=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}/auth/realms/dev
         volumes:
             - ./oauth2-proxy/config.cfg:/etc/oauth2-proxy/config.cfg
             - ./oauth2-proxy/entrypoint.sh:/entrypoint.sh
@@ -89,8 +89,6 @@ services:
             - keycloak-theme-build
 
         environment:
-            - KC_HOSTNAME=${PUBLIC_BASE_DOMAIN}:${PUBLIC_BASE_PORT}/auth
-
             - KC_DB=mysql
             - KC_DB_URL_HOST=keycloak-db
             - KC_DB_URL_PORT=3306
